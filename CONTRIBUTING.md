@@ -40,7 +40,7 @@ We're looking for organizations that can:
 
 ### How to Apply
 
-**Email:** esteban3marco@gmail.com
+**Email:** estebanmarcojobs@gmail.com
 
 Include:
 - Organization name and background
@@ -57,9 +57,9 @@ Include:
 
 Found a bug or have a suggestion? We want to hear it!
 
-**For Customers:** Contact support@atlas-ai.tech
+**For Customers:** Contact estebanmarcojobs@gmail.com
 
-**For Partners:** Email esteban3marco@gmail.com with:
+**For Partners:** Email estebanmarcojobs@gmail.com with:
 - Issue description
 - Steps to reproduce
 - Expected vs actual behavior
@@ -70,7 +70,7 @@ Found a bug or have a suggestion? We want to hear it!
 
 Have an idea for ATLAS Pro improvement?
 
-**Submit to:** esteban3marco@gmail.com
+**Submit to:** estebanmarcojobs@gmail.com
 
 Include:
 - Clear description of feature
@@ -103,7 +103,7 @@ Found a typo or want to improve the guides? Great!
 
 Know of a successful ATLAS Pro deployment? Share it!
 
-**Submit via email:** esteban3marco@gmail.com
+**Submit via email:** estebanmarcojobs@gmail.com
 
 Include:
 - City name and size
@@ -278,7 +278,7 @@ We provide a staging environment for partners:
 - **URL:** staging-api.atlas-ai.tech
 - **Free quota:** 10K requests/month
 - **Reset daily:** Clean data for testing
-- **Access:** Contact support@atlas-ai.tech
+- **Access:** Contact estebanmarcojobs@gmail.com
 
 ### Production Deployment
 
@@ -371,7 +371,7 @@ Your traffic data belongs to you:
 
 ### Support Channels
 
-- **Email:** support@atlas-ai.tech
+- **Email:** estebanmarcojobs@gmail.com
 - **Slack (Partners):** Join our partner Slack channel
 - **Phone:** Available for enterprise partners
 - **On-Site:** Available for major deployments
@@ -398,7 +398,7 @@ Your traffic data belongs to you:
 
 ### How to Apply
 
-Email: esteban3marco@gmail.com
+Email: estebanmarcojobs@gmail.com
 
 Include:
 - Your organization name
@@ -411,8 +411,8 @@ Include:
 
 ## Contact
 
-**For partnerships:** esteban3marco@gmail.com
-**For technical questions:** support@atlas-ai.tech
+**For partnerships:** estebanmarcojobs@gmail.com
+**For technical questions:** estebanmarcojobs@gmail.com
 **For legal/licensing:** legal@atlas-ai.tech
 
 ---
@@ -426,4 +426,6 @@ Let's make cities more efficient, sustainable, and livable!
 ---
 
 **Last Updated:** March 1, 2026
+
+
 

@@ -303,7 +303,7 @@ If you want to customize the demo for your city:
 3. **Branding:** Add your city logo and colors
 4. **Metrics:** Focus on KPIs most important to your stakeholders
 
-Contact esteban3marco@gmail.com for customization support.
+Contact estebanmarcojobs@gmail.com for customization support.
 
 ---
 
@@ -340,7 +340,7 @@ Interested in deploying ATLAS Pro in your city?
 
 ### Contact
 
-📧 **Email:** esteban3marco@gmail.com
+📧 **Email:** estebanmarcojobs@gmail.com
 🌐 **Website:** (Coming soon)
 📞 **Phone:** Available for consultation
 
@@ -416,7 +416,7 @@ Interested in deploying ATLAS Pro in your city?
 
 Found a bug or have suggestions for the demo?
 
-📧 **Email:** support@atlas-ai.tech
+📧 **Email:** estebanmarcojobs@gmail.com
 
 Include:
 - Browser type and version
@@ -432,7 +432,7 @@ Include:
 
 ### Ready to See ATLAS Pro in Action?
 
-[📧 Request a Real Demo](mailto:esteban3marco@gmail.com?subject=ATLAS%20Pro%20Demo%20Request)
+[📧 Request a Real Demo](mailto:estebanmarcojobs@gmail.com?subject=ATLAS%20Pro%20Demo%20Request)
 
 ---
 
@@ -441,3 +441,5 @@ Include:
 **Last Updated:** March 1, 2026
 
 </div>
+
+

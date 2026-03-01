@@ -340,12 +340,12 @@ Contact sales@atlas-ai.tech to arrange.
 ## Contact & Support
 
 ### Where can I get more information?
-📧 **Email:** esteban3marco@gmail.com
+📧 **Email:** estebanmarcojobs@gmail.com
 📞 **Phone:** (Available upon request)
 🌐 **Website:** (Coming soon)
 
 ### How do I request a demo?
-1. Email esteban3marco@gmail.com with:
+1. Email estebanmarcojobs@gmail.com with:
    - City name and size
    - Number of intersections
    - Current system (SCOOT/SCATS/Fixed/Other)
@@ -363,7 +363,9 @@ Contact sales@atlas-ai.tech to arrange.
 5. Performance evaluation and go/no-go decision
 
 ### What if I have other questions?
-Email: support@atlas-ai.tech with your question, and our team will respond within 24 hours.
+Email: estebanmarcojobs@gmail.com with your question, and our team will respond within 24 hours.
 
 ---
+
+
 

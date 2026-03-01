@@ -349,7 +349,7 @@ curl -H "Authorization: Bearer $ATLAS_TOKEN" \
 - **🌍 Emerging Markets:** -25% discount for cities in developing countries
 - **🔬 Research Institutions:** Special academic pricing available
 
-**Contact sales:** esteban3marco@gmail.com
+**Contact sales:** estebanmarcojobs@gmail.com
 
 ---
 
@@ -426,7 +426,7 @@ ATLAS Pro is built with security and privacy as core design principles:
 - ✅ **Anomaly Detection:** 24/7 security monitoring
 - ✅ **Incident Response:** 24-hour response SLA for security issues
 
-**Responsible Disclosure:** Found a security issue? Email: security@atlas-ai.tech
+**Responsible Disclosure:** Found a security issue? Email: estebanmarcojobs@gmail.com
 
 ---
 
@@ -512,22 +512,22 @@ ATLAS Pro's effectiveness is measured by:
 ## 📞 Contact & Support
 
 ### For Municipalities & Cities
-- 📧 **Email:** esteban3marco@gmail.com
+- 📧 **Email:** estebanmarcojobs@gmail.com
 - 🌐 **Website:** (Coming soon)
 - 📞 **Phone:** Available for consultation
 
 ### For Partners & Integrators
-- 📧 **Email:** esteban3marco@gmail.com
+- 📧 **Email:** estebanmarcojobs@gmail.com
 - 🤝 **Program:** Integration partner program available
 - 📋 **Resources:** Technical documentation, API sandbox
 
 ### For Technical Questions
-- 📧 **Support:** support@atlas-ai.tech
+- 📧 **Support:** estebanmarcojobs@gmail.com
 - 📖 **Docs:** [Complete documentation](docs/)
 - 🐛 **Issues:** Report via email with details
 
 ### For Security Issues
-- 🔒 **Email:** security@atlas-ai.tech
+- 🔒 **Email:** estebanmarcojobs@gmail.com
 - ⏰ **Response:** Within 24 hours
 - 📋 **Policy:** Responsible disclosure protocol
 
@@ -563,7 +563,7 @@ For full license terms, see [LICENSE](LICENSE).
 
 **Founder & Chief Engineer:**
 - **Esteban Marco** — AI/ML engineer, traffic systems expert
-- 📧 esteban3marco@gmail.com
+- 📧 estebanmarcojobs@gmail.com
 
 ---
 
@@ -577,7 +577,7 @@ For full license terms, see [LICENSE](LICENSE).
 
 **Ready to transform your city's traffic?**
 
-[👉 Request a Demo](mailto:esteban3marco@gmail.com?subject=ATLAS%20Pro%20Demo%20Request)
+[👉 Request a Demo](mailto:estebanmarcojobs@gmail.com?subject=ATLAS%20Pro%20Demo%20Request)
 
 ---
 
@@ -586,3 +586,5 @@ For full license terms, see [LICENSE](LICENSE).
 **Status:** Production Ready | **Version:** 4.0.2 | **Last Updated:** March 1, 2026
 
 </div>
+
+

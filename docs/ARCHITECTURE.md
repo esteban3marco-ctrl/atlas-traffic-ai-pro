@@ -482,3 +482,5 @@ Visualización:
 - **Time Series DB:** TimescaleDB (histórico, análisis)
 - **Message Queue:** Mosquitto (MQTT) o RabbitMQ
 
+
+

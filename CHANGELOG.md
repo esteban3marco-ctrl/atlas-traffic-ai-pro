@@ -233,7 +233,7 @@ First version with basic Deep RL traffic control.
 
 For bug reports, feature requests, or contributions:
 
-📧 **Email:** support@atlas-ai.tech
+📧 **Email:** estebanmarcojobs@gmail.com
 📞 **Phone:** (Available for enterprise customers)
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
@@ -309,5 +309,7 @@ Examples:
 **Last Updated:** February 15, 2026
 
 For questions about this changelog:
-📧 support@atlas-ai.tech
+📧 estebanmarcojobs@gmail.com
+
+
 

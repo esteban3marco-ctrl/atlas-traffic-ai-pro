@@ -742,7 +742,9 @@ POST /webhooks
 
 ## Support
 
-**API Support:** support@atlas-ai.tech
+**API Support:** estebanmarcojobs@gmail.com
 **Status Page:** status.atlas-ai.tech
 **Changelog:** /changelog
+
+
 

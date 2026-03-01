@@ -598,7 +598,7 @@ Annual:
 
 ```
 ATLAS Pro Support:
-├─ Email: support@atlas-ai.tech
+├─ Email: estebanmarcojobs@gmail.com
 ├─ Phone: +[Country] (during business hours)
 ├─ Portal: https://support.atlas-ai.tech
 ├─ Slack (Enterprise): Dedicated channel
@@ -658,7 +658,7 @@ Before going live with your ATLAS Pro deployment:
 
 Ready to deploy ATLAS Pro?
 
-📧 **Email:** esteban3marco@gmail.com
+📧 **Email:** estebanmarcojobs@gmail.com
 📱 **Phone:** (Available in deployment proposal)
 🌐 **Web:** (Coming soon)
 
@@ -670,4 +670,6 @@ Ready to deploy ATLAS Pro?
 5. Begin hardware procurement
 
 ---
+
+
 

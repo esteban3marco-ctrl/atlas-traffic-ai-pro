@@ -587,3 +587,5 @@ PLAN PRAGMÁTICO:
 
 **Bottom Line:** ATLAS Pro es la opción superior en TODOS los criterios. El mercado está pronto para disruption de legacy systems.
 
+
+

@@ -143,7 +143,7 @@ Outbound from ATLAS:
 
 If you discover a security vulnerability, please report it responsibly:
 
-**Email:** security@atlas-ai.tech
+**Email:** estebanmarcojobs@gmail.com
 **PGP Key:** [Available upon request]
 
 **Include:**
@@ -391,9 +391,9 @@ Export-grade: DISABLED
 
 ## Contact
 
-**Security Questions:** security@atlas-ai.tech
-**Responsible Disclosure:** security@atlas-ai.tech
-**General Support:** support@atlas-ai.tech
+**Security Questions:** estebanmarcojobs@gmail.com
+**Responsible Disclosure:** estebanmarcojobs@gmail.com
+**General Support:** estebanmarcojobs@gmail.com
 
 ---
 
@@ -417,4 +417,6 @@ We thank the following organizations for security best practices and standards:
 
 **Last Updated:** March 1, 2026
 **Next Review:** June 1, 2026
+
+
 

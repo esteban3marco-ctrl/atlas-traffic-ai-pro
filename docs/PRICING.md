@@ -466,7 +466,7 @@ Intersections    Price/Unit    Total Cost    Discount
 - Assign operations team
 - Share results for benchmarking
 
-**Contact:** esteban3marco@gmail.com to apply
+**Contact:** estebanmarcojobs@gmail.com to apply
 
 ### Education & Non-Profit Discount
 
@@ -616,11 +616,11 @@ Payback Period: 2.4 months ✅
 📞 (Available upon request)
 
 **For Enterprise/Perpetual:**
-📧 esteban3marco@gmail.com
+📧 estebanmarcojobs@gmail.com
 📞 (Direct line available)
 
 **For Pilot Programs:**
-📧 esteban3marco@gmail.com
+📧 estebanmarcojobs@gmail.com
 
 **Response Time:** Within 24 hours
 
@@ -630,4 +630,6 @@ Payback Period: 2.4 months ✅
 
 For questions about pricing:
 📧 sales@atlas-ai.tech
+
+
 

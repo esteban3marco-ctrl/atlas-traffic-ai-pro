@@ -448,7 +448,7 @@ Actual results depend on:
 
 Interested in becoming a case study location?
 
-📧 **Email:** esteban3marco@gmail.com
+📧 **Email:** estebanmarcojobs@gmail.com
 📞 **Phone:** (Available in deployment proposal)
 
 **We provide:**
@@ -458,4 +458,6 @@ Interested in becoming a case study location?
 - Conference presentation opportunities
 - Media coordination
 - Reference customer status
+
+
 
