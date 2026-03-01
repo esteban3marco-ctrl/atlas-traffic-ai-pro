@@ -1,0 +1,450 @@
+# ATLAS Pro - Git Ignore Configuration
+# This file prevents committing proprietary code, models, and sensitive information
+
+##################################
+# PROPRIETARY CODE & MODELS
+##################################
+
+# AI Models and Weights (CONFIDENTIAL)
+*.h5
+*.pb
+*.pth
+*.onnx
+*.SavedModel/
+models/
+weights/
+checkpoints/
+*.model
+*.weights
+neural_nets/
+
+# Source Code (CONFIDENTIAL - Keep Proprietary)
+src/
+source/
+lib/
+core/
+engine/
+ai/
+ml/
+algorithms/
+implementation/
+proprietary/
+
+# Compiled Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# C/C++ Compiled Objects
+*.o
+*.a
+*.la
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+##################################
+# CONFIGURATION WITH SECRETS
+##################################
+
+# Environment variables with secrets
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# API Keys and Credentials
+*.key
+*.pem
+*.p12
+*.pfx
+api_key
+api_keys.json
+credentials.json
+credentials.yaml
+secrets.json
+secrets.yaml
+token.json
+tokens.json
+.apikey
+.token
+auth.config
+auth.json
+
+# Database Credentials
+database.conf
+db.conf
+mysql.conf
+postgres.conf
+mongodb.conf
+*.db_backup
+*.sql
+
+# AWS/Cloud Credentials
+aws_credentials.txt
+gcp-credentials.json
+azure-credentials.json
+credentials/
+~/.aws/
+
+# SSH Keys
+*.pem
+*.pub
+id_rsa
+id_dsa
+*.key
+!authorized_keys
+.ssh/
+
+##################################
+# PRIVATE DATA
+##################################
+
+# Real traffic data (use aggregate only)
+traffic_data/
+real_data/
+production_data/
+*.traffic
+*.trips
+*.vehicles
+
+# Personally Identifiable Information (PII)
+pii/
+personal_data/
+user_data/
+customer_data/
+*.pii
+*.personal
+
+# Real city coordinates/maps
+coordinates.json
+lat_lon_data/
+gps_traces/
+
+##################################
+# SYSTEM & IDE FILES
+##################################
+
+# IDE Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks (often contain sensitive exploration)
+.ipynb_checkpoints/
+*.ipynb
+
+# IntelliJ
+*.iml
+.gradle
+.gradle/
+local.properties
+
+# VS Code
+*.code-workspace
+launch.json
+settings.json
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+##################################
+# TEMPORARY & CACHE FILES
+##################################
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+cache/
+.cache/
+*.log
+logs/
+*.bak
+*.backup
+*.swp
+*.swo
+
+# OS Temp
+.DS_Store
+Thumbs.db
+$RECYCLE.BIN/
+.Trash/
+
+# Python Cache
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+##################################
+# BUILD ARTIFACTS
+##################################
+
+# Docker (don't commit built images)
+Docker images go in registry
+.dockerignore
+docker-compose.override.yml
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+.tox/
+.coverage
+
+##################################
+# LARGE FILES (USE GIT LFS)
+##################################
+
+# Large model files (use Git LFS if needed)
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Large datasets
+*.csv
+*.parquet
+*.hdf5
+
+# Large binary files
+*.bin
+*.exe
+
+##################################
+# DOCUMENTATION - KEEP PUBLIC
+##################################
+
+# These are GOOD to commit:
+# ✅ *.md (Markdown documentation)
+# ✅ *.rst (ReStructuredText)
+# ✅ docs/ (Documentation folder)
+# ✅ examples/ (Public examples only)
+# ✅ README files
+# ✅ CONTRIBUTING.md
+# ✅ CODE_OF_CONDUCT.md
+# ✅ LICENSE
+
+##################################
+# PUBLIC API SPECS (KEEP)
+##################################
+
+# These should be committed:
+# ✅ openapi.yaml
+# ✅ swagger.json
+# ✅ api_reference.md
+# ✅ API examples (no real credentials)
+
+##################################
+# NODE.JS (if applicable)
+##################################
+
+node_modules/
+npm-debug.log
+yarn-error.log
+.npm
+.eslintcache
+.node_repl_history
+
+##################################
+# STATIC ASSETS
+##################################
+
+# Only commit documentation assets:
+# ✅ docs/screenshots/ (placeholder or screenshots)
+# ✅ docs/diagrams/ (architecture diagrams)
+# ✅ README images
+
+# Exclude:
+# ❌ Large video files
+# ❌ Raw footage
+# ❌ Raw design files (use Git LFS)
+
+##################################
+# TESTING DATA
+##################################
+
+# Test data with real values
+test_data/
+*.test_data
+*.test_logs
+test_logs/
+
+# However, DO commit:
+# ✅ tests/fixtures/ (sanitized, synthetic test data)
+# ✅ tests/mock/ (mock data for tests)
+
+##################################
+# CI/CD ARTIFACTS
+##################################
+
+# Build server artifacts
+.jenkins/
+.travis/
+.circleci/artifacts
+.github/workflows/artifacts
+
+# But DO commit:
+# ✅ .github/workflows/*.yaml (CI config)
+# ✅ .travis.yml
+# ✅ Jenkinsfile
+
+##################################
+# MONITORING & LOGS
+##################################
+
+# Runtime logs
+*.log
+logs/
+*.out
+
+# System monitoring
+/var/log/
+/tmp/
+
+# Application logs from production
+production.log
+error.log
+access.log
+
+##################################
+# SPECIAL RULES FOR ATLAS PRO
+##################################
+
+# NEVER COMMIT:
+# ❌ Trained AI models
+# ❌ Dueling DDQN weights
+# ❌ QMIX coordinator weights
+# ❌ MUSE metacognition models
+# ❌ Real traffic data
+# ❌ Customer configuration
+# ❌ API credentials
+# ❌ Deployment scripts with secrets
+# ❌ Database backups with customer data
+
+# ALWAYS COMMIT:
+# ✅ Documentation (README, DEPLOYMENT_GUIDE, etc.)
+# ✅ Public API specs
+# ✅ Architecture diagrams (ASCII or plantuml)
+# ✅ License files
+# ✅ Contributing guidelines
+# ✅ Example configurations (sanitized)
+# ✅ Deployment scripts (without secrets)
+
+##################################
+# EDGE CASES
+##################################
+
+# Don't commit compiled documentation
+site/
+docs/_build/
+
+# Don't commit virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Don't commit dependency locks (for libraries)
+# But DO commit for applications:
+# ✅ requirements.txt (commit)
+# ✅ package-lock.json (commit for apps)
+# ❌ poetry.lock (for libraries, not for apps)
+
+# Don't commit IDE-specific settings
+.editorconfig.local
+.prettierrc.local
+
+##################################
+# GIT-SPECIFIC
+##################################
+
+# Git LFS pointer files are OK to commit
+# *.pth filter=lfs diff=lfs merge=lfs -text
+
+# Merge conflict artifacts
+*.orig
+*.rej
+
+##################################
+# DEPLOYMENT-SPECIFIC
+##################################
+
+# Docker volumes (local development only)
+volume/
+volumes/
+
+# Kubernetes manifests with secrets (use sealed-secrets)
+k8s/secrets/
+kustomization/secrets/
+
+# Terraform state files (use remote state!)
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+
+# Ansible inventory with real IPs
+inventory/production
+inventory/staging
+
+##################################
+# SECURITY WARNING
+##################################
+
+# If you accidentally commit secrets:
+# 1. Immediately revoke them
+# 2. Delete from git history: git filter-branch
+# 3. Force push: git push --force-with-lease
+# 4. Announce rotation to all users
+
+# Use git-secrets to prevent future accidents:
+# https://github.com/awslabs/git-secrets
+
+##################################
+# FILE SIZE LIMITS
+##################################
+
+# GitHub limits: 100 MB per file, 5 GB per repo
+# Prevent committing large files:
+# ✅ Use Git LFS for > 10 MB
+# ✅ Use .gitattributes for LFS setup
+# ✅ Never commit model files directly
+
+##################################
+
+# Last Updated: Feb 2026
+# Review regularly for new secrets/sensitive data
+

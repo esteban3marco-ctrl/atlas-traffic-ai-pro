@@ -1,0 +1,470 @@
+# ATLAS Pro - Proprietary Software License Agreement
+
+**Version 1.0 | Effective: February 1, 2026**
+
+---
+
+## ⚠️ IMPORTANT: READ CAREFULLY BEFORE USING ATLAS PRO
+
+This License Agreement ("Agreement") governs your use of ATLAS Pro software, documentation, models, and related materials ("Software"). By accessing, downloading, installing, or using this Software, you acknowledge that you have read, understood, and agree to be bound by all terms of this Agreement.
+
+**If you do not agree with these terms, you may not use the Software. Please contact ATLAS AI Technologies for alternative licensing options.**
+
+---
+
+## 1. GRANT OF LICENSE
+
+### 1.1 Limited License Grant
+
+ATLAS AI Technologies, a company developing and owning ATLAS Pro ("Licensor") grants you a limited, non-exclusive, non-transferable, revocable license to use the Software in accordance with:
+
+- The terms and conditions of this Agreement
+- Any signed Service Level Agreement (SLA) or service agreement
+- Your valid license subscription (SaaS) or perpetual license
+
+### 1.2 Permitted Use
+
+Under this license, you may:
+- ✅ Use the Software for its intended purpose: optimizing traffic signal control in urban environments
+- ✅ Access the Software through provided interfaces (API, dashboard, CLI)
+- ✅ Integrate the Software with your existing traffic control infrastructure via documented public APIs
+- ✅ Install the Software on authorized hardware (Jetson devices, edge servers, cloud infrastructure per agreement)
+- ✅ Configure and customize the Software for your specific traffic environment
+- ✅ Access and export your traffic data at any time
+
+### 1.3 License Restrictions
+
+You may NOT:
+- ❌ Copy, reproduce, or duplicate the Software in any form
+- ❌ Modify, alter, or create derivative works of the Software
+- ❌ Reverse engineer, decompile, disassemble, or attempt to discover the source code
+- ❌ Redistribute, sublicense, rent, lease, or lend the Software
+- ❌ Remove, obscure, or alter any copyright notices, proprietary markings, or license notices
+- ❌ Use the Software for any unlawful, illegal, or unauthorized purpose
+- ❌ Use the Software to develop, train, or improve competing traffic control products
+- ❌ Benchmark or publicly compare the Software's performance without written permission
+- ❌ Use the Software to provide traffic control services to third parties (unless expressly authorized)
+- ❌ Export the Software to prohibited countries or entities
+- ❌ Use the Software in sensitive applications (military, law enforcement surveillance, weapons systems) without explicit authorization
+- ❌ Attempt to circumvent, disable, or interfere with security features or license enforcement mechanisms
+
+---
+
+## 2. INTELLECTUAL PROPERTY RIGHTS
+
+### 2.1 Ownership of Software
+
+All intellectual property rights in the Software remain the exclusive property of Licensor, including but not limited to:
+
+- Source code and compiled object code
+- AI models, neural networks, and trained weights (Dueling DDQN, QMIX, MUSE)
+- Algorithms, trade secrets, and proprietary methodologies
+- Documentation, training materials, and instructional content
+- Patents, trademarks, copyrights, and other intellectual property
+- All derivative works, improvements, modifications, and enhancements
+
+You acknowledge that you own nothing in the Software itself; you merely have the right to use it under this License.
+
+### 2.2 Ownership of Your Data
+
+Your traffic data, configuration files, and operational information remain your exclusive property. You hereby grant Licensor a limited license to:
+
+- Process your data to provide the Software and services
+- Store your data on systems operated by Licensor (local or cloud, as applicable)
+- Use aggregated, anonymized, and statistically de-identified data to improve the Software and services (opt-out available)
+- Access your data as necessary to provide support, maintenance, and security services
+
+Licensor will not sell, rent, or disclose your data to third parties without your explicit consent, except as required by law.
+
+### 2.3 Data Privacy & Ownership
+
+You retain full ownership and control of your traffic data. You may:
+- Export your data at any time in standard formats
+- Delete your data permanently (30-day retention for compliance only)
+- Restrict use of your data for product improvement
+- Revoke Licensor's access to your data (except for historical backup)
+
+### 2.4 No License to Patents
+
+This Agreement does not grant any license to Licensor's patents, patent applications, or patent rights. Use of the Software may require licenses or authorizations from third parties for certain patented technologies.
+
+---
+
+## 3. SUBSCRIPTION AND PAYMENT
+
+### 3.1 SaaS Subscription Model
+
+For SaaS (Software-as-a-Service) subscriptions:
+
+- **Automatic Renewal:** Your subscription renews automatically on a monthly or annual basis unless you cancel
+- **Payment Terms:** Payments are due according to the signed service agreement or invoice terms
+- **Termination:** Either party may terminate the subscription with 30 days' written notice
+- **Refund Policy:** No refunds are provided for partial months or years; refunds do not extend the license term
+- **Price Changes:** Licensor may adjust pricing with 30 days' notice; price changes apply to renewals only
+- **Payment Methods:** Credit card, bank transfer, or other methods specified in the service agreement
+- **Billing:** You are responsible for all taxes, fees, and duties associated with payments
+
+### 3.2 Perpetual License Model
+
+For perpetual license purchases:
+
+- **One-Time Fee:** A single payment grants perpetual, non-exclusive use rights for the licensed version
+- **Version Lock:** Your perpetual license covers the version purchased; upgrades require separate fees
+- **Non-Transferable:** Your license is personal to your organization and cannot be transferred without written consent from Licensor
+- **Annual Support (Optional):** Annual support and updates may be purchased separately (€300/intersection/year recommended)
+- **Continued Use:** You may continue using your licensed version indefinitely after purchase
+
+### 3.3 Pricing, Fees, and Invoicing
+
+- Pricing is in Euros (€) unless otherwise specified
+- Licensor may change pricing with 30 days' notice to you
+- Pricing changes apply only to new subscriptions and renewals, not to active contracts
+- All fees are exclusive of applicable taxes and duties
+- You are responsible for payment of all applicable taxes
+
+---
+
+## 4. SUPPORT AND MAINTENANCE
+
+### 4.1 Support Services
+
+Support availability depends on your subscription tier:
+
+- **SaaS Basic (€49/month):** Email support, 8 business hours, 48-hour response time
+- **SaaS Pro (€89/month):** 24/7 telephone and email support, 2-hour critical response time
+- **Perpetual License:** Optional annual support plan (€300/intersection/year) for priority support
+- **Free Trial:** Best-effort support via email during trial period
+
+### 4.2 Updates and Patches
+
+- **Security Patches:** Critical security updates are provided automatically to all customers
+- **Bug Fixes:** Non-critical bug fixes may be released regularly
+- **Feature Updates:** New features and enhancements may require additional fees
+- **Optional Updates:** You control when to install non-critical updates
+- **Version Support:** Current major version receives full support; previous version receives 12 months security support only
+
+### 4.3 No Warranties
+
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
+
+- Warranty of merchantability
+- Warranty of fitness for a particular purpose
+- Warranty of non-infringement of third-party rights
+- Warranty of accuracy, completeness, or reliability
+- Warranty of uninterrupted or error-free operation
+- Warranty of any specific performance metrics or results
+
+Licensor does not warrant that:
+- The Software will meet your specific requirements
+- The Software will be compatible with all systems or environments
+- The Software will be error-free or free of defects
+- Use of the Software will result in a particular outcome
+
+---
+
+## 5. LIMITATIONS OF LIABILITY
+
+### 5.1 Liability Exclusions
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL LICENSOR BE LIABLE TO YOU OR ANY THIRD PARTY FOR:
+
+- Indirect, incidental, special, or consequential damages
+- Lost profits, revenue, savings, or anticipated benefits
+- Loss of data, corruption of data, or business interruption
+- Loss of goodwill, reputation, or opportunity
+- Any other damages arising out of or related to this Agreement or the Software
+
+This limitation applies even if Licensor has been advised of the possibility of such damages.
+
+### 5.2 Maximum Liability Cap
+
+Licensor's total cumulative liability to you under this Agreement shall not exceed the total amount paid by you in the 12 months immediately preceding the claim. If you have not paid Licensor any fees, Licensor's total liability shall be limited to €100.
+
+### 5.3 Exceptions to Limitations
+
+These liability limitations do not apply to:
+- Gross negligence or willful misconduct by Licensor
+- Death or personal injury caused by Licensor's actions
+- Infringement of your intellectual property rights
+- Breach of confidentiality obligations
+- Claims that cannot be limited under applicable law
+
+---
+
+## 6. PRIVACY AND DATA PROTECTION
+
+### 6.1 GDPR Compliance (European Union)
+
+ATLAS Pro is fully compliant with the General Data Protection Regulation (GDPR):
+
+- **Data Minimization:** The Software collects only aggregate traffic data; no personal data is collected
+- **Purpose Limitation:** Data is used only for traffic optimization and system improvement
+- **Storage Limitation:** Data retention is configurable (default 1 year)
+- **Data Subject Rights:** EU residents may request data access, deletion, or portability
+- **Data Processing Agreement:** Available for organizations requiring a signed DPA
+- **Breach Notification:** Security incidents are reported within 72 hours as required by GDPR
+
+### 6.2 CCPA Compliance (California)
+
+ATLAS Pro complies with the California Consumer Privacy Act (CCPA):
+
+- **Privacy Notice:** Clear information about data collection and use
+- **Opt-Out Rights:** Users may opt out of data collection for product improvement
+- **Access Rights:** You may request access to all data collected about you
+- **Deletion Rights:** You may request deletion of your data (subject to legal holds)
+- **Non-Discrimination:** Opt-out rights are provided without discrimination
+
+### 6.3 Data Retention
+
+- **Default Retention Period:** 1 year of historical traffic data
+- **Extended Retention:** Audit logs retained for 5 years (recommended)
+- **Automatic Deletion:** Old data is automatically deleted according to retention policy
+- **Manual Deletion:** You may request deletion at any time (30-day grace period for compliance)
+- **Backup Retention:** Archived backups may be retained longer for disaster recovery
+
+### 6.4 No Vehicle Tracking or Surveillance
+
+The Software specifically does NOT:
+- ❌ Track individual vehicles or identify vehicle owners
+- ❌ Collect personally identifiable information (PII)
+- ❌ Enable mass surveillance or real-time individual tracking
+- ❌ Integrate with facial recognition systems
+- ❌ Collect video footage of individuals
+- ❌ Use license plate recognition for surveillance purposes
+
+The Software collects only aggregate traffic flow metrics (number of vehicles, average speed, occupancy) — not individual vehicle data.
+
+---
+
+## 7. SECURITY AND COMPLIANCE
+
+### 7.1 Your Security Obligations
+
+You must take reasonable steps to:
+- Keep your API keys, passwords, and access credentials confidential
+- Protect your credentials from unauthorized access
+- Maintain secure network configuration and firewalls
+- Update the Software with security patches promptly
+- Report suspected security breaches to Licensor immediately
+- Comply with all applicable laws, regulations, and industry standards
+- Use the Software only in authorized countries and for authorized purposes
+
+### 7.2 Licensor Security Obligations
+
+Licensor commits to:
+- Implement industry-standard security controls (TLS 1.3, AES-256 encryption, etc.)
+- Maintain audit logs of all access and decisions
+- Respond to security incidents within 24 hours
+- Provide security patches for critical vulnerabilities
+- Conduct regular security assessments and penetration testing
+- Comply with applicable data protection laws
+
+### 7.3 Compliance with Laws
+
+The Software is designed to comply with:
+- **GDPR** (General Data Protection Regulation) — EU
+- **CCPA** (California Consumer Privacy Act) — California
+- **LGPD** (Lei Geral de Proteção de Dados) — Brazil
+- **Local Data Protection Laws** — Specific to your jurisdiction
+- **Export Control Laws** — Including US ITAR/EAR if applicable
+- **Traffic Standards** — NTCIP 1202/1203/1204, UTMC
+
+**You are responsible for compliance with laws in your jurisdiction.** Licensor provides the Software "as is" to support compliance but cannot guarantee compliance with all regulations.
+
+### 7.4 Export Compliance
+
+The Software may be subject to export control regulations. You agree to:
+- Comply with all applicable export and sanctions laws
+- Not export the Software to prohibited countries (North Korea, Iran, Syria, etc.)
+- Not use the Software for prohibited end-uses (weapons, military surveillance, illegal surveillance)
+- Not provide the Software to sanctioned individuals, entities, or organizations
+
+By using the Software, you represent that you are not located in, and are not owned or controlled by an entity in, a sanctioned country.
+
+---
+
+## 8. TERMINATION
+
+### 8.1 Termination for Convenience
+
+- **SaaS Subscriptions:** You may terminate your subscription at any time with 30 days' written notice. Termination is effective at the end of the current billing period
+- **Perpetual Licenses:** Perpetual licenses do not have a termination right; you may continue using your licensed version indefinitely (subject to Section 8.3)
+
+### 8.2 Termination for Cause
+
+Licensor may immediately terminate your license if you:
+- Violate material terms of this Agreement
+- Fail to pay required fees (after 15 days' written notice)
+- Exceed your licensed capacity without authorization
+- Use the Software for unlawful or unauthorized purposes
+- Attempt to reverse engineer or circumvent security features
+- Breach confidentiality obligations
+
+### 8.3 Effect of Termination
+
+Upon termination of your license:
+- Your right to use the Software immediately ceases
+- You must uninstall and cease all use of the Software
+- You may export your data in standard formats for 30 days after termination
+- Sections 2-7 (Intellectual Property, Liability, Privacy, Security) survive termination indefinitely
+- You are responsible for fees accrued through the termination date
+
+### 8.4 Survival
+
+The following provisions survive termination: Intellectual Property (Section 2), Limitations of Liability (Section 5), Privacy (Section 6), Export Compliance (Section 7.4), and Governing Law (Section 9).
+
+---
+
+## 9. GOVERNING LAW AND DISPUTE RESOLUTION
+
+### 9.1 Governing Law
+
+This Agreement shall be governed by and construed in accordance with the laws of Spain, without regard to its conflict of law principles. The applicability of the United Nations Convention on Contracts for the International Sale of Goods is excluded.
+
+### 9.2 Dispute Resolution Process
+
+Any dispute arising under this Agreement shall be resolved through the following process:
+
+1. **Negotiation (30 days):** The parties will attempt to resolve the dispute through good faith negotiation
+2. **Mediation (if needed):** If negotiation fails, either party may request mediation with a neutral third party
+3. **Arbitration or Litigation:** If mediation fails, disputes may be resolved through binding arbitration or litigation
+
+### 9.3 Venue and Jurisdiction
+
+All proceedings shall be brought in the courts located in Spain or in international arbitration in Madrid, Spain. Both parties consent to the exclusive jurisdiction of these courts.
+
+### 9.4 Attorney's Fees
+
+The prevailing party in any dispute shall be entitled to recover reasonable attorney's fees and court costs from the non-prevailing party.
+
+---
+
+## 10. GENERAL PROVISIONS
+
+### 10.1 Entire Agreement
+
+This Agreement, together with any signed Service Level Agreement, Data Processing Agreement, or amendment thereto, constitutes the entire agreement between you and Licensor regarding the Software and supersedes all prior understandings, agreements, and negotiations, whether written or oral.
+
+### 10.2 Amendments and Modifications
+
+Licensor may amend this Agreement by posting updated terms on its website or in the Software dashboard. Continued use of the Software after such notice constitutes your acceptance of the amended terms. You will be notified of material changes at least 30 days before they take effect.
+
+### 10.3 Severability
+
+If any provision of this Agreement is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, that provision shall be severed, and the remaining provisions shall remain in full force and effect.
+
+### 10.4 Waiver
+
+Failure by Licensor to enforce any provision of this Agreement does not constitute a waiver of that provision or the right to enforce it in the future.
+
+### 10.5 Assignment
+
+You may not assign, transfer, or delegate your rights or obligations under this Agreement without Licensor's prior written consent. Any attempted assignment without consent is void. Licensor may assign this Agreement freely to a successor in interest.
+
+### 10.6 Publicity and References
+
+You grant Licensor the right to identify you as a customer in case studies, presentations, and marketing materials, unless you explicitly opt out in writing.
+
+### 10.7 Notices
+
+All notices under this Agreement must be in writing and delivered:
+- By email to the email address provided in the Software or your account
+- By registered mail to the address on file
+- By hand delivery
+
+Notices are effective when received.
+
+---
+
+## 11. THIRD-PARTY COMPONENTS AND OPEN SOURCE
+
+The Software incorporates third-party open-source and commercial components. Use of these components is governed by their respective licenses, which may include:
+
+- **MIT License** — Permissive, allows commercial use
+- **Apache 2.0 License** — Permissive, includes patent protection
+- **LGPL License** — Copyleft, source code disclosure may be required
+- **Other Licenses** — Specific terms apply to each component
+
+A complete Software Bill of Materials (SBOM) listing all third-party components, versions, and licenses is provided in the deployment package under `THIRD_PARTY_LICENSES.txt`.
+
+You are responsible for compliance with all applicable third-party license terms in your use of the Software.
+
+---
+
+## 12. ACCEPTABLE USE POLICY
+
+### 12.1 Prohibited Uses
+
+You agree not to use the Software for:
+- ❌ Illegal activities or purposes
+- ❌ Harassment, discrimination, or hate speech
+- ❌ Mass surveillance or tracking of individuals
+- ❌ Military or weapons applications (without explicit authorization)
+- ❌ Circumventing security, privacy, or intellectual property protections
+- ❌ Distributing malware, viruses, or harmful code
+- ❌ Interfering with the Software's operation or other users' use
+- ❌ Violating third-party rights or privacy
+- ❌ Spam or unsolicited communications
+- ❌ Any purpose that violates local, national, or international law
+
+### 12.2 Suspension of Access
+
+Licensor may immediately suspend your access to the Software if:
+- You violate this Acceptable Use Policy
+- Your account is involved in suspicious or malicious activity
+- You are in violation of the license terms
+- You fail to pay fees (after notice and cure period)
+
+---
+
+## 13. CONTACT AND NOTICES
+
+### For Questions About This License
+
+**Email:** legal@atlas-ai.tech
+
+### For Technical Support and Service Questions
+
+**Email:** support@atlas-ai.tech
+
+### For Sales and Licensing Inquiries
+
+**Email:** sales@atlas-ai.tech
+**Founder:** Esteban Marco — esteban3marco@gmail.com
+
+### For Security Issues or Responsible Disclosure
+
+**Email:** security@atlas-ai.tech
+**Policy:** Responsible disclosure with 90-day disclosure timeline
+
+---
+
+## 14. ACKNOWLEDGMENT
+
+**BY USING THE SOFTWARE, YOU ACKNOWLEDGE AND AGREE THAT:**
+
+1. ✅ You have read and fully understood this License Agreement
+2. ✅ You agree to be bound by all terms and conditions herein
+3. ✅ You have the legal authority to enter into this Agreement
+4. ✅ You will comply with all applicable laws and regulations
+5. ✅ You understand the limitations of liability and disclaimers
+6. ✅ You understand that the Software is provided "AS IS" without warranties
+7. ✅ You assume all risks associated with your use of the Software
+
+---
+
+<div align="center">
+
+# ATLAS Pro is Proprietary Software
+
+## All Rights Reserved to Esteban Marco / ATLAS AI Technologies
+
+© 2026 ATLAS AI Technologies. All Rights Reserved.
+
+**Version:** 1.0 | **Effective:** February 1, 2026 | **Last Updated:** March 1, 2026
+
+---
+
+**ATLAS Pro — Making Cities Smarter**
+
+</div>

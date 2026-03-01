@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS Pro - Dashboard Interactivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0e27;
+            color: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 80px;
+            background-color: #0a0e27;
+            border-right: 1px solid #252d4d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-item {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: transparent;
+            border: 2px solid transparent;
+            font-size: 11px;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        .nav-item:hover {
+            background-color: #1a1f3a;
+        }
+
+        .nav-item.active {
+            background-color: #1a1f3a;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .icon {
+            font-size: 24px;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #0a0e27;
+        }
+
+        .header {
+            background-color: #1a1f3a;
+            border-bottom: 1px solid #252d4d;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .header-info {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .section.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* KPI CARDS */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .kpi-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .kpi-change {
+            font-size: 12px;
+            color: #10b981;
+        }
+
+        .kpi-change.negative {
+            color: #ef4444;
+        }
+
+        /* CHARTS */
+        .chart-container {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            flex: 1;
+            position: relative;
+            min-height: 300px;
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 15px;
+        }
+
+        /* SYSTEM STATUS */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .status-item {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+        }
+
+        .status-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .status-value.warning {
+            color: #f59e0b;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #252d4d;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 2px;
+        }
+
+        /* ALERTS */
+        .alerts-container {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .alert-item {
+            background-color: #0a0e27;
+            border-left: 4px solid #3b82f6;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alert-item:hover {
+            background-color: #151a33;
+            border-left-color: #06b6d4;
+        }
+
+        .alert-item.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .alert-item.error {
+            border-left-color: #ef4444;
+        }
+
+        .alert-text {
+            font-size: 13px;
+        }
+
+        .alert-time {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        /* INTERSECTION LIST */
+        .intersection-list {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            max-width: 300px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        .intersection-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #252d4d;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            color: #d1d5db;
+        }
+
+        .intersection-item:hover {
+            background-color: #252d4d;
+        }
+
+        .intersection-item.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .intersection-item:last-child {
+            border-bottom: none;
+        }
+
+        /* TRAFFIC LIGHT */
+        .traffic-light {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .traffic-light-block {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .light {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #374151;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .light.red {
+            background-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+        }
+
+        .light.yellow {
+            background-color: #f59e0b;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+
+        .light.green {
+            background-color: #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+
+        .direction-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #9ca3af;
+            width: 50px;
+            text-align: right;
+        }
+
+        /* CONTROLS */
+        .control-section {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 15px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #0a0e27;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            width: 22px;
+            height: 22px;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #0a0e27;
+        }
+
+        .slider::-moz-range-thumb:hover {
+            width: 22px;
+            height: 22px;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+
+        .slider-value {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* BUTTONS */
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: #1a1f3a;
+            color: #e5e7eb;
+            border: 1px solid #252d4d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #252d4d;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .btn-toggle {
+            background-color: #1a1f3a;
+            color: #9ca3af;
+            border: 1px solid #252d4d;
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn-toggle.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        /* TABS */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #252d4d;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-button:hover {
+            color: #e5e7eb;
+        }
+
+        .tab-button.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(10, 14, 39, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #ef4444;
+        }
+
+        .modal-body {
+            font-size: 13px;
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-left: 4px solid #3b82f6;
+            border-radius: 8px;
+            padding: 15px 20px;
+            color: #e5e7eb;
+            font-size: 13px;
+            animation: slideIn 0.3s ease-out;
+            z-index: 999;
+        }
+
+        .toast.success {
+            border-left-color: #10b981;
+        }
+
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* LAYOUT UTILITIES */
+        .flex-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* INTERSECTION MAP */
+        .intersection-map {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .intersection-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .intersection-dot.green {
+            background-color: #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .intersection-dot.yellow {
+            background-color: #f59e0b;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .intersection-dot.red {
+            background-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .intersection-dot:hover {
+            transform: scale(1.15);
+        }
+
+        /* CORRIDOR */
+        .corridor-container {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .corridor-visual {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin: 30px 0;
+            min-height: 100px;
+        }
+
+        .corridor-intersection {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .corridor-intersection.green {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .corridor-intersection.red {
+            background-color: #374151;
+            color: #9ca3af;
+        }
+
+        .corridor-arrow {
+            width: 30px;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, transparent);
+            transition: all 0.3s;
+        }
+
+        .corridor-arrow.active {
+            background: linear-gradient(90deg, #10b981, transparent);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+
+        /* STATS CARDS */
+        .stat-card {
+            background-color: #0a0e27;
+            border: 1px solid #252d4d;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        /* ANOMALY CARDS */
+        .anomaly-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .anomaly-card {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .anomaly-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .anomaly-severity {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .anomaly-severity.red {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .anomaly-severity.amber {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .anomaly-severity.yellow {
+            background-color: #eab308;
+            color: #000;
+        }
+
+        .anomaly-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 5px;
+        }
+
+        .anomaly-time {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        /* COMPARISON TABLE */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #252d4d;
+            font-size: 12px;
+        }
+
+        .comparison-table th {
+            background-color: #1a1f3a;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #1a1f3a;
+        }
+
+        .comparison-table td {
+            color: #d1d5db;
+        }
+
+        .highlight {
+            background-color: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* CALCULATOR */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .calculator-output {
+            background-color: #0a0e27;
+            border: 1px solid #252d4d;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .output-label {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .output-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        /* SETTINGS */
+        .settings-group {
+            background-color: #0a0e27;
+            border: 1px solid #252d4d;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .settings-label {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .radio-option input[type="radio"] {
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        .radar-chart-container {
+            background-color: #1a1f3a;
+            border: 1px solid #252d4d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            min-height: 400px;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0e27;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #252d4d;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SIDEBAR NAVIGATION -->
+        <div class="sidebar">
+            <div class="logo">AP</div>
+
+            <div class="nav-item active" data-section="panel-principal">
+                <div class="icon">📊</div>
+                <div>Panel</div>
+            </div>
+
+            <div class="nav-item" data-section="control-intersecciones">
+                <div class="icon">🚦</div>
+                <div>Control</div>
+            </div>
+
+            <div class="nav-item" data-section="onda-verde">
+                <div class="icon">🌊</div>
+                <div>Onda</div>
+            </div>
+
+            <div class="nav-item" data-section="anomalias">
+                <div class="icon">⚠️</div>
+                <div>Alertas</div>
+            </div>
+
+            <div class="nav-item" data-section="analytics">
+                <div class="icon">📈</div>
+                <div>Analytics</div>
+            </div>
+
+            <div class="nav-item" data-section="configuracion">
+                <div class="icon">⚙️</div>
+                <div>Config</div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- HEADER -->
+            <div class="header">
+                <div class="header-title">ATLAS Pro</div>
+                <div class="header-info">
+                    <span><span class="status-dot"></span>Sistema Activo</span>
+                    <span>Versión: 3.2.1</span>
+                    <span>Ciudades: 12</span>
+                </div>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+
+                <!-- SECTION 1: PANEL PRINCIPAL -->
+                <div class="section active" id="panel-principal">
+                    <!-- KPI Cards -->
+                    <div class="kpi-container">
+                        <div class="kpi-card">
+                            <div class="kpi-label">Intersecciones Activas</div>
+                            <div class="kpi-value" id="kpi-intersecciones">127</div>
+                            <div class="kpi-change">+8 en la última hora</div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-label">Reducción de Espera</div>
+                            <div class="kpi-value" id="kpi-reduccion">-32.4%</div>
+                            <div class="kpi-change negative" id="kpi-reduccion-change">vs. semana anterior</div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-label">CO2 Reducido</div>
+                            <div class="kpi-value" id="kpi-co2">-18.7%</div>
+                            <div class="kpi-change">Toneladas métricas diarias</div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-label">Tiempo Respuesta IA</div>
+                            <div class="kpi-value" id="kpi-respuesta">43ms</div>
+                            <div class="kpi-change">Latencia promedio</div>
+                        </div>
+                    </div>
+
+                    <!-- Traffic Flow Chart -->
+                    <div class="chart-container">
+                        <div class="chart-title">Flujo de Tráfico en Tiempo Real (últimas 2 horas)</div>
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+
+                    <!-- System Status -->
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-label">CPU</div>
+                            <div class="status-value" id="status-cpu">34%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 34%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-label">RAM</div>
+                            <div class="status-value" id="status-ram">2.1GB</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 52%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-label">GPU</div>
+                            <div class="status-value warning" id="status-gpu">45%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="status-item">
+                            <div class="status-label">ONNX Runtime</div>
+                            <div class="status-value">Activo</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Intersection Map -->
+                    <div>
+                        <div style="font-size: 14px; font-weight: 600; color: #e5e7eb; margin-bottom: 15px;">Mapa de Intersecciones</div>
+                        <div class="intersection-map">
+                            <div class="intersection-dot green" title="Av. Constitución">1</div>
+                            <div class="intersection-dot yellow" title="Ronda Norte">2</div>
+                            <div class="intersection-dot green" title="Paseo Centro">3</div>
+                            <div class="intersection-dot red" title="Plaza Mayor">4</div>
+                            <div class="intersection-dot green" title="Av. Industrial">5</div>
+                            <div class="intersection-dot yellow" title="Calle 5 de Mayo">6</div>
+                            <div class="intersection-dot green" title="Ronda Sur">7</div>
+                            <div class="intersection-dot green" title="Av. Principal">8</div>
+                            <div class="intersection-dot yellow" title="Boulevard Este">9</div>
+                            <div class="intersection-dot green" title="Calle Comercial">10</div>
+                            <div class="intersection-dot red" title="Av. Periférica">11</div>
+                            <div class="intersection-dot green" title="Paseo Parque">12</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Alerts -->
+                    <div class="alerts-container">
+                        <div class="chart-title">Alertas Recientes</div>
+                        <div class="alert-item error" onclick="showAnomalyDetail('accidente')">
+                            <div>
+                                <div class="alert-text">🚨 Accidente detectado en Av. Constitución x Calle Mayor</div>
+                                <div class="alert-time">Hace 3 minutos</div>
+                            </div>
+                            <div>→</div>
+                        </div>
+                        <div class="alert-item warning" onclick="showAnomalyDetail('congestion')">
+                            <div>
+                                <div class="alert-text">⚠️ Congestión anómala en zona centro - Capacidad 89%</div>
+                                <div class="alert-time">Hace 8 minutos</div>
+                            </div>
+                            <div>→</div>
+                        </div>
+                        <div class="alert-item warning" onclick="showAnomalyDetail('obra')">
+                            <div>
+                                <div class="alert-text">🚧 Trabajo de vía en Ronda Norte x Paseo Industria</div>
+                                <div class="alert-time">Hace 15 minutos</div>
+                            </div>
+                            <div>→</div>
+                        </div>
+                        <div class="alert-item" onclick="showToast('Sistema optimizado automáticamente', 'success')">
+                            <div>
+                                <div class="alert-text">ℹ️ Optimización dinámica activada en 23 intersecciones</div>
+                                <div class="alert-time">Hace 22 minutos</div>
+                            </div>
+                            <div>→</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: CONTROL DE INTERSECCIONES -->
+                <div class="section" id="control-intersecciones">
+                    <div class="flex-row">
+                        <!-- Intersection List -->
+                        <div class="flex-1">
+                            <div style="font-size: 14px; font-weight: 600; color: #e5e7eb; margin-bottom: 15px;">Intersecciones</div>
+                            <div class="intersection-list">
+                                <div class="intersection-item active" data-intersection-id="1">Av. Constitución x Calle Mayor</div>
+                                <div class="intersection-item" data-intersection-id="2">Ronda Norte x Paseo Industria</div>
+                                <div class="intersection-item" data-intersection-id="3">Paseo Centro x Calle 5</div>
+                                <div class="intersection-item" data-intersection-id="4">Plaza Mayor x Av. Real</div>
+                                <div class="intersection-item" data-intersection-id="5">Av. Industrial x Boulevard</div>
+                                <div class="intersection-item" data-intersection-id="6">Calle 5 de Mayo x Paseo Sur</div>
+                                <div class="intersection-item" data-intersection-id="7">Ronda Sur x Av. Costa</div>
+                                <div class="intersection-item" data-intersection-id="8">Av. Principal x Calle Oriente</div>
+                            </div>
+                        </div>
+
+                        <!-- Intersection Details -->
+                        <div class="flex-1">
+                            <div class="control-section">
+                                <div class="control-title" id="intersection-name">Av. Constitución x Calle Mayor</div>
+
+                                <div>
+                                    <div class="control-title" style="font-size: 12px; margin-top: 15px;">Señales de Tráfico</div>
+                                    <div class="traffic-light">
+                                        <div class="traffic-light-block">
+                                            <span class="direction-label">N-S:</span>
+                                            <div class="light green" id="ns-green"></div>
+                                            <div class="light yellow"></div>
+                                            <div class="light red"></div>
+                                        </div>
+                                        <div class="traffic-light-block">
+                                            <span class="direction-label">E-O:</span>
+                                            <div class="light red"></div>
+                                            <div class="light yellow"></div>
+                                            <div class="light green"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group" style="margin-top: 20px;">
+                                    <label class="control-label">Duración Verde N-S: <span class="slider-value" id="ns-green-duration">32s</span></label>
+                                    <input type="range" class="slider" min="10" max="60" value="32" id="slider-ns-green">
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Duración Roja N-S: <span class="slider-value" id="ns-red-duration">28s</span></label>
+                                    <input type="range" class="slider" min="10" max="60" value="28" id="slider-ns-red">
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Vehículos por Dirección</label>
+                                    <div class="status-grid" style="grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 12px;">
+                                        <div class="stat-card">
+                                            <div class="stat-label">Norte</div>
+                                            <div class="stat-value">45</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-label">Sur</div>
+                                            <div class="stat-value">38</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-label">Este</div>
+                                            <div class="stat-value">22</div>
+                                        </div>
+                                        <div class="stat-card">
+                                            <div class="stat-label">Oeste</div>
+                                            <div class="stat-value">31</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group" style="margin-top: 20px;">
+                                    <label class="control-label">Explicación IA (MUSE Metacognition)</label>
+                                    <div id="ai-explanation-box" style="background-color: #0a0e27; border: 1px solid #252d4d; border-radius: 8px; padding: 12px; font-size: 12px; color: #d1d5db; line-height: 1.5;">
+                                        Fase N-S extendida 8s por cola de 23 vehículos detectada en sensor N1. Confianza de decisión: 94%
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                    <button class="btn-primary" onclick="showToast('Control manual activado', 'success')">Activar Manual</button>
+                                    <button class="btn-secondary" onclick="showToast('Control revertido a automático', 'success')">Revertir</button>
+                                </div>
+                            </div>
+
+                            <!-- History Chart -->
+                            <div class="chart-container" style="margin-top: 20px; flex: none;">
+                                <div class="chart-title">Flujo de Vehículos (últimos 30 min)</div>
+                                <canvas id="historyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: ONDA VERDE -->
+                <div class="section" id="onda-verde">
+                    <div class="corridor-container">
+                        <div class="control-title">Configuración de Onda Verde</div>
+
+                        <div class="control-group">
+                            <label class="control-label">Dirección</label>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-toggle active" data-direction="ns" onclick="selectDirection('ns')">N → S</button>
+                                <button class="btn-toggle" data-direction="sn" onclick="selectDirection('sn')">S → N</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Velocidad de Onda: <span class="slider-value" id="wave-speed-display">45 km/h</span></label>
+                            <input type="range" class="slider" min="20" max="70" value="45" id="wave-speed-slider" onchange="updateWaveSpeed(this.value)">
+                        </div>
+
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                            <button class="btn-primary" id="wave-start-btn" onclick="startWaveAnimation()">Iniciar Onda</button>
+                            <button class="btn-secondary" onclick="stopWaveAnimation()">Detener</button>
+                            <button class="btn-secondary" onclick="resetWaveAnimation()">Reiniciar</button>
+                        </div>
+
+                        <div class="corridor-visual" id="corridor-visual">
+                            <div class="corridor-intersection green">Int. 1</div>
+                            <div class="corridor-arrow"></div>
+                            <div class="corridor-intersection red">Int. 2</div>
+                            <div class="corridor-arrow"></div>
+                            <div class="corridor-intersection red">Int. 3</div>
+                            <div class="corridor-arrow"></div>
+                            <div class="corridor-intersection red">Int. 4</div>
+                            <div class="corridor-arrow"></div>
+                            <div class="corridor-intersection red">Int. 5</div>
+                            <div class="corridor-arrow"></div>
+                            <div class="corridor-intersection red">Int. 6</div>
+                        </div>
+                    </div>
+
+                    <!-- Wave Stats -->
+                    <div class="grid-3">
+                        <div class="stat-card">
+                            <div class="stat-label">Velocidad Óptima</div>
+                            <div class="stat-value">45 km/h</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Tiempo Recorrido</div>
+                            <div class="stat-value">4:32</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Paradas Promedio</div>
+                            <div class="stat-value">0.3</div>
+                        </div>
+                    </div>
+
+                    <!-- Before/After Comparison -->
+                    <div class="chart-container">
+                        <div class="chart-title">Comparativa Antes/Después de Onda Verde</div>
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: ANOMALÍAS -->
+                <div class="section" id="anomalias">
+                    <div style="font-size: 14px; font-weight: 600; color: #e5e7eb; margin-bottom: 15px;">Detección de Anomalías (últimas 24h)</div>
+
+                    <div class="anomaly-cards">
+                        <div class="anomaly-card" onclick="showAnomalyDetail('accidente')">
+                            <div class="anomaly-severity red">CRÍTICA</div>
+                            <div class="anomaly-title">🚗 Accidente Detectado</div>
+                            <div class="anomaly-time">Hace 3 minutos</div>
+                        </div>
+
+                        <div class="anomaly-card" onclick="showAnomalyDetail('evento')">
+                            <div class="anomaly-severity amber">ALTA</div>
+                            <div class="anomaly-title">👥 Evento Masivo</div>
+                            <div class="anomaly-time">Hace 42 minutos</div>
+                        </div>
+
+                        <div class="anomaly-card" onclick="showAnomalyDetail('obra')">
+                            <div class="anomaly-severity amber">MEDIA</div>
+                            <div class="anomaly-title">🚧 Obra en Vía</div>
+                            <div class="anomaly-time">Hace 1 hora</div>
+                        </div>
+
+                        <div class="anomaly-card" onclick="showAnomalyDetail('emergencia')">
+                            <div class="anomaly-severity red">CRÍTICA</div>
+                            <div class="anomaly-title">🚨 Emergencia</div>
+                            <div class="anomaly-time">Hace 2 horas</div>
+                        </div>
+
+                        <div class="anomaly-card" onclick="showAnomalyDetail('congestion')">
+                            <div class="anomaly-severity yellow">BAJA</div>
+                            <div class="anomaly-title">🔴 Congestión Atípica</div>
+                            <div class="anomaly-time">Hace 3 horas</div>
+                        </div>
+
+                        <div class="anomaly-card" onclick="showAnomalyDetail('detenido')">
+                            <div class="anomaly-severity yellow">BAJA</div>
+                            <div class="anomaly-title">🚗 Vehículo Detenido</div>
+                            <div class="anomaly-time">Hace 4 horas</div>
+                        </div>
+                    </div>
+
+                    <!-- Anomaly Statistics -->
+                    <div class="grid-2">
+                        <div class="chart-container">
+                            <div class="chart-title">Distribución de Anomalías por Tipo</div>
+                            <canvas id="anomalyChart"></canvas>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-title">Anomalías por Hora (últimas 24h)</div>
+                            <canvas id="anomalyTimeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: ANALYTICS -->
+                <div class="section" id="analytics">
+                    <div class="tabs-container">
+                        <button class="tab-button active" data-tab="rendimiento" onclick="switchTab('rendimiento')">Rendimiento</button>
+                        <button class="tab-button" data-tab="comparativa" onclick="switchTab('comparativa')">Comparativa</button>
+                        <button class="tab-button" data-tab="roi" onclick="switchTab('roi')">ROI</button>
+                    </div>
+
+                    <!-- Rendimiento Tab -->
+                    <div class="tab-content active" id="rendimiento">
+                        <div class="chart-container">
+                            <div class="chart-title">Reducción de Tiempo de Espera por Intersección</div>
+                            <canvas id="waitTimeChart"></canvas>
+                        </div>
+
+                        <div class="grid-2">
+                            <div class="chart-container">
+                                <div class="chart-title">Emisiones de CO2 (últimos 30 días)</div>
+                                <canvas id="co2Chart"></canvas>
+                            </div>
+
+                            <div class="chart-container">
+                                <div class="chart-title">Distribución de Tráfico por Hora</div>
+                                <canvas id="distributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparativa Tab -->
+                    <div class="tab-content" id="comparativa">
+                        <div class="chart-container">
+                            <div class="chart-title">Comparación: ATLAS Pro vs Sistemas Competidores</div>
+                            <canvas id="radarChart"></canvas>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-title">Costo Total por Intersección (50 intersecciones)</div>
+                            <canvas id="costChart"></canvas>
+                        </div>
+
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Sistema</th>
+                                    <th>Precio/Int</th>
+                                    <th>Tecnología</th>
+                                    <th>Escalabilidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="highlight">ATLAS Pro</span></td>
+                                    <td><span class="highlight">€49-89/mes</span></td>
+                                    <td>IA Explicable Edge (DRL + QMIX)</td>
+                                    <td>Ilimitada</td>
+                                </tr>
+                                <tr>
+                                    <td>SCOOT 8</td>
+                                    <td>€50.000 + €2.500/año</td>
+                                    <td>Heurística + ML básico</td>
+                                    <td>Limitada</td>
+                                </tr>
+                                <tr>
+                                    <td>SCATS</td>
+                                    <td>€45.000 + €2.000/año</td>
+                                    <td>Control Adaptativo Fijo</td>
+                                    <td>Moderada</td>
+                                </tr>
+                                <tr>
+                                    <td>Tiempos Fijos</td>
+                                    <td>€3.500 (instalación)</td>
+                                    <td>Manual / Reloj</td>
+                                    <td>Baja</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ROI Tab -->
+                    <div class="tab-content" id="roi">
+                        <div class="chart-container">
+                            <div class="control-title">Calculadora de ROI Interactiva</div>
+
+                            <div class="calculator-grid">
+                                <div>
+                                    <label class="control-label">Número de Intersecciones: <span class="slider-value" id="roi-intersections-display">100</span></label>
+                                    <input type="range" class="slider" min="10" max="500" value="100" id="roi-intersections-slider">
+                                </div>
+
+                                <div>
+                                    <label class="control-label">Plan</label>
+                                    <div style="display: flex; gap: 10px;">
+                                        <button class="btn-toggle active" data-plan="basic" onclick="selectPlan('basic')">Basic</button>
+                                        <button class="btn-toggle" data-plan="pro" onclick="selectPlan('pro')">Pro</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="border-top: 1px solid #252d4d; padding-top: 20px; margin-top: 20px;">
+                                <div class="calculator-output">
+                                    <div class="output-label">Costo Mensual ATLAS Pro</div>
+                                    <div class="output-value" id="roi-monthly">4.900 EUR</div>
+                                </div>
+
+                                <div class="calculator-output">
+                                    <div class="output-label">Costo Anual ATLAS Pro</div>
+                                    <div class="output-value" id="roi-annual">58.800 EUR</div>
+                                </div>
+
+                                <div class="calculator-output">
+                                    <div class="output-label">Costo Anual SCOOT (comparación)</div>
+                                    <div class="output-value" id="roi-scoot" style="color: #ef4444;">1.750.000 EUR</div>
+                                </div>
+
+                                <div class="calculator-output">
+                                    <div class="output-label">Amortización vs SCOOT</div>
+                                    <div class="output-value" id="roi-payback">8 meses</div>
+                                </div>
+
+                                <div class="calculator-output">
+                                    <div class="output-label">Ahorro total en 3 años vs SCOOT</div>
+                                    <div class="output-value" id="roi-savings">2.548.600 EUR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 6: CONFIGURACIÓN -->
+                <div class="section" id="configuracion">
+                    <div class="grid-2">
+                        <div class="chart-container" style="flex: none;">
+                            <div class="control-title">Configuración del Sistema</div>
+
+                            <div class="settings-group">
+                                <label class="settings-label">Protocolo de Comunicación</label>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="protocol" value="ntcip" checked>
+                                        NTCIP 1202
+                                    </label>
+                                </div>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="protocol" value="utmc">
+                                        UTMC
+                                    </label>
+                                </div>
+                                <div class="radio-group">
+                                    <label class="radio-option">
+                                        <input type="radio" name="protocol" value="mqtt">
+                                        MQTT
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="settings-group">
+                                <label class="settings-label">Dispositivos Edge</label>
+                                <div style="font-size: 12px; color: #d1d5db;">
+                                    <div>✓ Jetson Nano (8) - Activos</div>
+                                    <div>✓ Jetson Orin (4) - Activos</div>
+                                </div>
+                            </div>
+
+                            <div class="settings-group">
+                                <label class="settings-label">Clave API</label>
+                                <div style="font-family: monospace; font-size: 12px; color: #9ca3af;">
+                                    atlas_pro_••••••••••••••••
+                                </div>
+                            </div>
+
+                            <button class="btn-primary" onclick="showToast('Datos exportados en segundo plano', 'success')" style="width: 100%; margin-top: 15px;">📥 Exportar Datos</button>
+                        </div>
+
+                        <div class="chart-container" style="flex: none;">
+                            <div class="control-title">Acerca de ATLAS Pro</div>
+
+                            <div style="font-size: 12px; color: #d1d5db; line-height: 1.8;">
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Versión:</strong><br>4.0.0 (Build 2026.03.01)
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Desarrollador:</strong><br>Esteban Marco
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Email:</strong><br>esteban3marco@gmail.com
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Licencia:</strong><br>Enterprise Edition
+                                </div>
+
+                                <div style="margin-bottom: 15px;">
+                                    <strong>Soporte:</strong><br>support@atlaspro.ai<br>+34 91 ATLAS-PRO
+                                </div>
+
+                                <button class="btn-secondary" onclick="showToast('Sistema actualizado — ATLAS Pro v4.0.0', 'success')" style="width: 100%; margin-top: 15px;">Buscar Actualizaciones</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="alertModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="modal-title">Detalle de Alerta</span>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                Contenido de la alerta
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =============================================
+           STATE
+        ============================================= */
+        const state = {
+            currentSection: 'panel-principal',
+            currentIntersection: 0,
+            waveAnimationRunning: false,
+            waveInterval: null,
+            selectedPlan: 'basic',
+            selectedDirection: 'ns',
+            chartsInitialized: {}
+        };
+
+        /* Intersection data for realistic control panel */
+        const intersectionData = [
+            { name: 'Av. Constitución x Calle Mayor', n: 45, s: 38, e: 22, w: 31, green: 32, red: 28, phase: 'ns', ai: 'Fase N-S extendida 8s por cola de 23 vehículos en sensor N1. Confianza: 94%' },
+            { name: 'Ronda Norte x Paseo Industria', n: 52, s: 41, e: 35, w: 28, green: 28, red: 32, phase: 'ew', ai: 'Fase E-O priorizada por flujo cruzado elevado. Sensor E2 reporta 35 veh/min. Confianza: 91%' },
+            { name: 'Paseo Centro x Calle 5', n: 30, s: 27, e: 40, w: 38, green: 25, red: 35, phase: 'ew', ai: 'Tráfico balanceado E-O. Ciclo corto optimizado para peatones. Confianza: 88%' },
+            { name: 'Plaza Mayor x Av. Real', n: 60, s: 55, e: 18, w: 15, green: 40, red: 20, phase: 'ns', ai: 'Alta demanda N-S por hora punta. Extensión máxima de verde activada. Confianza: 96%' },
+            { name: 'Av. Industrial x Boulevard', n: 25, s: 22, e: 48, w: 44, green: 22, red: 38, phase: 'ew', ai: 'Zona industrial con tráfico pesado E-O. Fase adaptada para camiones. Confianza: 89%' },
+            { name: 'Calle 5 de Mayo x Paseo Sur', n: 33, s: 29, e: 26, w: 24, green: 30, red: 30, phase: 'ns', ai: 'Flujo equilibrado. Ciclo simétrico aplicado. Sin anomalías. Confianza: 92%' },
+            { name: 'Ronda Sur x Av. Costa', n: 42, s: 39, e: 20, w: 18, green: 35, red: 25, phase: 'ns', ai: 'Corredor sur con flujo moderado. Onda verde sincronizada activa. Confianza: 90%' },
+            { name: 'Av. Principal x Calle Oriente', n: 38, s: 35, e: 30, w: 28, green: 30, red: 30, phase: 'ns', ai: 'Intersección central. Balanceo dinámico activo entre 4 direcciones. Confianza: 93%' }
+        ];
+
+        /* Chart style defaults */
+        const chartColors = {
+            grid: '#252d4d',
+            tick: '#9ca3af',
+            font: "'Inter', sans-serif"
+        };
+        function chartScales() {
+            return {
+                y: { ticks: { color: chartColors.tick }, grid: { color: chartColors.grid } },
+                x: { ticks: { color: chartColors.tick }, grid: { color: chartColors.grid } }
+            };
+        }
+        function chartLegend() {
+            return { labels: { color: chartColors.tick, font: { family: chartColors.font } } };
+        }
+
+        /* =============================================
+           CHART INSTANCES (all start null)
+        ============================================= */
+        let trafficChart = null, historyChart = null, comparisonChart = null;
+        let anomalyChart = null, anomalyTimeChart = null;
+        let waitTimeChart = null, co2Chart = null, distributionChart = null;
+        let radarChart = null, costChart = null;
+
+        /* =============================================
+           BOOT
+        ============================================= */
+        window.addEventListener('load', () => {
+            initNavigation();
+            initSliders();
+            initIntersectionList();
+            startKPIUpdates();
+            startSystemStatusUpdates();
+            // Panel principal is visible on load — safe to draw its chart
+            try { createTrafficChart(); } catch(e) { console.error('trafficChart:', e); }
+            updateROICalculation(100);
+        });
+
+        /* =============================================
+           NAVIGATION  (lazy-inits charts)
+        ============================================= */
+        function initNavigation() {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const id = item.dataset.section;
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    switchSection(id);
+                });
+            });
+        }
+
+        function switchSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            const el = document.getElementById(id);
+            if (el) el.classList.add('active');
+            state.currentSection = id;
+
+            // Lazy-create charts AFTER the section is visible
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    try {
+                        if (id === 'panel-principal')        createTrafficChart();
+                        if (id === 'control-intersecciones') createHistoryChart();
+                        if (id === 'onda-verde')             createComparisonChart();
+                        if (id === 'anomalias')              { createAnomalyChart(); createAnomalyTimeChart(); }
+                        if (id === 'analytics')              initAnalyticsCharts();
+                    } catch(e) { console.error('Chart init error:', e); }
+                }, 50);
+            });
+        }
+
+        /* =============================================
+           ANALYTICS TABS  (also lazy-inits)
+        ============================================= */
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector('[data-tab="' + tabName + '"]');
+            if (btn) btn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            const tab = document.getElementById(tabName);
+            if (tab) tab.classList.add('active');
+
+            requestAnimationFrame(() => {
+                setTimeout(() => { initAnalyticsCharts(); }, 50);
+            });
+        }
+
+        function initAnalyticsCharts() {
+            const rTab = document.getElementById('rendimiento');
+            const cTab = document.getElementById('comparativa');
+            if (rTab && rTab.classList.contains('active')) {
+                createWaitTimeChart();
+                createCO2Chart();
+                createDistributionChart();
+            }
+            if (cTab && cTab.classList.contains('active')) {
+                createRadarChart();
+                createCostChart();
+            }
+        }
+
+        /* =============================================
+           SLIDERS
+        ============================================= */
+        function initSliders() {
+            bind('slider-ns-green', 'ns-green-duration', 's');
+            bind('slider-ns-red',   'ns-red-duration',   's');
+            bind('wave-speed-slider', 'wave-speed-display', ' km/h');
+
+            const roiSlider = document.getElementById('roi-intersections-slider');
+            if (roiSlider) {
+                roiSlider.addEventListener('input', function() {
+                    const v = parseInt(this.value);
+                    document.getElementById('roi-intersections-display').textContent = v;
+                    updateROICalculation(v);
+                });
+            }
+
+            function bind(sliderId, displayId, suffix) {
+                const s = document.getElementById(sliderId);
+                if (s) s.addEventListener('input', function() {
+                    document.getElementById(displayId).textContent = this.value + suffix;
+                });
+            }
+        }
+
+        /* =============================================
+           INTERSECTION LIST — full detail update
+        ============================================= */
+        function initIntersectionList() {
+            document.querySelectorAll('.intersection-item').forEach((item, idx) => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.intersection-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    state.currentIntersection = idx;
+                    updateIntersectionDetail(idx);
+                });
+            });
+        }
+
+        function updateIntersectionDetail(idx) {
+            const d = intersectionData[idx];
+            if (!d) return;
+
+            /* Name */
+            document.getElementById('intersection-name').textContent = d.name;
+
+            /* Traffic lights */
+            const blocks = document.querySelectorAll('.traffic-light-block');
+            if (blocks.length >= 2) {
+                // N-S block
+                const nsLights = blocks[0].querySelectorAll('.light');
+                nsLights.forEach(l => l.className = 'light');
+                if (d.phase === 'ns') { nsLights[0].classList.add('green'); nsLights[2].classList.add('red'); }
+                else                  { nsLights[0].classList.add('red');   nsLights[2].classList.add('green'); }
+                // E-O block
+                const ewLights = blocks[1].querySelectorAll('.light');
+                ewLights.forEach(l => l.className = 'light');
+                if (d.phase === 'ew') { ewLights[0].classList.add('red'); ewLights[2].classList.add('green'); }
+                else                  { ewLights[0].classList.add('green'); ewLights[2].classList.add('red'); }
+            }
+
+            /* Sliders */
+            const sg = document.getElementById('slider-ns-green');
+            const sr = document.getElementById('slider-ns-red');
+            if (sg) { sg.value = d.green; document.getElementById('ns-green-duration').textContent = d.green + 's'; }
+            if (sr) { sr.value = d.red;   document.getElementById('ns-red-duration').textContent = d.red + 's'; }
+
+            /* Vehicle counts */
+            const stats = document.querySelectorAll('#control-intersecciones .stat-value');
+            if (stats.length >= 4) {
+                const jitter = () => Math.floor(Math.random() * 6) - 3;
+                stats[0].textContent = d.n + jitter();
+                stats[1].textContent = d.s + jitter();
+                stats[2].textContent = d.e + jitter();
+                stats[3].textContent = d.w + jitter();
+            }
+
+            /* AI explanation */
+            const aiBox = document.getElementById('ai-explanation-box');
+            if (aiBox) aiBox.textContent = d.ai;
+
+            /* Recreate history chart with new data for this intersection */
+            if (historyChart) { historyChart.destroy(); historyChart = null; }
+            createHistoryChart(idx);
+
+            showToast('Intersección: ' + d.name, 'success');
+        }
+
+        /* =============================================
+           ANOMALY DETAILS (modal)
+        ============================================= */
+        const anomalyDetails = {
+            accidente: { title: 'Accidente Detectado', content: '<strong>Ubicación:</strong> Av. Constitución x Calle Mayor<br><strong>Hora:</strong> 14:23<br><strong>Severidad:</strong> CRÍTICA<br><strong>Confianza:</strong> 98%<br><br><strong>Respuesta IA:</strong><br>Redireccionamiento automático activado. Fases N-S reducidas 40%. Ruta alternativa en 8 intersecciones. Emergencias notificadas.' },
+            evento:    { title: 'Evento Masivo',       content: '<strong>Ubicación:</strong> Plaza Mayor - 500m radio<br><strong>Hora:</strong> 13:15<br><strong>Severidad:</strong> ALTA<br><strong>Confianza:</strong> 87%<br><br><strong>Respuesta IA:</strong><br>Incremento de capacidad detectado. Ciclos extendidos en 5 intersecciones. Monitoreo en tiempo real activado.' },
+            obra:      { title: 'Obra en Vía',         content: '<strong>Ubicación:</strong> Ronda Norte x Paseo Industria<br><strong>Hora:</strong> 12:34<br><strong>Severidad:</strong> MEDIA<br><strong>Confianza:</strong> 91%<br><br><strong>Respuesta IA:</strong><br>Carril bloqueado detectado. Rebalanceo de fases aplicado. Flujo redistribuido.' },
+            emergencia:{ title: 'Emergencia',          content: '<strong>Ubicación:</strong> Av. Industrial x Boulevard<br><strong>Hora:</strong> 11:45<br><strong>Severidad:</strong> CRÍTICA<br><strong>Confianza:</strong> 99%<br><br><strong>Respuesta IA:</strong><br>Pasos prioritarios activados. Fases optimizadas para vehículo de emergencia. Carril despejado.' },
+            congestion:{ title: 'Congestión Atípica',  content: '<strong>Ubicación:</strong> Zona Centro (Paseo Centro - Calle 5)<br><strong>Hora:</strong> 10:30<br><strong>Severidad:</strong> BAJA<br><strong>Confianza:</strong> 79%<br><br><strong>Respuesta IA:</strong><br>Patrón inusual detectado. Ciclos adaptados para normalizar flujo.' },
+            detenido:  { title: 'Vehículo Detenido',   content: '<strong>Ubicación:</strong> Calle 5 de Mayo x Paseo Sur<br><strong>Hora:</strong> 09:15<br><strong>Severidad:</strong> BAJA<br><strong>Confianza:</strong> 85%<br><br><strong>Respuesta IA:</strong><br>Obstáculo detectado. Capacidad reducida. Grúa recomendada.' }
+        };
+
+        function showAnomalyDetail(type) {
+            const d = anomalyDetails[type];
+            if (!d) return;
+            document.getElementById('modal-title').textContent = d.title;
+            document.getElementById('modal-body').innerHTML = d.content;
+            document.getElementById('alertModal').classList.add('active');
+        }
+        function closeModal() { document.getElementById('alertModal').classList.remove('active'); }
+
+        /* =============================================
+           KPI + SYSTEM STATUS live updates
+        ============================================= */
+        function startKPIUpdates() {
+            setInterval(() => {
+                document.getElementById('kpi-intersecciones').textContent = 127 + Math.floor(Math.random() * 5) - 2;
+                document.getElementById('kpi-reduccion').textContent = (-32.4 + (Math.random() * 2 - 1)).toFixed(1) + '%';
+                document.getElementById('kpi-co2').textContent = (-18.7 + (Math.random() * 2 - 1)).toFixed(1) + '%';
+                document.getElementById('kpi-respuesta').textContent = (43 + Math.floor(Math.random() * 10 - 5)) + 'ms';
+            }, 3000);
+        }
+        function startSystemStatusUpdates() {
+            setInterval(() => {
+                const cpu = 34 + Math.floor(Math.random() * 20 - 10);
+                const ram = (2.1 + (Math.random() * 0.8 - 0.4)).toFixed(1);
+                const gpu = 45 + Math.floor(Math.random() * 15 - 7);
+                document.getElementById('status-cpu').textContent = cpu + '%';
+                document.getElementById('status-ram').textContent = ram + 'GB';
+                document.getElementById('status-gpu').textContent = gpu + '%';
+            }, 2500);
+        }
+
+        /* =============================================
+           ROI CALCULATOR  (real euros pricing)
+        ============================================= */
+        function selectPlan(plan) {
+            document.querySelectorAll('[data-plan]').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector('[data-plan="' + plan + '"]');
+            if (btn) btn.classList.add('active');
+            state.selectedPlan = plan;
+            updateROICalculation(parseInt(document.getElementById('roi-intersections-slider').value));
+        }
+
+        function updateROICalculation(n) {
+            n = parseInt(n) || 100;
+            const pricePerMonth = state.selectedPlan === 'basic' ? 49 : 89;  // euros
+            const monthly = n * pricePerMonth;
+            const annual  = monthly * 12;
+
+            // SCOOT comparison: €50,000 per intersection install + €2,500/yr maintenance
+            const scootInstall = n * 50000;
+            const scootAnnual  = n * 2500;
+            const scoot3yr     = scootInstall + scootAnnual * 3;
+
+            const atlas3yr   = annual * 3;
+            const savings3yr = scoot3yr - atlas3yr;
+            // Payback: how many months of ATLAS cost to equal the SCOOT setup savings
+            const paybackMonths = monthly > 0 ? Math.ceil(scootInstall / monthly) : 0;
+
+            const fmt = v => v.toLocaleString('es-ES');
+
+            // Update all 5 outputs by ID (reliable)
+            document.getElementById('roi-monthly').textContent  = fmt(monthly) + ' EUR';
+            document.getElementById('roi-annual').textContent   = fmt(annual) + ' EUR';
+            document.getElementById('roi-scoot').textContent    = fmt(Math.round(scoot3yr / 3)) + ' EUR/año';
+            document.getElementById('roi-payback').textContent  = paybackMonths + ' meses';
+            document.getElementById('roi-savings').textContent  = fmt(savings3yr) + ' EUR';
+        }
+
+        /* =============================================
+           DIRECTION + WAVE ANIMATION
+        ============================================= */
+        function selectDirection(dir) {
+            document.querySelectorAll('[data-direction]').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector('[data-direction="' + dir + '"]');
+            if (btn) btn.classList.add('active');
+            state.selectedDirection = dir;
+        }
+
+        function startWaveAnimation() {
+            if (state.waveAnimationRunning) return;
+            state.waveAnimationRunning = true;
+            const btn = document.getElementById('wave-start-btn');
+            btn.textContent = 'En curso...'; btn.disabled = true;
+
+            const arrows = document.querySelectorAll('.corridor-arrow');
+            const ints   = document.querySelectorAll('.corridor-intersection');
+            const speed  = parseInt(document.getElementById('wave-speed-slider').value) || 45;
+            const stepMs = Math.max(200, (50 / speed) * 1000 / 6);
+            let pos = 0;
+
+            state.waveInterval = setInterval(() => {
+                if (!state.waveAnimationRunning) { clearInterval(state.waveInterval); return; }
+                pos++;
+                arrows.forEach((a, i) => { a.classList.toggle('active', i >= pos - 1 && i < pos + 1); });
+                ints.forEach((el, i) => {
+                    el.classList.remove('green', 'red');
+                    el.classList.add(i <= pos ? 'green' : 'red');
+                });
+                if (pos > 5) {
+                    clearInterval(state.waveInterval);
+                    state.waveAnimationRunning = false;
+                    btn.textContent = 'Iniciar Onda'; btn.disabled = false;
+                    showToast('Onda verde completada', 'success');
+                }
+            }, stepMs);
+        }
+
+        function stopWaveAnimation() {
+            state.waveAnimationRunning = false;
+            if (state.waveInterval) clearInterval(state.waveInterval);
+            const btn = document.getElementById('wave-start-btn');
+            btn.textContent = 'Iniciar Onda'; btn.disabled = false;
+            showToast('Onda detenida', 'success');
+        }
+
+        function resetWaveAnimation() {
+            stopWaveAnimation();
+            document.querySelectorAll('.corridor-arrow').forEach(a => a.classList.remove('active'));
+            const ints = document.querySelectorAll('.corridor-intersection');
+            ints.forEach((el, i) => { el.classList.remove('green', 'red'); el.classList.add(i === 0 ? 'green' : 'red'); });
+            showToast('Onda reiniciada', 'success');
+        }
+
+        function updateWaveSpeed() { /* display already handled by slider listener */ }
+
+        /* =============================================
+           TOAST
+        ============================================= */
+        function showToast(msg, type) {
+            const t = document.createElement('div');
+            t.className = 'toast ' + (type || '');
+            t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; setTimeout(() => t.remove(), 300); }, 2500);
+        }
+
+        /* =============================================
+           CHART FACTORY FUNCTIONS  (lazy, destroy-first)
+        ============================================= */
+
+        function createTrafficChart() {
+            if (trafficChart) return;  // already created
+            const ctx = document.getElementById('trafficChart');
+            if (!ctx) return;
+            trafficChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 24}, (_, i) => i + ':00'),
+                    datasets: [
+                        { label: 'Flujo Total', data: [250,270,290,280,260,240,280,320,350,380,400,390,370,360,340,330,350,380,320,300,280,270,260,250], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', tension: 0.4, fill: true },
+                        { label: 'Capacidad Óptima', data: Array(24).fill(350), borderColor: '#10b981', borderDash: [5,5], tension: 0.4, pointRadius: 0 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+
+        function createHistoryChart(intIdx) {
+            if (historyChart) { historyChart.destroy(); historyChart = null; }
+            const ctx = document.getElementById('historyChart');
+            if (!ctx) return;
+            const idx = intIdx !== undefined ? intIdx : state.currentIntersection;
+            const d = intersectionData[idx] || intersectionData[0];
+            // Generate plausible 30-point data based on intersection's base values
+            const gen = (base) => Array.from({length:30}, () => base + Math.floor(Math.random()*16) - 8);
+            historyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length:30}, (_,i) => i+'min'),
+                    datasets: [
+                        { label: 'Norte', data: gen(d.n), borderColor: '#3b82f6', tension: 0.3 },
+                        { label: 'Sur',   data: gen(d.s), borderColor: '#06b6d4', tension: 0.3 },
+                        { label: 'Este',  data: gen(d.e), borderColor: '#f59e0b', tension: 0.3 },
+                        { label: 'Oeste', data: gen(d.w), borderColor: '#8b5cf6', tension: 0.3 }
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+
+        function createComparisonChart() {
+            if (comparisonChart) return;
+            const ctx = document.getElementById('comparisonChart');
+            if (!ctx) return;
+            comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tiempo Viaje (min)', 'Paradas Promedio', 'Emisiones CO2 (kg)', 'Consumo Combustible (L)'],
+                    datasets: [
+                        { label: 'Sin Onda Verde', data: [12.5, 3.8, 4.2, 2.8], backgroundColor: '#ef4444' },
+                        { label: 'Con Onda Verde', data: [4.5, 0.3, 1.5, 1.1],  backgroundColor: '#10b981' }
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+
+        function createAnomalyChart() {
+            if (anomalyChart) return;
+            const ctx = document.getElementById('anomalyChart');
+            if (!ctx) return;
+            anomalyChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Accidentes', 'Congestión', 'Obras', 'Emergencia', 'Eventos', 'Otros'],
+                    datasets: [{ data: [15,28,12,8,18,6], backgroundColor: ['#ef4444','#f59e0b','#eab308','#8b5cf6','#06b6d4','#6b7280'] }]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() } }
+            });
+        }
+
+        function createAnomalyTimeChart() {
+            if (anomalyTimeChart) return;
+            const ctx = document.getElementById('anomalyTimeChart');
+            if (!ctx) return;
+            anomalyTimeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length:24}, (_,i) => i+':00'),
+                    datasets: [{ label: 'Anomalías/hora', data: [2,3,1,2,4,3,5,6,8,7,6,5,4,3,5,7,6,4,3,2,1,2,3,2], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', tension: 0.3, fill: true }]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+
+        function createWaitTimeChart() {
+            if (waitTimeChart) return;
+            const ctx = document.getElementById('waitTimeChart');
+            if (!ctx) return;
+            waitTimeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: intersectionData.map((d,i) => 'Int. '+(i+1)),
+                    datasets: [{ label: 'Reducción Espera (%)', data: [32,28,35,31,29,33,30,27], backgroundColor: '#10b981' }]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+
+        function createCO2Chart() {
+            if (co2Chart) return;
+            const ctx = document.getElementById('co2Chart');
+            if (!ctx) return;
+            co2Chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length:30}, (_,i) => 'Día '+(i+1)),
+                    datasets: [{ label: 'Emisiones CO2 (kg)', data: Array.from({length:30}, (_,i) => 1000 - i*12 + Math.floor(Math.random()*20)), borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', tension: 0.3, fill: true }]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+
+        function createDistributionChart() {
+            if (distributionChart) return;
+            const ctx = document.getElementById('distributionChart');
+            if (!ctx) return;
+            distributionChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mañana (6-12)', 'Tarde (12-18)', 'Noche (18-24)', 'Madrugada (0-6)'],
+                    datasets: [{ data: [35,45,15,5], backgroundColor: ['#3b82f6','#f59e0b','#8b5cf6','#06b6d4'] }]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() } }
+            });
+        }
+
+        function createRadarChart() {
+            if (radarChart) return;
+            const ctx = document.getElementById('radarChart');
+            if (!ctx) return;
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Precio', 'Tecnología', 'Despliegue', 'Explicabilidad', 'Escalabilidad', 'Edge'],
+                    datasets: [
+                        { label: 'ATLAS Pro', data: [95,98,92,96,94,99], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.2)', pointBackgroundColor: '#3b82f6' },
+                        { label: 'SCOOT',     data: [45,78,72,68,65,50], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', pointBackgroundColor: '#f59e0b' },
+                        { label: 'SCATS',     data: [50,72,68,55,60,45], borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.1)', pointBackgroundColor: '#8b5cf6' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: chartLegend() },
+                    scales: { r: { grid: { color: '#252d4d' }, ticks: { color: '#9ca3af', backdropColor: 'transparent' }, pointLabels: { color: '#9ca3af' } } }
+                }
+            });
+        }
+
+        function createCostChart() {
+            if (costChart) return;
+            const ctx = document.getElementById('costChart');
+            if (!ctx) return;
+            costChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ATLAS Pro', 'SCOOT', 'SCATS', 'Tiempos Fijos'],
+                    datasets: [{ label: 'Costo Total 3 años / 50 intersecciones (EUR)', data: [160200, 2875000, 2550000, 175000], backgroundColor: ['#10b981','#ef4444','#f59e0b','#6b7280'] }]
+                },
+                options: { responsive: true, plugins: { legend: chartLegend() }, scales: chartScales() }
+            });
+        }
+    </script>
+</body>
+</html>
