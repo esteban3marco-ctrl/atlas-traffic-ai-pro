@@ -1,6 +1,12 @@
+<div align="center">
+
 # ATLAS Pro
 
 > **AI-Powered Intelligent Traffic Control System** | *Sistema Inteligente de Control de Tráfico con IA*
+
+<img src="docs/atlas_banner.png" alt="ATLAS Pro AI Traffic System" width="100%"/>
+
+</div>
 
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-4.0-blue.svg)](CHANGELOG.md)
