@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edges>
+    <!-- Cruce 1 -->
+    <edge id="north_in" from="north" to="center" numLanes="2" speed="13.89"/>
+    <edge id="north_out" from="center" to="north" numLanes="2" speed="13.89"/>
+    <edge id="south_in" from="south" to="center" numLanes="2" speed="13.89"/>
+    <edge id="south_out" from="center" to="south" numLanes="2" speed="13.89"/>
+    <edge id="west_in" from="west" to="center" numLanes="2" speed="13.89"/>
+    <edge id="west_out" from="center" to="west" numLanes="2" speed="13.89"/>
+    <!-- Conexión entre cruces -->
+    <edge id="link_12" from="center" to="center2" numLanes="2" speed="13.89"/>
+    <edge id="link_21" from="center2" to="center" numLanes="2" speed="13.89"/>
+    <!-- Cruce 2 -->
+    <edge id="north2_in" from="north2" to="center2" numLanes="2" speed="13.89"/>
+    <edge id="north2_out" from="center2" to="north2" numLanes="2" speed="13.89"/>
+    <edge id="south2_in" from="south2" to="center2" numLanes="2" speed="13.89"/>
+    <edge id="south2_out" from="center2" to="south2" numLanes="2" speed="13.89"/>
+    <edge id="east_in" from="east" to="center2" numLanes="2" speed="13.89"/>
+    <edge id="east_out" from="center2" to="east" numLanes="2" speed="13.89"/>
+</edges>

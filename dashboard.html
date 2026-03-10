@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS Pro v4.0 - Traffic Intelligence System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #06080f;
+            --bg-secondary: rgba(14, 19, 38, 0.75);
+            --bg-tertiary: rgba(14, 19, 38, 0.95);
+            --border: rgba(59, 130, 246, 0.2);
+            --color-blue: #3b82f6;
+            --color-cyan: #06b6d4;
+            --color-purple: #8b5cf6;
+            --color-green: #10b981;
+            --color-amber: #f59e0b;
+            --color-red: #ef4444;
+            --text-primary: #e5e7eb;
+            --text-secondary: #9ca3af;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .screen.active {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* LOGIN SCREEN */
+        .login-screen {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #06080f 0%, #0f1729 50%, #06080f 100%);
+        }
+
+        .login-card {
+            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow);
+        }
+
+        .login-logo {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-blue);
+            background: rgba(31, 41, 55, 0.8);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            display: none;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--color-red);
+            border-radius: 8px;
+            color: #fca5a5;
+            font-size: 13px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* MAIN DASHBOARD */
+        .dashboard-layout {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--color-green);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .mode-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mode-badge {
+            padding: 6px 12px;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid var(--color-purple);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #c4b5fd;
+        }
+
+        .clock {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+            min-width: 60px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(31, 41, 55, 0.5);
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .role-badge {
+            padding: 2px 6px;
+            background: var(--color-blue);
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .logout-button {
+            padding: 8px 14px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logout-button:hover {
+            border-color: var(--color-red);
+            color: var(--color-red);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 2px;
+            padding: 0 24px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-tab.active {
+            color: var(--color-blue);
+            border-bottom-color: var(--color-blue);
+        }
+
+        .dashboard-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 24px;
+            min-height: 0;
+            background: linear-gradient(135deg, #06080f 0%, #0f1729 50%, #06080f 100%);
+        }
+
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-blue), transparent);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .kpi-change {
+            font-size: 12px;
+            color: var(--color-green);
+            font-weight: 500;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .chart-card {
+            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 350px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-blue), transparent);
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .intersection-visual {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            height: 300px;
+        }
+
+        .intersection-cell {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intersection-cell.north {
+            border-top: 3px solid var(--color-cyan);
+        }
+
+        .intersection-cell.south {
+            border-bottom: 3px solid var(--color-cyan);
+        }
+
+        .intersection-cell.east {
+            border-right: 3px solid var(--color-cyan);
+        }
+
+        .intersection-cell.west {
+            border-left: 3px solid var(--color-cyan);
+        }
+
+        .intersection-center {
+            grid-column: 2;
+            grid-row: 2;
+            background: rgba(59, 130, 246, 0.15);
+            border: 2px solid var(--color-blue);
+        }
+
+        .queue-indicator {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            padding: 2px 6px;
+            background: var(--color-amber);
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .scenario-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .scenario-table th {
+            text-align: left;
+            padding: 12px;
+            background: rgba(31, 41, 55, 0.5);
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+        }
+
+        .scenario-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .scenario-table tr:hover {
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .metric-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-cyan);
+        }
+
+        .alerts-panel {
+            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .alert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 12px;
+            background: rgba(31, 41, 55, 0.5);
+            border-left: 3px solid var(--color-blue);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .alert-item.critical {
+            border-left-color: var(--color-red);
+        }
+
+        .alert-item.warning {
+            border-left-color: var(--color-amber);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-severity {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .alert-severity.info {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--color-blue);
+        }
+
+        .alert-severity.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--color-amber);
+        }
+
+        .alert-severity.critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--color-red);
+        }
+
+        .resolve-button {
+            padding: 4px 8px;
+            background: transparent;
+            border: 1px solid var(--color-green);
+            border-radius: 4px;
+            color: var(--color-green);
+            font-size: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .resolve-button:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .info-box {
+            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .info-box-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .info-box-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-value {
+            color: var(--color-blue);
+            font-weight: 600;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .history-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-button.active {
+            background: var(--color-blue);
+            border-color: var(--color-blue);
+            color: white;
+        }
+
+        .filter-button:hover {
+            border-color: var(--color-blue);
+            color: var(--text-primary);
+        }
+
+        .severity-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .severity-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .severity-btn.active {
+            background: var(--color-blue);
+            border-color: var(--color-blue);
+            color: white;
+        }
+
+        .report-button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--color-green), var(--color-cyan));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .report-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .download-link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid var(--color-blue);
+            border-radius: 8px;
+            color: var(--color-cyan);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .download-link:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+
+        .user-management {
+            display: grid;
+            gap: 24px;
+        }
+
+        .user-form {
+            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-input {
+            padding: 10px 14px;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-blue);
+            background: rgba(31, 41, 55, 0.8);
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            background: var(--color-blue);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-button:hover {
+            background: #2563eb;
+        }
+
+        .dashboard-footer {
+            padding: 16px 24px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .footer-info {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .uptime-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 4px;
+            color: var(--color-green);
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1440px) {
+            .kpi-strip {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header-center {
+                order: 3;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .dashboard-content {
+                padding: 16px;
+            }
+
+            .chart-card {
+                padding: 16px;
+            }
+
+            .kpi-card {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-strip {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                padding: 0 16px;
+            }
+
+            .dashboard-header {
+                padding: 12px 16px;
+            }
+
+            .header-title {
+                font-size: 14px;
+            }
+
+            .mode-selector {
+                display: none;
+            }
+
+            .header-center {
+                order: 3;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .dashboard-footer {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .footer-info {
+                width: 100%;
+                justify-content: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .dashboard-content {
+                padding: 12px;
+            }
+
+            .kpi-card {
+                padding: 12px;
+            }
+
+            .chart-card {
+                padding: 12px;
+                min-height: 300px;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .intersection-visual {
+                gap: 4px;
+            }
+
+            .scenario-table {
+                font-size: 11px;
+            }
+
+            .scenario-table th,
+            .scenario-table td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kpi-strip {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .kpi-value {
+                font-size: 20px;
+            }
+
+            .header-logo {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .header-title {
+                font-size: 12px;
+            }
+
+            .header-right {
+                gap: 8px;
+                flex-wrap: wrap;
+                width: 100%;
+                order: 3;
+            }
+
+            .user-info {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+
+            .nav-tab {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-table {
+                font-size: 10px;
+            }
+
+            .scenario-table th,
+            .scenario-table td {
+                padding: 6px;
+            }
+
+            .login-card {
+                padding: 24px 20px;
+            }
+
+            .login-logo {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+            }
+
+            .login-title {
+                font-size: 18px;
+            }
+
+            .dashboard-footer {
+                gap: 4px;
+            }
+
+            .footer-item {
+                gap: 4px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div class="screen active" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">A</div>
+            <h1 class="login-title">ATLAS Pro v4.0</h1>
+            <p class="login-subtitle">Traffic Intelligence System</p>
+            <div class="error-message" id="loginError"></div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button class="login-button" id="loginButton">Login</button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div class="screen" id="dashboardScreen">
+        <div class="dashboard-layout">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <div class="header-left">
+                    <div class="header-logo">A</div>
+                    <div class="header-title">
+                        ATLAS Pro v4.0
+                        <div class="status-pill">
+                            <span class="status-dot"></span>
+                            <span id="statusText">Connected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-center">
+                    <div class="mode-selector">
+                        <span class="mode-label">Mode:</span>
+                        <div class="mode-badge" id="modeDisplay">IA Activa</div>
+                    </div>
+                    <div class="clock" id="clock">--:--:--</div>
+                </div>
+
+                <div class="header-right">
+                    <div class="user-info">
+                        <span id="userDisplay">User</span>
+                        <span class="role-badge" id="roleDisplay">USER</span>
+                    </div>
+                    <button class="logout-button" id="logoutButton">Logout</button>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+                <button class="nav-tab" data-tab="historico">Historico</button>
+                <button class="nav-tab" data-tab="alertas">Alertas</button>
+                <button class="nav-tab" data-tab="reportes">Reportes</button>
+                <button class="nav-tab hidden" id="adminTab" data-tab="admin">Admin</button>
+            </div>
+
+            <!-- Main Content -->
+            <div class="dashboard-content">
+                <!-- DASHBOARD TAB -->
+                <div class="page-section active" id="dashboardSection">
+                    <div class="kpi-strip">
+                        <div class="kpi-card">
+                            <div class="kpi-label">Throughput</div>
+                            <div class="kpi-value" id="kpiThroughput">0</div>
+                            <div class="kpi-change">veh/ciclo</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Espera Media</div>
+                            <div class="kpi-value" id="kpiWait">0</div>
+                            <div class="kpi-change">segundos</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Cola Total</div>
+                            <div class="kpi-value" id="kpiQueue">0</div>
+                            <div class="kpi-change">vehiculos</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Reward</div>
+                            <div class="kpi-value" id="kpiReward">0</div>
+                            <div class="kpi-change">score</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">Latencia IA</div>
+                            <div class="kpi-value" id="kpiLatency">0</div>
+                            <div class="kpi-change">ms</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-label">CO2 Reducido</div>
+                            <div class="kpi-value" id="kpiCO2">0</div>
+                            <div class="kpi-change">kg/h</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">Throughput & Wait Time Trend</div>
+                            <div class="chart-container">
+                                <canvas id="throughputChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-title">Intersection Status</div>
+                            <div class="intersection-visual">
+                                <div class="intersection-cell north">
+                                    <span>N</span>
+                                    <div class="queue-indicator" id="queueN">0</div>
+                                </div>
+                                <div class="intersection-cell"></div>
+                                <div class="intersection-cell east">
+                                    <span>E</span>
+                                    <div class="queue-indicator" id="queueE">0</div>
+                                </div>
+                                <div class="intersection-cell"></div>
+                                <div class="intersection-cell intersection-center" id="centerPhase">Green</div>
+                                <div class="intersection-cell"></div>
+                                <div class="intersection-cell south">
+                                    <span>S</span>
+                                    <div class="queue-indicator" id="queueS">0</div>
+                                </div>
+                                <div class="intersection-cell"></div>
+                                <div class="intersection-cell west">
+                                    <span>W</span>
+                                    <div class="queue-indicator" id="queueW">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">Reward & CO2 Impact</div>
+                            <div class="chart-container">
+                                <canvas id="rewardChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-title">Scenario Performance</div>
+                            <table class="scenario-table">
+                                <thead>
+                                    <tr>
+                                        <th>Scenario</th>
+                                        <th>Throughput</th>
+                                        <th>Wait</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scenarioTableBody">
+                                    <tr>
+                                        <td>Baseline</td>
+                                        <td><span class="metric-badge">42</span></td>
+                                        <td><span class="metric-badge">28s</span></td>
+                                        <td><span class="metric-badge">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Peak Hour</td>
+                                        <td><span class="metric-badge">51</span></td>
+                                        <td><span class="metric-badge">22s</span></td>
+                                        <td><span class="metric-badge">+18%</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Off Peak</td>
+                                        <td><span class="metric-badge">38</span></td>
+                                        <td><span class="metric-badge">15s</span></td>
+                                        <td><span class="metric-badge">-10%</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="alerts-panel">
+                            <div class="chart-title">Live Alerts</div>
+                            <div id="alertsContainer">
+                                <div class="alert-item">
+                                    <div class="alert-content">
+                                        <div class="alert-severity info">Info</div>
+                                        <div>System running normally</div>
+                                    </div>
+                                    <button class="resolve-button">Resolve</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <div class="info-box-title">System Architecture</div>
+                            <div class="info-box-item">
+                                <span>AI Engine</span>
+                                <span class="info-value">Dueling DDQN</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Memory Buffer</span>
+                                <span class="info-value">Prioritized Experience</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Noise Layer</span>
+                                <span class="info-value">Noisy Networks</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Optimization</span>
+                                <span class="info-value">MUSE v2</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Update Frequency</span>
+                                <span class="info-value">Real-time</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Uptime</span>
+                                <span class="info-value" id="uptimeValue">99.9%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">Queue Distribution</div>
+                            <div class="chart-container">
+                                <canvas id="queueChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <div class="info-box-title">Performance Metrics</div>
+                            <div class="info-box-item">
+                                <span>Decision Frequency</span>
+                                <span class="info-value" id="decisionCount">1,243,567</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Avg Response Time</span>
+                                <span class="info-value">12.3ms</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Model Accuracy</span>
+                                <span class="info-value">94.2%</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Network Efficiency</span>
+                                <span class="info-value">+35%</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Last Training Update</span>
+                                <span class="info-value">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HISTORICO TAB -->
+                <div class="page-section" id="historicoSection">
+                    <div class="history-controls">
+                        <button class="filter-button active" data-range="24h">Last 24h</button>
+                        <button class="filter-button" data-range="7d">Last 7 Days</button>
+                        <button class="filter-button" data-range="30d">Last 30 Days</button>
+                        <button class="filter-button" data-range="custom">Custom Range</button>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="chart-card">
+                            <div class="chart-title">Historical Throughput</div>
+                            <div class="chart-container">
+                                <canvas id="historicalThroughputChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-title">Historical Wait Times</div>
+                            <div class="chart-container">
+                                <canvas id="historicalWaitChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card" style="margin-bottom: 16px;">
+                        <div class="chart-title">Hourly Metrics</div>
+                        <table class="scenario-table">
+                            <thead>
+                                <tr>
+                                    <th>Hour</th>
+                                    <th>Throughput</th>
+                                    <th>Avg Wait</th>
+                                    <th>Queue Peak</th>
+                                    <th>Reward</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hourlyTableBody">
+                                <tr>
+                                    <td>00:00</td>
+                                    <td><span class="metric-badge">28</span></td>
+                                    <td><span class="metric-badge">12s</span></td>
+                                    <td><span class="metric-badge">5</span></td>
+                                    <td><span class="metric-badge">+2.1</span></td>
+                                </tr>
+                                <tr>
+                                    <td>06:00</td>
+                                    <td><span class="metric-badge">35</span></td>
+                                    <td><span class="metric-badge">18s</span></td>
+                                    <td><span class="metric-badge">8</span></td>
+                                    <td><span class="metric-badge">+3.2</span></td>
+                                </tr>
+                                <tr>
+                                    <td>12:00</td>
+                                    <td><span class="metric-badge">52</span></td>
+                                    <td><span class="metric-badge">32s</span></td>
+                                    <td><span class="metric-badge">15</span></td>
+                                    <td><span class="metric-badge">+5.8</span></td>
+                                </tr>
+                                <tr>
+                                    <td>18:00</td>
+                                    <td><span class="metric-badge">48</span></td>
+                                    <td><span class="metric-badge">28s</span></td>
+                                    <td><span class="metric-badge">12</span></td>
+                                    <td><span class="metric-badge">+4.9</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ALERTAS TAB -->
+                <div class="page-section" id="alertasSection">
+                    <div class="severity-filter">
+                        <button class="severity-btn active" data-severity="all">All</button>
+                        <button class="severity-btn" data-severity="info">Info</button>
+                        <button class="severity-btn" data-severity="warning">Warning</button>
+                        <button class="severity-btn" data-severity="critical">Critical</button>
+                    </div>
+
+                    <div class="alerts-panel" style="max-height: none; margin-bottom: 24px;">
+                        <div id="fullAlertsContainer">
+                            <div class="alert-item">
+                                <div class="alert-content">
+                                    <div class="alert-severity info">Info</div>
+                                    <div><strong>System Status</strong></div>
+                                    <div>System running normally, all systems operational</div>
+                                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">5 min ago</div>
+                                </div>
+                                <button class="resolve-button">Resolve</button>
+                            </div>
+                            <div class="alert-item warning">
+                                <div class="alert-content">
+                                    <div class="alert-severity warning">Warning</div>
+                                    <div><strong>High Queue Detected</strong></div>
+                                    <div>North intersection queue exceeds threshold (18 vehicles)</div>
+                                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">2 min ago</div>
+                                </div>
+                                <button class="resolve-button">Resolve</button>
+                            </div>
+                            <div class="alert-item">
+                                <div class="alert-content">
+                                    <div class="alert-severity info">Info</div>
+                                    <div><strong>Optimization Update</strong></div>
+                                    <div>MUSE v2 model updated with latest training data</div>
+                                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">1 min ago</div>
+                                </div>
+                                <button class="resolve-button">Resolve</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPORTES TAB -->
+                <div class="page-section" id="reportesSection">
+                    <div class="chart-card">
+                        <div class="chart-title">Generate Reports</div>
+                        <p style="margin-bottom: 20px; color: var(--text-secondary); font-size: 13px;">
+                            Generate PDF reports with complete performance analysis and metrics.
+                        </p>
+                        <button class="report-button" id="generateReportBtn">Generate Daily PDF Report</button>
+                        <div id="reportResult"></div>
+                    </div>
+                </div>
+
+                <!-- ADMIN TAB -->
+                <div class="page-section" id="adminSection">
+                    <div class="user-management">
+                        <div class="user-form">
+                            <div class="chart-title" style="margin-bottom: 20px;">Create New User</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text" class="form-input" id="newUsername" placeholder="Enter username">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-input" id="newPassword" placeholder="Enter password">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" class="form-input" id="newFullName" placeholder="Enter full name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select class="form-input" id="newRole">
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="submit-button" id="createUserBtn">Create User</button>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-title">User Directory</div>
+                            <table class="scenario-table">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Full Name</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="userTableBody">
+                                    <tr>
+                                        <td>admin</td>
+                                        <td>Admin User</td>
+                                        <td><span class="metric-badge">Admin</span></td>
+                                        <td><span class="metric-badge" style="background: rgba(16, 185, 129, 0.2); color: var(--color-green);">Active</span></td>
+                                        <td><button class="resolve-button">Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="dashboard-footer">
+                <div class="footer-info">
+                    <div class="footer-item">
+                        <span>ATLAS Pro v4.0 | Dueling DDQN + PER + Noisy + MUSE v2</span>
+                    </div>
+                    <div class="footer-item">
+                        <span>Decisions: <strong id="decisionCountFooter">1.2M</strong></span>
+                    </div>
+                    <div class="footer-item">
+                        <span class="uptime-badge" id="uptimeBadge">Uptime: 99.9%</span>
+                    </div>
+                </div>
+                <div class="footer-item">
+                    <span id="roleIndicator">User Role: USER</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ STATE MANAGEMENT ============
+        const state = {
+            token: null,
+            user: null,
+            currentTab: 'dashboard',
+            wsConnected: false,
+            charts: {},
+            mode: 'IA Activa',
+            metrics: {
+                throughput: 0,
+                wait: 0,
+                queue: 0,
+                reward: 0,
+                latency: 0,
+                co2: 0
+            }
+        };
+
+        // ============ DOM ELEMENTS ============
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboardScreen = document.getElementById('dashboardScreen');
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const loginUsername = document.getElementById('loginUsername');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginError = document.getElementById('loginError');
+
+        // ============ INITIALIZATION ============
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeEventListeners();
+            checkAuthStatus();
+            updateClock();
+            setInterval(updateClock, 1000);
+        });
+
+        // ============ EVENT LISTENERS ============
+        function initializeEventListeners() {
+            // Login
+            loginButton.addEventListener('click', handleLogin);
+            loginUsername.addEventListener('keypress', (e) => e.key === 'Enter' && handleLogin());
+            loginPassword.addEventListener('keypress', (e) => e.key === 'Enter' && handleLogin());
+
+            // Logout
+            logoutButton.addEventListener('click', handleLogout);
+
+            // Navigation tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => handleTabChange(e.target.dataset.tab));
+            });
+
+            // History range buttons
+            document.querySelectorAll('[data-range]').forEach(btn => {
+                btn.addEventListener('click', (e) => handleHistoryRange(e.target.dataset.range));
+            });
+
+            // Severity filter buttons
+            document.querySelectorAll('[data-severity]').forEach(btn => {
+                btn.addEventListener('click', (e) => handleSeverityFilter(e.target.dataset.severity));
+            });
+
+            // Report generation
+            document.getElementById('generateReportBtn')?.addEventListener('click', generateReport);
+
+            // Create user
+            document.getElementById('createUserBtn')?.addEventListener('click', createUser);
+        }
+
+        // ============ AUTHENTICATION ============
+        function checkAuthStatus() {
+            const token = sessionStorage.getItem('atlasToken');
+            if (token) {
+                state.token = token;
+                fetchUserInfo();
+            }
+        }
+
+        function handleLogin() {
+            const username = loginUsername.value.trim();
+            const password = loginPassword.value.trim();
+
+            if (!username || !password) {
+                showLoginError('Please enter both username and password');
+                return;
+            }
+
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging in...';
+
+            // Real API call to /api/auth/login
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(resp => {
+                if (!resp.ok) throw new Error('Credenciales invalidas');
+                return resp.json();
+            })
+            .then(data => {
+                sessionStorage.setItem('atlasToken', data.token);
+                state.token = data.token;
+                state.user = data.user;
+                showDashboard();
+                initializeDashboard();
+            })
+            .catch(err => {
+                showLoginError(err.message || 'Error de conexion');
+                loginButton.disabled = false;
+                loginButton.textContent = 'Login';
+            });
+        }
+
+        function showLoginError(message) {
+            loginError.textContent = message;
+            loginError.classList.add('show');
+            setTimeout(() => loginError.classList.remove('show'), 5000);
+        }
+
+        function fetchUserInfo() {
+            const token = sessionStorage.getItem('atlasToken');
+            fetch('/api/auth/me', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            .then(resp => {
+                if (!resp.ok) { handleLogout(); throw new Error('Token expired'); }
+                return resp.json();
+            })
+            .then(user => {
+                state.user = user;
+                showDashboard();
+                initializeDashboard();
+            })
+            .catch(() => handleLogout());
+        }
+
+        // Helper for authenticated API calls
+        function apiCall(url, options = {}) {
+            const token = sessionStorage.getItem('atlasToken');
+            const headers = { ...options.headers, 'Authorization': 'Bearer ' + token };
+            return fetch(url, { ...options, headers }).then(resp => {
+                if (resp.status === 401) { handleLogout(); throw new Error('Session expired'); }
+                return resp;
+            });
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('atlasToken');
+            state.token = null;
+            state.user = null;
+            destroyCharts();
+            if (state.ws) state.ws.close();
+            loginScreen.classList.add('active');
+            dashboardScreen.classList.remove('active');
+            loginUsername.value = '';
+            loginPassword.value = '';
+            loginButton.disabled = false;
+            loginButton.textContent = 'Login';
+        }
+
+        // ============ SCREEN MANAGEMENT ============
+        function showDashboard() {
+            loginScreen.classList.remove('active');
+            dashboardScreen.classList.add('active');
+            updateUserDisplay();
+            showAdminTabIfAdmin();
+        }
+
+        function updateUserDisplay() {
+            if (state.user) {
+                document.getElementById('userDisplay').textContent = state.user.nombre || state.user.username;
+                document.getElementById('roleDisplay').textContent = state.user.role.toUpperCase();
+                document.getElementById('roleIndicator').textContent = `User Role: ${state.user.role.toUpperCase()}`;
+            }
+        }
+
+        function showAdminTabIfAdmin() {
+            const adminTab = document.getElementById('adminTab');
+            if (state.user?.role === 'admin') {
+                adminTab.classList.remove('hidden');
+            } else {
+                adminTab.classList.add('hidden');
+            }
+        }
+
+        // ============ TAB NAVIGATION ============
+        function handleTabChange(tabName) {
+            state.currentTab = tabName;
+
+            // Update active tab button
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tabName) tab.classList.add('active');
+            });
+
+            // Update active section
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Section').classList.add('active');
+
+            // Initialize charts if needed
+            if (tabName === 'dashboard') {
+                initializeCharts();
+            } else if (tabName === 'historico') {
+                initializeHistoricalCharts();
+            }
+        }
+
+        // ============ CLOCK ============
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('es-ES');
+            document.getElementById('clock').textContent = time;
+        }
+
+        // ============ DASHBOARD INITIALIZATION ============
+        function initializeDashboard() {
+            updateMetrics();
+            initializeCharts();
+            connectWebSocket();
+            updateStatusPill();
+
+            // Simulate real-time updates
+            setInterval(updateMetrics, 3000);
+        }
+
+        function initializeCharts() {
+            if (Object.keys(state.charts).length > 0) return;
+
+            // Throughput Chart
+            const ctxThroughput = document.getElementById('throughputChart');
+            if (ctxThroughput && !state.charts.throughput) {
+                state.charts.throughput = new Chart(ctxThroughput, {
+                    type: 'line',
+                    data: {
+                        labels: generateTimeLabels(120),
+                        datasets: [
+                            {
+                                label: 'Throughput (veh/ciclo)',
+                                data: generateRandomData(120, 30, 55),
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                tension: 0.4,
+                                fill: true,
+                                pointRadius: 0,
+                                borderWidth: 2
+                            },
+                            {
+                                label: 'Wait Time (s)',
+                                data: generateRandomData(120, 10, 35),
+                                borderColor: '#f59e0b',
+                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                                tension: 0.4,
+                                fill: true,
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: {
+                                labels: { color: '#9ca3af', font: { size: 12, family: 'Inter' }, usePointStyle: true }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                position: 'left',
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { color: 'rgba(59, 130, 246, 0.1)', drawBorder: false }
+                            },
+                            y1: {
+                                type: 'linear',
+                                position: 'right',
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { drawOnChartArea: false }
+                            },
+                            x: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Reward & CO2 Chart
+            const ctxReward = document.getElementById('rewardChart');
+            if (ctxReward && !state.charts.reward) {
+                state.charts.reward = new Chart(ctxReward, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [
+                            {
+                                label: 'Reward Score',
+                                data: [4.2, 4.5, 4.8, 4.3, 5.1, 3.9, 4.6],
+                                backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                                borderColor: '#8b5cf6',
+                                borderWidth: 1,
+                                borderRadius: 8
+                            },
+                            {
+                                label: 'CO2 Reduced (kg/h)',
+                                data: [12.3, 13.5, 15.2, 14.1, 16.8, 11.2, 13.9],
+                                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                                borderColor: '#10b981',
+                                borderWidth: 1,
+                                borderRadius: 8
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: undefined,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#9ca3af', font: { size: 12, family: 'Inter' } }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { color: 'rgba(59, 130, 246, 0.1)', drawBorder: false }
+                            },
+                            x: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Queue Distribution Chart
+            const ctxQueue = document.getElementById('queueChart');
+            if (ctxQueue && !state.charts.queue) {
+                state.charts.queue = new Chart(ctxQueue, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['North', 'South', 'East', 'West'],
+                        datasets: [{
+                            data: [8, 6, 9, 5],
+                            backgroundColor: [
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(139, 92, 246, 0.8)',
+                                'rgba(6, 182, 212, 0.8)',
+                                'rgba(16, 185, 129, 0.8)'
+                            ],
+                            borderColor: '#06080f',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#9ca3af', font: { size: 12, family: 'Inter' } }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initializeHistoricalCharts() {
+            if (state.charts.historicalThroughput) return;
+
+            const ctxHistThroughput = document.getElementById('historicalThroughputChart');
+            if (ctxHistThroughput) {
+                state.charts.historicalThroughput = new Chart(ctxHistThroughput, {
+                    type: 'line',
+                    data: {
+                        labels: generateDateLabels(24),
+                        datasets: [{
+                            label: 'Throughput (veh/ciclo)',
+                            data: generateRandomData(24, 25, 60),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#06080f',
+                            pointBorderWidth: 2,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#9ca3af', font: { size: 12, family: 'Inter' } }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { color: 'rgba(59, 130, 246, 0.1)', drawBorder: false }
+                            },
+                            x: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const ctxHistWait = document.getElementById('historicalWaitChart');
+            if (ctxHistWait) {
+                state.charts.historicalWait = new Chart(ctxHistWait, {
+                    type: 'line',
+                    data: {
+                        labels: generateDateLabels(24),
+                        datasets: [{
+                            label: 'Average Wait Time (s)',
+                            data: generateRandomData(24, 12, 45),
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#f59e0b',
+                            pointBorderColor: '#06080f',
+                            pointBorderWidth: 2,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#9ca3af', font: { size: 12, family: 'Inter' } }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { color: 'rgba(59, 130, 246, 0.1)', drawBorder: false }
+                            },
+                            x: {
+                                ticks: { color: '#9ca3af', font: { size: 11 } },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function destroyCharts() {
+            Object.values(state.charts).forEach(chart => {
+                if (chart) chart.destroy();
+            });
+            state.charts = {};
+        }
+
+        // ============ METRICS & DATA ============
+        function updateMetrics() {
+            state.metrics.throughput = Math.floor(Math.random() * 25 + 35);
+            state.metrics.wait = Math.floor(Math.random() * 20 + 15);
+            state.metrics.queue = Math.floor(Math.random() * 12 + 4);
+            state.metrics.reward = (Math.random() * 2 + 3).toFixed(2);
+            state.metrics.latency = Math.floor(Math.random() * 15 + 8);
+            state.metrics.co2 = (Math.random() * 5 + 10).toFixed(1);
+
+            document.getElementById('kpiThroughput').textContent = state.metrics.throughput;
+            document.getElementById('kpiWait').textContent = state.metrics.wait;
+            document.getElementById('kpiQueue').textContent = state.metrics.queue;
+            document.getElementById('kpiReward').textContent = state.metrics.reward;
+            document.getElementById('kpiLatency').textContent = state.metrics.latency;
+            document.getElementById('kpiCO2').textContent = state.metrics.co2;
+
+            updateIntersectionStatus();
+        }
+
+        function updateIntersectionStatus() {
+            const phases = ['Green', 'Yellow', 'Red'];
+            const phase = phases[Math.floor(Math.random() * phases.length)];
+            document.getElementById('centerPhase').textContent = phase;
+
+            document.getElementById('queueN').textContent = Math.floor(Math.random() * 12 + 2);
+            document.getElementById('queueS').textContent = Math.floor(Math.random() * 12 + 2);
+            document.getElementById('queueE').textContent = Math.floor(Math.random() * 12 + 2);
+            document.getElementById('queueW').textContent = Math.floor(Math.random() * 12 + 2);
+        }
+
+        function updateStatusPill() {
+            document.getElementById('statusText').textContent = state.wsConnected ? 'Connected' : 'Connecting...';
+        }
+
+        // ============ WEBSOCKET ============
+        function connectWebSocket() {
+            // Simulated WebSocket connection
+            state.wsConnected = true;
+            updateStatusPill();
+
+            // Simulate data updates
+            setInterval(() => {
+                if (state.wsConnected && state.currentTab === 'dashboard') {
+                    updateMetrics();
+                }
+            }, 2000);
+        }
+
+        // ============ HISTORY ============
+        function handleHistoryRange(range) {
+            document.querySelectorAll('[data-range]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-range="${range}"]`).classList.add('active');
+        }
+
+        // ============ ALERTS ============
+        function handleSeverityFilter(severity) {
+            document.querySelectorAll('[data-severity]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-severity="${severity}"]`).classList.add('active');
+        }
+
+        // ============ REPORTS ============
+        function generateReport() {
+            const btn = document.getElementById('generateReportBtn');
+            btn.disabled = true;
+            btn.textContent = 'Generating...';
+            const today = new Date().toISOString().split('T')[0];
+
+            apiCall('/api/reports/daily?date=' + today)
+                .then(resp => {
+                    if (!resp.ok) throw new Error('Error generating report');
+                    return resp.blob();
+                })
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const resultDiv = document.getElementById('reportResult');
+                    resultDiv.innerHTML = '<div class="download-link" style="margin-top: 12px;"><a href="' + url + '" download="ATLAS_Report_' + today + '.pdf" style="color:var(--accent-blue);">Download ATLAS_Daily_Report_' + today + '.pdf</a></div>';
+                    btn.disabled = false;
+                    btn.textContent = 'Generate Daily PDF Report';
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    btn.textContent = 'Generate Daily PDF Report';
+                    document.getElementById('reportResult').innerHTML = '<div style="color:var(--accent-red);margin-top:12px;">Error: ' + err.message + '</div>';
+                });
+        }
+
+        // ============ ADMIN ============
+        function createUser() {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const nombre = document.getElementById('newFullName').value;
+            const role = document.getElementById('newRole').value;
+
+            if (!username || !password || !nombre) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            apiCall('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, nombre, role, email: '' })
+            })
+            .then(resp => {
+                if (!resp.ok) throw new Error('Error creating user');
+                return resp.json();
+            })
+            .then(() => {
+                loadUsers();
+                document.getElementById('newUsername').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('newFullName').value = '';
+                document.getElementById('newRole').value = 'visor';
+            })
+            .catch(err => alert(err.message));
+        }
+
+        function loadUsers() {
+            apiCall('/api/users')
+                .then(resp => resp.json())
+                .then(data => {
+                    const tbody = document.getElementById('userTableBody');
+                    if (!tbody) return;
+                    tbody.innerHTML = '';
+                    (data.users || []).forEach(u => {
+                        const row = tbody.insertRow();
+                        const roleColor = u.role === 'admin' ? 'var(--accent-red)' : u.role === 'operador' ? 'var(--accent-amber)' : 'var(--accent-cyan)';
+                        row.innerHTML = `
+                            <td>${u.username}</td>
+                            <td>${u.nombre || ''}</td>
+                            <td><span class="metric-badge" style="color:${roleColor}">${u.role}</span></td>
+                            <td><span class="metric-badge" style="background:${u.activo !== false ? 'rgba(16,185,129,0.2);color:var(--accent-green)' : 'rgba(239,68,68,0.2);color:var(--accent-red)'}">${u.activo !== false ? 'Activo' : 'Inactivo'}</span></td>
+                            <td>${u.last_login ? new Date(u.last_login).toLocaleString() : 'Nunca'}</td>
+                        `;
+                    });
+                })
+                .catch(() => {});
+        }
+
+        // ============ UTILITIES ============
+        function generateTimeLabels(count) {
+            const labels = [];
+            for (let i = count; i > 0; i--) {
+                const mins = i * 5;
+                labels.push(`-${mins}m`);
+            }
+            return labels;
+        }
+
+        function generateDateLabels(count) {
+            const labels = [];
+            for (let i = count; i > 0; i--) {
+                labels.push(`${i}h ago`);
+            }
+            return labels;
+        }
+
+        function generateRandomData(count, min, max) {
+            const data = [];
+            for (let i = 0; i < count; i++) {
+                data.push(Math.floor(Math.random() * (max - min + 1) + min));
+            }
+            return data;
+        }
+    </script>
+</body>
+</html>

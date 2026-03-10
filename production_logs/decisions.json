@@ -1,0 +1,3346 @@
+[
+  {
+    "step": 0,
+    "timestamp": 1772360845.9737663,
+    "elapsed": 0.9020369052886963,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 19
+  },
+  {
+    "step": 1,
+    "timestamp": 1772360848.907616,
+    "elapsed": 3.8358864784240723,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 3,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 9
+  },
+  {
+    "step": 2,
+    "timestamp": 1772360851.9249113,
+    "elapsed": 6.853181838989258,
+    "state_summary": {
+      "queue_N": 0.019999999552965164,
+      "queue_S": 0.019999999552965164,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 17
+  },
+  {
+    "step": 3,
+    "timestamp": 1772360854.952113,
+    "elapsed": 9.880383491516113,
+    "state_summary": {
+      "queue_N": 0.019999999552965164,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 25
+  },
+  {
+    "step": 4,
+    "timestamp": 1772360857.9972353,
+    "elapsed": 12.925505876541138,
+    "state_summary": {
+      "queue_N": 0.019999999552965164,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.019999999552965164
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 13
+  },
+  {
+    "step": 5,
+    "timestamp": 1772360860.9632578,
+    "elapsed": 15.891528367996216,
+    "state_summary": {
+      "queue_N": 0.03999999910593033,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 3,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": true,
+    "total_vehicles": 16
+  },
+  {
+    "step": 6,
+    "timestamp": 1772360863.9513261,
+    "elapsed": 18.879596710205078,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 3,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": true,
+    "total_vehicles": 23
+  },
+  {
+    "step": 7,
+    "timestamp": 1772360866.968182,
+    "elapsed": 21.89645266532898,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 3,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": true,
+    "total_vehicles": 27
+  },
+  {
+    "step": 8,
+    "timestamp": 1772360870.0195587,
+    "elapsed": 24.947829246520996,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 3,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": true,
+    "total_vehicles": 15
+  },
+  {
+    "step": 9,
+    "timestamp": 1772360873.0110848,
+    "elapsed": 27.93935537338257,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.019999999552965164,
+      "queue_W": 0.0
+    },
+    "ai_action": 3,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": false,
+    "total_vehicles": 22
+  },
+  {
+    "step": 10,
+    "timestamp": 1772360876.008657,
+    "elapsed": 30.936927556991577,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 21
+  },
+  {
+    "step": 11,
+    "timestamp": 1772360878.9532747,
+    "elapsed": 33.881545305252075,
+    "state_summary": {
+      "queue_N": 0.019999999552965164,
+      "queue_S": 0.0,
+      "queue_E": 0.019999999552965164,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 18
+  },
+  {
+    "step": 12,
+    "timestamp": 1772360881.9837253,
+    "elapsed": 36.91199588775635,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.019999999552965164,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 20
+  },
+  {
+    "step": 13,
+    "timestamp": 1772360885.0153055,
+    "elapsed": 39.9435760974884,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.019999999552965164,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 16
+  },
+  {
+    "step": 14,
+    "timestamp": 1772360888.076388,
+    "elapsed": 43.004658460617065,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.019999999552965164,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 16
+  },
+  {
+    "step": 15,
+    "timestamp": 1772360891.0501976,
+    "elapsed": 45.97846817970276,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 12
+  },
+  {
+    "step": 16,
+    "timestamp": 1772360894.061274,
+    "elapsed": 48.98954463005066,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 12
+  },
+  {
+    "step": 17,
+    "timestamp": 1772360897.1133227,
+    "elapsed": 52.04159331321716,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.019999999552965164,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 6
+  },
+  {
+    "step": 18,
+    "timestamp": 1772360900.1016583,
+    "elapsed": 55.0299289226532,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 11
+  },
+  {
+    "step": 19,
+    "timestamp": 1772360903.126543,
+    "elapsed": 58.054813623428345,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 8
+  },
+  {
+    "step": 20,
+    "timestamp": 1772360906.1164582,
+    "elapsed": 61.04472875595093,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 8
+  },
+  {
+    "step": 21,
+    "timestamp": 1772360909.2351837,
+    "elapsed": 64.16345429420471,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 8
+  },
+  {
+    "step": 22,
+    "timestamp": 1772360912.1876142,
+    "elapsed": 67.11588478088379,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 23,
+    "timestamp": 1772360915.1168048,
+    "elapsed": 70.04507541656494,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 24,
+    "timestamp": 1772360918.1261165,
+    "elapsed": 73.05438709259033,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 25,
+    "timestamp": 1772360921.1358576,
+    "elapsed": 76.06412816047668,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 26,
+    "timestamp": 1772360924.1551697,
+    "elapsed": 79.08344030380249,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 27,
+    "timestamp": 1772360927.2041774,
+    "elapsed": 82.13244795799255,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 28,
+    "timestamp": 1772360930.1784437,
+    "elapsed": 85.10671424865723,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 29,
+    "timestamp": 1772360933.1546853,
+    "elapsed": 88.08295583724976,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 30,
+    "timestamp": 1772360936.206415,
+    "elapsed": 91.13468551635742,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 31,
+    "timestamp": 1772360939.1712396,
+    "elapsed": 94.0995101928711,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 32,
+    "timestamp": 1772360942.2469742,
+    "elapsed": 97.17524480819702,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 33,
+    "timestamp": 1772360945.2561643,
+    "elapsed": 100.18443489074707,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 34,
+    "timestamp": 1772360948.3889728,
+    "elapsed": 103.31724333763123,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 35,
+    "timestamp": 1772360951.3390732,
+    "elapsed": 106.26734375953674,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 36,
+    "timestamp": 1772360954.2185354,
+    "elapsed": 109.14680600166321,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 37,
+    "timestamp": 1772360957.277237,
+    "elapsed": 112.20550751686096,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 38,
+    "timestamp": 1772360960.3873737,
+    "elapsed": 115.31564426422119,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 39,
+    "timestamp": 1772360963.539003,
+    "elapsed": 118.46727347373962,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 40,
+    "timestamp": 1772360967.1403491,
+    "elapsed": 122.06861972808838,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 41,
+    "timestamp": 1772360969.6185694,
+    "elapsed": 124.54683995246887,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 42,
+    "timestamp": 1772360972.3957593,
+    "elapsed": 127.32402992248535,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 43,
+    "timestamp": 1772360975.3038354,
+    "elapsed": 130.2321059703827,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 44,
+    "timestamp": 1772360978.256411,
+    "elapsed": 133.18468165397644,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 45,
+    "timestamp": 1772360981.2590094,
+    "elapsed": 136.1872799396515,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 46,
+    "timestamp": 1772360984.3283699,
+    "elapsed": 139.25664043426514,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 47,
+    "timestamp": 1772360987.287406,
+    "elapsed": 142.2156765460968,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 48,
+    "timestamp": 1772360990.2733536,
+    "elapsed": 145.20162415504456,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 49,
+    "timestamp": 1772360993.2947888,
+    "elapsed": 148.22305941581726,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 50,
+    "timestamp": 1772360996.3951545,
+    "elapsed": 151.32342505455017,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 51,
+    "timestamp": 1772360999.381488,
+    "elapsed": 154.3097586631775,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 52,
+    "timestamp": 1772361002.33179,
+    "elapsed": 157.26006054878235,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 53,
+    "timestamp": 1772361005.3448343,
+    "elapsed": 160.27310490608215,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 54,
+    "timestamp": 1772361008.3954158,
+    "elapsed": 163.32368636131287,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 55,
+    "timestamp": 1772361011.36021,
+    "elapsed": 166.2884805202484,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 56,
+    "timestamp": 1772361014.3660243,
+    "elapsed": 169.29429483413696,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 57,
+    "timestamp": 1772361017.3600638,
+    "elapsed": 172.28833436965942,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 58,
+    "timestamp": 1772361020.4636424,
+    "elapsed": 175.3919129371643,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 59,
+    "timestamp": 1772361023.5383804,
+    "elapsed": 178.4666509628296,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 60,
+    "timestamp": 1772361026.6755693,
+    "elapsed": 181.60383987426758,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 61,
+    "timestamp": 1772361029.5884247,
+    "elapsed": 184.5166952610016,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 62,
+    "timestamp": 1772361032.7672894,
+    "elapsed": 187.6955599784851,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 63,
+    "timestamp": 1772361035.8469532,
+    "elapsed": 190.77522373199463,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 0,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 64,
+    "timestamp": 1772361040.1386418,
+    "elapsed": 195.06691241264343,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 65,
+    "timestamp": 1772361041.8872294,
+    "elapsed": 196.81550002098083,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 66,
+    "timestamp": 1772361045.2547336,
+    "elapsed": 200.18300414085388,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 67,
+    "timestamp": 1772361047.8957493,
+    "elapsed": 202.82401990890503,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 68,
+    "timestamp": 1772361051.071518,
+    "elapsed": 205.99978852272034,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 69,
+    "timestamp": 1772361053.8010898,
+    "elapsed": 208.72936034202576,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 70,
+    "timestamp": 1772361057.1990008,
+    "elapsed": 212.1272714138031,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 71,
+    "timestamp": 1772361060.2155368,
+    "elapsed": 215.14380741119385,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 72,
+    "timestamp": 1772361062.9430814,
+    "elapsed": 217.87135195732117,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 73,
+    "timestamp": 1772361065.8632996,
+    "elapsed": 220.791570186615,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 74,
+    "timestamp": 1772361071.046451,
+    "elapsed": 225.97472167015076,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 75,
+    "timestamp": 1772361072.9146507,
+    "elapsed": 227.84292125701904,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 76,
+    "timestamp": 1772361075.7180252,
+    "elapsed": 230.64629578590393,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 77,
+    "timestamp": 1772361078.2953758,
+    "elapsed": 233.223646402359,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 78,
+    "timestamp": 1772361081.559257,
+    "elapsed": 236.48752760887146,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 79,
+    "timestamp": 1772361084.3521273,
+    "elapsed": 239.2803978919983,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 80,
+    "timestamp": 1772361086.730891,
+    "elapsed": 241.659161567688,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 81,
+    "timestamp": 1772361089.685484,
+    "elapsed": 244.61375451087952,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 82,
+    "timestamp": 1772361092.7263262,
+    "elapsed": 247.6545968055725,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 0,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 83,
+    "timestamp": 1772361095.6694045,
+    "elapsed": 250.59767508506775,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 84,
+    "timestamp": 1772361098.6758852,
+    "elapsed": 253.6041557788849,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 85,
+    "timestamp": 1772361101.662783,
+    "elapsed": 256.59105348587036,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 86,
+    "timestamp": 1772361104.7206151,
+    "elapsed": 259.6488857269287,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 87,
+    "timestamp": 1772361107.762667,
+    "elapsed": 262.6909375190735,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 88,
+    "timestamp": 1772361110.6802132,
+    "elapsed": 265.6084837913513,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 89,
+    "timestamp": 1772361113.662938,
+    "elapsed": 268.59120869636536,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 90,
+    "timestamp": 1772361116.7044406,
+    "elapsed": 271.6327111721039,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 91,
+    "timestamp": 1772361119.7066898,
+    "elapsed": 274.6349604129791,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 92,
+    "timestamp": 1772361122.6936557,
+    "elapsed": 277.6219263076782,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 93,
+    "timestamp": 1772361125.711083,
+    "elapsed": 280.63935351371765,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 94,
+    "timestamp": 1772361128.7284827,
+    "elapsed": 283.6567533016205,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 95,
+    "timestamp": 1772361131.8251634,
+    "elapsed": 286.7544324398041,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 96,
+    "timestamp": 1772361134.7327344,
+    "elapsed": 289.6610050201416,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 97,
+    "timestamp": 1772361137.7574115,
+    "elapsed": 292.68568205833435,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 98,
+    "timestamp": 1772361140.7674472,
+    "elapsed": 295.6957178115845,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 99,
+    "timestamp": 1772361143.8412414,
+    "elapsed": 298.7695119380951,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 100,
+    "timestamp": 1772361146.7551086,
+    "elapsed": 301.6833791732788,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 101,
+    "timestamp": 1772361149.7937486,
+    "elapsed": 304.72201919555664,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 0,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 102,
+    "timestamp": 1772361152.76547,
+    "elapsed": 307.693740606308,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 103,
+    "timestamp": 1772361155.7641215,
+    "elapsed": 310.6923921108246,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 104,
+    "timestamp": 1772361158.8110275,
+    "elapsed": 313.73929810523987,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 105,
+    "timestamp": 1772361161.7873816,
+    "elapsed": 316.71565222740173,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 106,
+    "timestamp": 1772361164.968926,
+    "elapsed": 319.8971965312958,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 107,
+    "timestamp": 1772361167.9262986,
+    "elapsed": 322.85456919670105,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 108,
+    "timestamp": 1772361171.441369,
+    "elapsed": 326.36963963508606,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 109,
+    "timestamp": 1772361173.8782337,
+    "elapsed": 328.80650424957275,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 110,
+    "timestamp": 1772361176.928508,
+    "elapsed": 331.8567786216736,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 111,
+    "timestamp": 1772361179.8666008,
+    "elapsed": 334.79487133026123,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 112,
+    "timestamp": 1772361182.879685,
+    "elapsed": 337.80795550346375,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 113,
+    "timestamp": 1772361185.8840954,
+    "elapsed": 340.81236600875854,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 114,
+    "timestamp": 1772361188.959172,
+    "elapsed": 343.88744258880615,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 115,
+    "timestamp": 1772361191.9459941,
+    "elapsed": 346.87426471710205,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 116,
+    "timestamp": 1772361194.8937354,
+    "elapsed": 349.82200598716736,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 117,
+    "timestamp": 1772361197.9050515,
+    "elapsed": 352.83332204818726,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 118,
+    "timestamp": 1772361200.9936004,
+    "elapsed": 355.92187094688416,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 119,
+    "timestamp": 1772361204.0082138,
+    "elapsed": 358.936484336853,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 120,
+    "timestamp": 1772361206.9560676,
+    "elapsed": 361.88433814048767,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 121,
+    "timestamp": 1772361209.9223967,
+    "elapsed": 364.8506672382355,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 122,
+    "timestamp": 1772361212.968423,
+    "elapsed": 367.8966934680939,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 123,
+    "timestamp": 1772361215.941132,
+    "elapsed": 370.86940264701843,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 124,
+    "timestamp": 1772361218.9647338,
+    "elapsed": 373.89300441741943,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 125,
+    "timestamp": 1772361221.9687061,
+    "elapsed": 376.89697670936584,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 126,
+    "timestamp": 1772361225.001956,
+    "elapsed": 379.93022656440735,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 127,
+    "timestamp": 1772361227.9810915,
+    "elapsed": 382.909362077713,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 128,
+    "timestamp": 1772361231.0591314,
+    "elapsed": 385.9874019622803,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 129,
+    "timestamp": 1772361233.9958162,
+    "elapsed": 388.9240868091583,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 130,
+    "timestamp": 1772361236.991329,
+    "elapsed": 391.91959953308105,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 131,
+    "timestamp": 1772361240.0574815,
+    "elapsed": 394.9857521057129,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 132,
+    "timestamp": 1772361243.0216126,
+    "elapsed": 397.94988322257996,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 133,
+    "timestamp": 1772361246.033036,
+    "elapsed": 400.96130657196045,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 134,
+    "timestamp": 1772361249.0578003,
+    "elapsed": 403.98607087135315,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 135,
+    "timestamp": 1772361252.0474803,
+    "elapsed": 406.97575092315674,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 136,
+    "timestamp": 1772361255.0575624,
+    "elapsed": 409.9858329296112,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 137,
+    "timestamp": 1772361258.0502691,
+    "elapsed": 412.9785397052765,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 138,
+    "timestamp": 1772361261.230576,
+    "elapsed": 416.158846616745,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 139,
+    "timestamp": 1772361264.0656266,
+    "elapsed": 418.99389719963074,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 140,
+    "timestamp": 1772361267.1145906,
+    "elapsed": 422.0428612232208,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 141,
+    "timestamp": 1772361270.0791852,
+    "elapsed": 425.00745582580566,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 142,
+    "timestamp": 1772361273.0914824,
+    "elapsed": 428.01975297927856,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 143,
+    "timestamp": 1772361276.1192198,
+    "elapsed": 431.04749035835266,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 144,
+    "timestamp": 1772361279.1823397,
+    "elapsed": 434.1106102466583,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 0,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 145,
+    "timestamp": 1772361282.1473541,
+    "elapsed": 437.07562470436096,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 146,
+    "timestamp": 1772361285.1418126,
+    "elapsed": 440.0700831413269,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 147,
+    "timestamp": 1772361288.110403,
+    "elapsed": 443.0386736392975,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 148,
+    "timestamp": 1772361291.164979,
+    "elapsed": 446.09324955940247,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 149,
+    "timestamp": 1772361294.2528481,
+    "elapsed": 449.18111872673035,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 150,
+    "timestamp": 1772361297.1459062,
+    "elapsed": 452.0741767883301,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 151,
+    "timestamp": 1772361300.1590497,
+    "elapsed": 455.0873203277588,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 152,
+    "timestamp": 1772361303.2023761,
+    "elapsed": 458.13064670562744,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 153,
+    "timestamp": 1772361306.1982853,
+    "elapsed": 461.1265559196472,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 154,
+    "timestamp": 1772361309.2164595,
+    "elapsed": 464.14473009109497,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 155,
+    "timestamp": 1772361312.1978898,
+    "elapsed": 467.1261603832245,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 156,
+    "timestamp": 1772361315.2380676,
+    "elapsed": 470.1663382053375,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 157,
+    "timestamp": 1772361318.280799,
+    "elapsed": 473.20906949043274,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 158,
+    "timestamp": 1772361321.2923594,
+    "elapsed": 476.2206299304962,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 159,
+    "timestamp": 1772361324.2763155,
+    "elapsed": 479.20458602905273,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 160,
+    "timestamp": 1772361327.272574,
+    "elapsed": 482.2008445262909,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 161,
+    "timestamp": 1772361330.2877917,
+    "elapsed": 485.2160623073578,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 162,
+    "timestamp": 1772361333.354146,
+    "elapsed": 488.28241658210754,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 163,
+    "timestamp": 1772361336.285439,
+    "elapsed": 491.2137095928192,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 164,
+    "timestamp": 1772361339.2857249,
+    "elapsed": 494.21399545669556,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 165,
+    "timestamp": 1772361342.2773588,
+    "elapsed": 497.2056293487549,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 166,
+    "timestamp": 1772361345.2672431,
+    "elapsed": 500.19551372528076,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 167,
+    "timestamp": 1772361348.398012,
+    "elapsed": 503.3262825012207,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 168,
+    "timestamp": 1772361351.3027217,
+    "elapsed": 506.2309923171997,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 169,
+    "timestamp": 1772361354.4149592,
+    "elapsed": 509.3432297706604,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 170,
+    "timestamp": 1772361357.291054,
+    "elapsed": 512.2193245887756,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 171,
+    "timestamp": 1772361360.291303,
+    "elapsed": 515.2195734977722,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 172,
+    "timestamp": 1772361363.3305504,
+    "elapsed": 518.2588210105896,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 173,
+    "timestamp": 1772361366.387114,
+    "elapsed": 521.3153846263885,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 174,
+    "timestamp": 1772361369.4233942,
+    "elapsed": 524.3516647815704,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 175,
+    "timestamp": 1772361372.4094853,
+    "elapsed": 527.3377559185028,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 176,
+    "timestamp": 1772361375.4804912,
+    "elapsed": 530.4087617397308,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 177,
+    "timestamp": 1772361378.4747531,
+    "elapsed": 533.4030237197876,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 178,
+    "timestamp": 1772361381.4763443,
+    "elapsed": 536.4046149253845,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 179,
+    "timestamp": 1772361384.4447076,
+    "elapsed": 539.3729782104492,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 180,
+    "timestamp": 1772361387.4868865,
+    "elapsed": 542.4151570796967,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 181,
+    "timestamp": 1772361390.4690921,
+    "elapsed": 545.3973627090454,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 182,
+    "timestamp": 1772361393.4761577,
+    "elapsed": 548.4044282436371,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 183,
+    "timestamp": 1772361396.5183618,
+    "elapsed": 551.4466323852539,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 184,
+    "timestamp": 1772361399.5251827,
+    "elapsed": 554.4534533023834,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 185,
+    "timestamp": 1772361402.5216937,
+    "elapsed": 557.4499642848969,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 186,
+    "timestamp": 1772361405.6236293,
+    "elapsed": 560.5518999099731,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 187,
+    "timestamp": 1772361408.5606687,
+    "elapsed": 563.4889392852783,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 188,
+    "timestamp": 1772361411.4698036,
+    "elapsed": 566.3980741500854,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 189,
+    "timestamp": 1772361414.4888165,
+    "elapsed": 569.4170870780945,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 190,
+    "timestamp": 1772361417.635767,
+    "elapsed": 572.5640375614166,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 191,
+    "timestamp": 1772361420.6268137,
+    "elapsed": 575.5550842285156,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 192,
+    "timestamp": 1772361423.8355339,
+    "elapsed": 578.76380443573,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 193,
+    "timestamp": 1772361426.9009287,
+    "elapsed": 581.8291993141174,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 194,
+    "timestamp": 1772361429.7407463,
+    "elapsed": 584.6690168380737,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 195,
+    "timestamp": 1772361432.803527,
+    "elapsed": 587.7317976951599,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 196,
+    "timestamp": 1772361435.811977,
+    "elapsed": 590.7402474880219,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 197,
+    "timestamp": 1772361438.8499293,
+    "elapsed": 593.7781999111176,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 198,
+    "timestamp": 1772361441.7567854,
+    "elapsed": 596.6850559711456,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 3,
+    "phase_before": 3,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 199,
+    "timestamp": 1772361444.9479103,
+    "elapsed": 599.8761808872223,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 0,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 200,
+    "timestamp": 1772361447.9039063,
+    "elapsed": 602.8321769237518,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 201,
+    "timestamp": 1772361450.8849251,
+    "elapsed": 605.8131957054138,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 202,
+    "timestamp": 1772361453.8463871,
+    "elapsed": 608.7746577262878,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 203,
+    "timestamp": 1772361456.9972208,
+    "elapsed": 611.9254913330078,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 0,
+    "phase_before": 0,
+    "was_overridden": true,
+    "total_vehicles": 0
+  },
+  {
+    "step": 204,
+    "timestamp": 1772361460.058554,
+    "elapsed": 614.9868245124817,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 205,
+    "timestamp": 1772361462.8240771,
+    "elapsed": 617.7523477077484,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 206,
+    "timestamp": 1772361465.7699115,
+    "elapsed": 620.6981821060181,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 207,
+    "timestamp": 1772361468.803036,
+    "elapsed": 623.731306552887,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  },
+  {
+    "step": 208,
+    "timestamp": 1772361471.9748983,
+    "elapsed": 626.9031689167023,
+    "state_summary": {
+      "queue_N": 0.0,
+      "queue_S": 0.0,
+      "queue_E": 0.0,
+      "queue_W": 0.0
+    },
+    "ai_action": 2,
+    "final_action": 2,
+    "phase_before": 2,
+    "was_overridden": false,
+    "total_vehicles": 0
+  }
+]

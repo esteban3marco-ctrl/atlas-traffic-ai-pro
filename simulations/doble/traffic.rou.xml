@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <vType id="coche" accel="2.6" decel="4.5" sigma="0.5" length="5" maxSpeed="50" color="yellow"/>
+    <vType id="moto" accel="4.0" decel="6.0" sigma="0.5" length="2.2" maxSpeed="60" color="blue"/>
+    <vType id="bus" accel="1.2" decel="4.0" sigma="0.3" length="12" maxSpeed="30" color="green"/>
+    <vType id="emergencia" accel="3.5" decel="5.0" sigma="0.2" length="6" maxSpeed="70" color="red"/>
+    
+    <!-- Rutas que atraviesan ambos cruces -->
+    <route id="r_we" edges="west_in link_12 east_out"/>
+    <route id="r_ew" edges="east_in link_21 west_out"/>
+    <!-- Rutas locales cruce 1 -->
+    <route id="r_ns1" edges="north_in south_out"/>
+    <route id="r_sn1" edges="south_in north_out"/>
+    <!-- Rutas locales cruce 2 -->
+    <route id="r_ns2" edges="north2_in south2_out"/>
+    <route id="r_sn2" edges="south2_in north2_out"/>
+    
+    <!-- Tráfico principal E-O -->
+    <flow id="c_we" type="coche" route="r_we" begin="0" end="3600" vehsPerHour="500" departLane="best"/>
+    <flow id="c_ew" type="coche" route="r_ew" begin="0" end="3600" vehsPerHour="450" departLane="best"/>
+    <!-- Tráfico local -->
+    <flow id="c_ns1" type="coche" route="r_ns1" begin="0" end="3600" vehsPerHour="200" departLane="best"/>
+    <flow id="c_sn1" type="coche" route="r_sn1" begin="0" end="3600" vehsPerHour="180" departLane="best"/>
+    <flow id="c_ns2" type="coche" route="r_ns2" begin="0" end="3600" vehsPerHour="200" departLane="best"/>
+    <flow id="c_sn2" type="coche" route="r_sn2" begin="0" end="3600" vehsPerHour="180" departLane="best"/>
+    <!-- Motos -->
+    <flow id="m_we" type="moto" route="r_we" begin="0" end="3600" vehsPerHour="80"/>
+    <!-- Buses -->
+    <flow id="b_we" type="bus" route="r_we" begin="0" end="3600" period="300"/>
+    <!-- Emergencias -->
+    <flow id="e_we" type="emergencia" route="r_we" begin="600" end="3600" period="900"/>
+</routes>

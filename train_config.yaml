@@ -1,0 +1,97 @@
+# ATLAS Pro - Training Configuration (Optimized v3 - Heavy Breaker)
+# Red mas grande + episodios mas largos para romper el techo en heavy/evento
+# LR reducido para estabilidad con red grande
+
+total_episodes: 300
+save_interval: 10
+eval_interval: 50
+eval_episodes: 3
+early_stopping: true
+patience: 150
+seed: 42
+device: auto
+use_tensorboard: true
+checkpoint_dir: checkpoints
+log_dir: runs
+
+agent:
+  algorithm: dueling_ddqn
+  state_dim: 26
+  action_dim: 4
+  hidden_dims: [512, 256, 256, 128]   # red mas grande: 4 capas
+  lr: 0.0003                           # bajado para estabilidad
+  gamma: 0.995                         # mas previsor (era 0.99)
+  tau: 0.003                           # actualizacion mas suave
+  batch_size: 256                      # batches grandes = gradientes estables
+  buffer_size: 300000                  # mas memoria de experiencias
+  min_buffer_size: 512
+  n_step: 5                            # mas pasos adelante (era 3)
+  use_noisy_nets: true
+  noisy_sigma: 0.4                     # menos ruido = mas explotacion
+  per_alpha: 0.7                       # mas priorizacion
+  per_beta_start: 0.4
+  per_beta_frames: 150000
+  target_update_freq: 4
+  max_grad_norm: 5.0                   # gradientes mas controlados
+
+reward:
+  # --- Recompensas POSITIVAS (el agente busca esto) ---
+  throughput_weight: 1.5               # subido: mover coches es TODO
+  speed_weight: 0.4                    # subido: flujo constante
+
+  # --- Penalizaciones SUAVES ---
+  queue_length_weight: -0.10           # muy suave
+  wait_time_weight: -0.08              # muy suave
+  fairness_weight: -0.10               # suave
+  emissions_weight: -0.02              # minimo
+  phase_change_penalty: -0.15          # casi gratis cambiar fase
+
+  # --- Emergencias ---
+  emergency_weight: -2.0               # importante pero no aplastante
+
+  # --- Rango amplio ---
+  clip_min: -20.0
+  clip_max: 20.0
+  normalize: false
+
+environment:
+  sumo_cfg_file: simulations/simple/simulation.sumocfg
+  gui: false
+  max_steps: 2000                      # x2: episodios mas largos
+  delta_time: 10
+  min_green_time: 10
+  max_green_time: 60
+  yellow_time: 3
+  all_red_time: 2
+  step_length: 1.0
+  warmup_steps: 50
+  use_curriculum: true
+  traffic_light_ids:
+    - center
+  directions:
+    - N
+    - S
+    - E
+    - W
+  num_lanes_per_direction: 1
+  edges:
+    N: "north_in"
+    S: "south_in"
+    E: "east_in"
+    W: "west_in"
+  curriculum_stages:
+    - episode_range: [0, 80]
+      flow_scale: 0.5
+      description: "Light traffic warmup"
+    - episode_range: [80, 160]
+      flow_scale: 0.75
+      description: "Medium traffic"
+    - episode_range: [160, 220]
+      flow_scale: 1.0
+      description: "Normal traffic"
+    - episode_range: [220, 270]
+      flow_scale: 1.3
+      description: "Heavy traffic"
+    - episode_range: [270, 300]
+      flow_scale: 1.5
+      description: "Rush hour stress test"

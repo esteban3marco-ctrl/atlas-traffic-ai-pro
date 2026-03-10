@@ -1,0 +1,45 @@
+﻿=================================================================
+  ATLAS Pro - FINAL TRAINING RESULTS
+=================================================================
+
+  Total Episodes: 453
+  Best Reward:    16.4
+  Mean Reward:    -132.3
+  Training Time:  67.2 min
+  Failed Episodes:747
+
+  Stage Results:
+    Stage 1: Basic warmup: Mean=-76.8, Best=-45.1
+    Stage 3: Rush & Night: Mean=-279.9, Best=16.4
+    Stage 4: Emergencies: Mean=-96.4, Best=-54.9
+    Stage 5: Complex geometry: Mean=-338.8, Best=-299.2
+    Stage 6: Ultimate stress: Mean=-91.0, Best=-91.0
+
+  Learning Curve (50-ep windows):
+    Ep    1-  50: Avg=  -71.0 | ############################
+    Ep   51- 100: Avg=  -75.9 | ############################
+    Ep  101- 150: Avg=  -83.4 | ###########################
+    Ep  151- 200: Avg= -256.5 | #####
+    Ep  201- 250: Avg= -284.4 | #
+    Ep  251- 300: Avg= -106.3 | ########################
+    Ep  301- 350: Avg=  -94.6 | #########################
+    Ep  351- 400: Avg=  -92.8 | #########################
+    Ep  401- 450: Avg= -117.6 | ######################
+    Ep  451- 453: Avg= -263.2 | ####
+
+=================================================================
+  FINAL BENCHMARK: ATLAS AI vs Traditional Methods
+=================================================================
+  >>> ATLAS_AI            :    -60.3 +/- 9.1
+      max_pressure        :   -242.1 +/- 6.5
+      actuated            :   -332.0 +/- 38.0
+      fixed_time          :   -569.2 +/- 4.5
+      webster             :   -604.6 +/- 7.6
+
+  Improvements:
+    vs fixed_time          : +89.4%
+    vs actuated            : +81.8%
+    vs max_pressure        : +75.1%
+    vs webster             : +90.0%
+
+=================================================================

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <vType id="coche" accel="2.6" decel="4.5" sigma="0.5" length="4.5" maxSpeed="16.67" guiShape="passenger"/>
+    <vType id="moto" accel="3.0" decel="5.0" sigma="0.5" length="2.0" maxSpeed="19.44" guiShape="motorcycle"/>
+    <vType id="bus" accel="1.2" decel="4.0" sigma="0.5" length="12.0" maxSpeed="11.11" guiShape="bus"/>
+    <vType id="camion" accel="1.0" decel="4.0" sigma="0.5" length="10.0" maxSpeed="11.11" guiShape="truck"/>
+    
+    <route id="ruta_ns" edges="north_in south_out"/>
+    <route id="ruta_sn" edges="south_in north_out"/>
+    <route id="ruta_eo" edges="east_in west_out"/>
+    <route id="ruta_oe" edges="west_in east_out"/>
+    <route id="ruta_ne" edges="north_in east_out"/>
+    <route id="ruta_nw" edges="north_in west_out"/>
+    <route id="ruta_se" edges="south_in east_out"/>
+    <route id="ruta_sw" edges="south_in west_out"/>
+    <route id="ruta_en" edges="east_in north_out"/>
+    <route id="ruta_es" edges="east_in south_out"/>
+    <route id="ruta_wn" edges="west_in north_out"/>
+    <route id="ruta_ws" edges="west_in south_out"/>
+    
+    <flow id="f_ns_coche" type="coche" route="ruta_ns" begin="0" end="3600" vehsPerHour="900"/>
+    <flow id="f_sn_coche" type="coche" route="ruta_sn" begin="0" end="3600" vehsPerHour="810"/>
+    <flow id="f_eo_coche" type="coche" route="ruta_eo" begin="0" end="3600" vehsPerHour="630"/>
+    <flow id="f_oe_coche" type="coche" route="ruta_oe" begin="0" end="3600" vehsPerHour="585"/>
+    
+    <flow id="f_ns_moto" type="moto" route="ruta_ns" begin="0" end="3600" vehsPerHour="150"/>
+    <flow id="f_sn_moto" type="moto" route="ruta_sn" begin="0" end="3600" vehsPerHour="120"/>
+    <flow id="f_eo_moto" type="moto" route="ruta_eo" begin="0" end="3600" vehsPerHour="90"/>
+    
+    <flow id="f_ns_bus" type="bus" route="ruta_ns" begin="0" end="3600" vehsPerHour="12"/>
+    <flow id="f_eo_bus" type="bus" route="ruta_eo" begin="0" end="3600" vehsPerHour="8"/>
+    
+    <flow id="f_ne_coche" type="coche" route="ruta_ne" begin="0" end="3600" vehsPerHour="135"/>
+    <flow id="f_nw_coche" type="coche" route="ruta_nw" begin="0" end="3600" vehsPerHour="135"/>
+    <flow id="f_se_coche" type="coche" route="ruta_se" begin="0" end="3600" vehsPerHour="108"/>
+    <flow id="f_sw_coche" type="coche" route="ruta_sw" begin="0" end="3600" vehsPerHour="108"/>
+</routes>

@@ -1,0 +1,40 @@
+﻿=================================================================
+  ATLAS Pro ù Current Status Summary
+=================================================================
+
+--- checkpoints ---
+  Models: atlas_dueling_ddqn_best.pt, atlas_dueling_ddqn_final.pt, atlas_dueling_ddqn_latest.pt
+
+--- checkpoints_multi ---
+  Episodes: 5
+  Best Reward: -44.1
+  Mean Reward: -55.7
+  Time: 0.2 min
+  Benchmark:
+    >>> ATLAS_AI            :    -51.7
+        max_pressure        :   -240.7
+        actuated            :   -348.6
+        fixed_time          :   -566.4
+        webster             :   -604.1
+  Models: atlas_best.pt, atlas_final.pt
+
+--- checkpoints_full ---
+  Episodes: 240
+  Best Reward: -3.7
+  Mean Reward: -95.3
+  Time: 13.7 min
+    Stage 1: Basic intersection: mean=-69.6, best=-38.2
+    Stage 3: High-stress timing: mean=-308.1, best=-3.7
+    Stage 5: Emergency & events: mean=-120.3, best=-68.7
+  Benchmark:
+    >>> ATLAS_AI            :    -67.0
+        max_pressure        :   -239.1
+        actuated            :   -325.5
+        fixed_time          :   -565.1
+        webster             :   -604.4
+  Models: atlas_best.pt, atlas_ep100.pt, atlas_ep200.pt, atlas_ep600.pt, atlas_final.pt, atlas_latest.pt
+
+--- checkpoints_extended ---
+  Models: atlas_best.pt, atlas_ep100.pt, atlas_latest.pt
+
+=================================================================

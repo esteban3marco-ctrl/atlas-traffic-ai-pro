@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <vType id="coche" accel="2.6" decel="4.5" sigma="0.5" length="5" maxSpeed="50" color="yellow"/>
+    <vType id="moto" accel="4.0" decel="6.0" sigma="0.5" length="2.2" maxSpeed="60" color="blue"/>
+    <vType id="taxi" accel="2.8" decel="4.5" sigma="0.4" length="5" maxSpeed="50" color="white"/>
+    <vType id="emergencia" accel="3.5" decel="5.0" sigma="0.2" length="6" maxSpeed="70" color="red"/>
+    
+    <route id="r_ns" edges="north_in south_out"/>
+    <route id="r_sn" edges="south_in north_out"/>
+    <route id="r_ew" edges="east_in west_out"/>
+    <route id="r_we" edges="west_in east_out"/>
+    
+    <!-- POCO TRÁFICO -->
+    <flow id="c_ns" type="coche" route="r_ns" begin="0" end="3600" vehsPerHour="80" departLane="best"/>
+    <flow id="c_sn" type="coche" route="r_sn" begin="0" end="3600" vehsPerHour="70" departLane="best"/>
+    <flow id="c_ew" type="coche" route="r_ew" begin="0" end="3600" vehsPerHour="60" departLane="best"/>
+    <flow id="c_we" type="coche" route="r_we" begin="0" end="3600" vehsPerHour="50" departLane="best"/>
+    <flow id="t_ns" type="taxi" route="r_ns" begin="0" end="3600" vehsPerHour="40"/>
+    <flow id="t_ew" type="taxi" route="r_ew" begin="0" end="3600" vehsPerHour="30"/>
+    <flow id="m_ns" type="moto" route="r_ns" begin="0" end="3600" vehsPerHour="20"/>
+    <flow id="e_ns" type="emergencia" route="r_ns" begin="600" end="3600" period="1200"/>
+</routes>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <vType id="coche" accel="2.6" decel="4.5" sigma="0.5" length="5" maxSpeed="50" color="yellow"/>
+    <vType id="moto" accel="4.0" decel="6.0" sigma="0.5" length="2.2" maxSpeed="60" color="blue"/>
+    <vType id="bus" accel="1.2" decel="4.0" sigma="0.3" length="12" maxSpeed="30" color="green"/>
+    <vType id="emergencia" accel="3.5" decel="5.0" sigma="0.2" length="6" maxSpeed="70" color="red"/>
+    
+    <route id="r_ne" edges="north_in east_out"/>
+    <route id="r_nw" edges="north_in west_out"/>
+    <route id="r_en" edges="east_in north_out"/>
+    <route id="r_ew" edges="east_in west_out"/>
+    <route id="r_wn" edges="west_in north_out"/>
+    <route id="r_we" edges="west_in east_out"/>
+    
+    <flow id="c_ne" type="coche" route="r_ne" begin="0" end="3600" vehsPerHour="250" departLane="best"/>
+    <flow id="c_nw" type="coche" route="r_nw" begin="0" end="3600" vehsPerHour="200" departLane="best"/>
+    <flow id="c_en" type="coche" route="r_en" begin="0" end="3600" vehsPerHour="180" departLane="best"/>
+    <flow id="c_ew" type="coche" route="r_ew" begin="0" end="3600" vehsPerHour="350" departLane="best"/>
+    <flow id="c_wn" type="coche" route="r_wn" begin="0" end="3600" vehsPerHour="150" departLane="best"/>
+    <flow id="c_we" type="coche" route="r_we" begin="0" end="3600" vehsPerHour="320" departLane="best"/>
+    <flow id="m_ew" type="moto" route="r_ew" begin="0" end="3600" vehsPerHour="60"/>
+    <flow id="b_ew" type="bus" route="r_ew" begin="0" end="3600" period="300"/>
+    <flow id="e_ne" type="emergencia" route="r_ne" begin="600" end="3600" period="800"/>
+</routes>

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ATLAS Pro — Command Center</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=Azeret+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* ════════════════════════════════════════════════════════════
+       ATLAS PRO - STITCH-GRADE PREMIUM UI
+       Theme: "Technical Obsidian & Crimson Core"
+       (Moving away from generic cyber-blue to a mature, high-end dashboard)
+    ════════════════════════════════════════════════════════════ */
+    
+    :root {
+      /* Palette: Obsidian, Off-white text, Ember/Crimson accents, Muted Teal for secondary */
+      --bg-base:      #0c0c0e;
+      --bg-panel:     rgba(25, 25, 28, 0.7);
+      --bg-panel-solid: #19191c;
+      --bg-card:      rgba(35, 35, 39, 0.5);
+      
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 255, 255, 0.2);
+      
+      --text-100:     #ffffff;
+      --text-200:     #cccccc;
+      --text-300:     #8f8f96;
+      --text-inverse: #000000;
+      
+      --primary:      #ff4b3e; /* Ember/Crimson */
+      --primary-dim:  rgba(255, 75, 62, 0.15);
+      --secondary:    #00b4d8; /* Restrained Teal */
+      
+      --succ:         #23d18b;
+      --succ-dim:     rgba(35, 209, 139, 0.1);
+      --warn:         #f1c40f;
+      --err:          #ff4b3e;
+
+      /* Typography Setup */
+      --font-body:   'Inter', -apple-system, sans-serif;
+      --font-head:   'Space Grotesk', sans-serif;
+      --font-mono:   'Azeret Mono', monospace;
+
+      /* Metrics */
+      --rad-sm:      6px;
+      --rad-md:      12px;
+      --rad-lg:      20px;
+      
+      --shadow-sm:   0 4px 12px rgba(0,0,0,0.3);
+      --shadow-lg:   0 12px 32px rgba(0,0,0,0.5);
+      --backdrop:    blur(24px) saturate(1.2);
+      
+      /* Transitions */
+      --t-fast:      transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, border-color 0.2s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-base);
+      color: var(--text-200);
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      
+      /* Subtle ambient background glow instead of flat colors */
+      background-image: radial-gradient(circle at 15% 0%, rgba(255,75,62,0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 100%, rgba(0,180,216,0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+    /* ─────────────────────────────────────────────────────────
+       Base Components
+    ───────────────────────────────────────────────────────── */
+    .glass {
+      background: var(--bg-panel);
+      backdrop-filter: var(--backdrop);
+      -webkit-backdrop-filter: var(--backdrop);
+      border: 1px solid var(--border-light);
+      border-radius: var(--rad-lg);
+    }
+    
+    button {
+      font-family: var(--font-body);
+      border: none; outline: none; background: transparent;
+      cursor: pointer;
+    }
+
+    .btn-solid {
+      background: var(--text-100);
+      color: var(--text-inverse);
+      padding: 10px 20px;
+      border-radius: var(--rad-sm);
+      font-weight: 600;
+      font-size: 13px;
+      transition: var(--t-fast);
+      box-shadow: 0 4px 14px rgba(255,255,255,0.1);
+    }
+    .btn-solid:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,255,255,0.15); }
+    .btn-solid:active { transform: translateY(1px); }
+
+    .btn-outline {
+      border: 1px solid var(--border-light);
+      color: var(--text-200);
+      padding: 10px 20px;
+      border-radius: var(--rad-sm);
+      font-weight: 500;
+      font-size: 13px;
+      background: rgba(255,255,255,0.03);
+      transition: var(--t-fast);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.08); color: var(--text-100); }
+
+    .mono-text { font-family: var(--font-mono); }
+    .head-text { font-family: var(--font-head); }
+
+    /* ─────────────────────────────────────────────────────────
+       Layout grid
+    ───────────────────────────────────────────────────────── */
+    .dashboard-wrapper {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr 340px; /* Sidebar | Main | Inspector */
+      gap: 24px;
+      min-height: calc(100vh - 80px); /* Account for top bar */
+    }
+    @media (max-width: 1400px) {
+      .dashboard-wrapper { grid-template-columns: 260px 1fr 300px; }
+    }
+    
+    /* ─────────────────────────────────────────────────────────
+       Top Navigation Bar
+    ───────────────────────────────────────────────────────── */
+    .top-nav {
+      height: 80px;
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-light);
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(12, 12, 14, 0.8);
+      backdrop-filter: blur(12px);
+    }
+    
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+    }
+    
+    .brand-logo {
+      width: 32px; height: 32px;
+      background: var(--text-100);
+      mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 22h20L12 2z" fill="white"/></svg>') no-repeat center/contain;
+      -webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 22h20L12 2z" fill="white"/></svg>') no-repeat center/contain;
+    }
+    
+    .brand-title {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--text-100);
+      letter-spacing: -0.5px;
+    }
+    .brand-version {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--primary); border: 1px solid var(--primary-dim); background: rgba(255,75,62,0.05);
+      padding: 2px 6px; border-radius: 4px; margin-left: 8px;
+    }
+
+    .nav-status {
+      display: flex; align-items: center; gap: 24px;
+    }
+    
+    .status-clock {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--text-200);
+      letter-spacing: 1px;
+    }
+
+    .badge-live {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--succ-dim); border: 1px solid rgba(35, 209, 139, 0.2);
+      color: var(--succ);
+      padding: 6px 12px; border-radius: 100px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    }
+    .dot-live { width: 6px; height: 6px; border-radius: 50%; background: var(--succ); animation: blink 2s infinite; }
+    
+    .badge-paused {
+      background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.2);
+      color: var(--warn);
+    }
+    .badge-paused .dot-live { background: var(--warn); animation: none; opacity: 0.5; }
+
+    @keyframes blink { 0%,100%{opacity:1; box-shadow:0 0 8px currentColor;} 50%{opacity:0.2;} }
+
+    /* ─────────────────────────────────────────────────────────
+       LEFT - Global Metrics Sidebar
+    ───────────────────────────────────────────────────────── */
+    .col-left { display: flex; flex-direction: column; gap: 20px; }
+    
+    .panel-title {
+      font-size: 12px; font-weight: 600; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .panel-title::before { content: ''; display: block; width: 4px; height: 12px; background: var(--primary); border-radius: 2px; }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--rad-md);
+      padding: 20px;
+      transition: var(--t-fast);
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-card:hover { border-color: var(--border-focus); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    
+    .mc-label { font-size: 13px; color: var(--text-300); margin-bottom: 8px; }
+    .mc-val { font-family: var(--font-head); font-size: 32px; font-weight: 700; color: var(--text-100); line-height: 1; }
+    
+    /* Indicator bars within metrics */
+    .mc-track { width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-top: 16px; overflow: hidden; }
+    .mc-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+    
+    .status-alert .mc-fill { background: var(--err); }
+    .status-alert .mc-val { color: var(--err); }
+    
+    /* ─────────────────────────────────────────────────────────
+       CENTER - Main Network Map (The Core)
+    ───────────────────────────────────────────────────────── */
+    .col-center { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+    
+    .network-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    
+    .node {
+      background: var(--bg-panel-solid);
+      border: 1px solid var(--border-light);
+      border-radius: var(--rad-md);
+      padding: 20px;
+      cursor: pointer;
+      position: relative;
+      transition: var(--t-fast);
+    }
+    .node::before {
+      /* Hover glow gradient hidden until hover */
+      content: ''; position: absolute; inset: -1px; border-radius: var(--rad-md);
+      background: linear-gradient(135deg, var(--border-focus), transparent);
+      z-index: -1; opacity: 0; transition: opacity 0.3s ease;
+    }
+    
+    .node:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); border-color: transparent; }
+    .node:hover::before { opacity: 1; }
+    
+    .node.selected { border-color: var(--text-100); box-shadow: 0 0 0 1px var(--text-100), var(--shadow-lg); }
+    .node.anomaly { border-color: var(--err); background: rgba(255,75,62,0.02); }
+    
+    .node-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+    .node-id { font-family: var(--font-mono); font-weight: 600; font-size: 15px; color: var(--text-100); }
+    
+    .node-tags { display: flex; gap: 6px; }
+    .tag { font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+    .tag-engine { background: rgba(35,209,139,0.1); color: var(--succ); border: 1px solid rgba(35,209,139,0.2); }
+    .tag-anom { background: rgba(255,75,62,0.1); color: var(--err); border: 1px solid rgba(255,75,62,0.2); animation: pulse 2s infinite; }
+    .tag-man { background: rgba(241,196,15,0.1); color: var(--warn); border: 1px solid rgba(241,196,15,0.2); }
+    
+    /* Sleek minimalist queue representation */
+    .queue-system {
+      display: flex; gap: 12px; height: 48px; margin-bottom: 20px;
+    }
+    .q-col {
+      flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px;
+    }
+    .q-bar-bg {
+      width: 10px; height: 100%; background: rgba(255,255,255,0.05); border-radius: 5px; position: relative; overflow: hidden;
+    }
+    .q-bar-fill {
+      position: absolute; bottom: 0; left: 0; width: 100%; border-radius: 5px;
+      transition: height 0.3s ease-out, background 0.3s;
+    }
+    /* Semantic coloring for congestion */
+    .q-low { background: var(--text-300); }
+    .q-mid { background: var(--secondary); }
+    .q-high { background: var(--primary); box-shadow: 0 0 10px var(--primary-dim); }
+    
+    .q-label { font-size: 10px; font-family: var(--font-mono); color: var(--text-300); }
+    
+    .node-footer {
+      display: flex; justify-content: space-between; border-top: 1px solid var(--border-light); padding-top: 16px;
+    }
+    .data-point { display: flex; flex-direction: column; gap: 4px; }
+    .dp-lbl { font-size: 11px; color: var(--text-300); }
+    .dp-val { font-size: 13px; font-family: var(--font-mono); color: var(--text-100); }
+
+    /* Telemetry Chart area */
+    .chart-panel { height: 320px; padding: 24px; display: flex; flex-direction: column; }
+    .chart-wrap { flex: 1; position: relative; margin-top: 16px; }
+
+    /* ─────────────────────────────────────────────────────────
+       RIGHT - Inspector & Controls
+    ───────────────────────────────────────────────────────── */
+    .col-right { display: flex; flex-direction: column; gap: 20px; }
+    
+    .inspector { flex: 1; display: flex; flex-direction: column; padding: 24px; }
+    
+    .empty-state { text-align: center; color: var(--text-300); font-size: 14px; margin: auto; max-width: 200px; line-height: 1.5; }
+    
+    /* Traffic Light logic */
+    .signal {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 16px; background: rgba(0,0,0,0.3); border-radius: var(--rad-md); border: 1px solid var(--border-light);
+    }
+    .light { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); position: relative; margin: 0 auto; transition: all 0.2s; }
+    .light::after { content:''; position:absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5); }
+    
+    .light-red.active { background: #ff3b30; box-shadow: 0 0 24px rgba(255,59,48,0.4); border-color: rgba(255,255,255,0.5); }
+    .light-yel.active { background: #ffcc00; box-shadow: 0 0 24px rgba(255,204,0,0.4); border-color: rgba(255,255,255,0.5); }
+    .light-grn.active { background: #34c759; box-shadow: 0 0 24px rgba(52,199,89,0.4); border-color: rgba(255,255,255,0.5); }
+
+    .signal-header { font-size: 11px; color: var(--text-300); text-align: center; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; font-weight: 600; }
+
+    /* AI Neural Weights (Q-Values) */
+    .inference-block { margin-top: 32px; }
+    .q-row { display: flex; align-items: center; margin-bottom: 12px; gap: 16px; }
+    .q-dir { width: 50px; font-size: 12px; font-weight: 600; color: var(--text-200); }
+    .q-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; position: relative; overflow: hidden; }
+    .q-val {
+      height: 100%; border-radius: 3px; transition: width 0.3s ease; position: relative;
+      background: var(--text-300);
+    }
+    .q-val.lead { background: var(--text-100); box-shadow: 0 0 8px rgba(255,255,255,0.5); }
+    .q-score { width: 60px; font-family: var(--font-mono); font-size: 12px; text-align: right; color: var(--text-200); }
+
+    /* Override buttons */
+    .override-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 32px;
+    }
+    .override-btn {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border-light);
+      border-radius: var(--rad-sm); padding: 12px;
+      color: var(--text-200); font-size: 12px; font-weight: 500;
+      transition: var(--t-fast);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .override-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--text-200); color: var(--text-100); }
+    .override-btn.active { background: var(--text-100); color: var(--text-inverse); border-color: var(--text-100); }
+    .override-btn svg { width: 16px; height: 16px; opacity: 0.7; }
+    .override-btn.active svg { opacity: 1; stroke: var(--text-inverse); fill: var(--text-inverse); }
+
+    .btn-release {
+      width: 100%; margin-top: 12px; grid-column: 1 / -1;
+      background: rgba(241,196,15,0.1); border-color: rgba(241,196,15,0.3); color: var(--warn);
+    }
+    .btn-release:hover { background: rgba(241,196,15,0.2); }
+
+    /* MUSE Log */
+    .log-panel { height: 260px; display: flex; flex-direction: column; padding: 24px; }
+    .log-scroll { flex: 1; overflow-y: auto; display: flex; flex-direction: column; padding-right: 8px; }
+    .log-entry {
+      padding: 16px 0; border-bottom: 1px solid var(--border-light);
+      display: flex; gap: 16px;
+    }
+    .log-time { font-family: var(--font-mono); font-size: 11px; color: var(--text-300); width: 60px; flex-shrink: 0; }
+    .log-content { flex: 1; font-size: 13px; line-height: 1.5; color: var(--text-200); }
+    .log-highlight { color: var(--text-100); font-weight: 600; }
+    .log-err { color: var(--err); }
+
+    /* Modals / Overlays */
+    #conn-lost {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(12,12,14,0.9); backdrop-filter: blur(10px);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+      color: var(--text-100); font-family: var(--font-head); font-size: 24px;
+      display: none; /* hidden by default */
+    }
+    .spinner {
+      width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--text-100);
+      border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Global Control Bar */
+    .ctrl-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg-panel); border: 1px solid var(--border-light);
+      padding: 16px 24px; border-radius: var(--rad-md); margin-top: 16px;
+    }
+    .sim-speed { display: flex; align-items: center; gap: 16px; }
+    input[type=range] {
+      -webkit-appearance: none; width: 140px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--text-100); cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="top-nav">
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <div class="brand-title">ATLAS Pro</div>
+      <div class="brand-version">v4.0 BUILD 902</div>
+    </div>
+    
+    <div class="nav-status">
+      <div class="status-clock" id="clock">00:00:00</div>
+      <div class="badge-live" id="stream-status">
+        <div class="dot-live"></div> <span id="stream-text">SYSTEM LIVE</span>
+      </div>
+      <div style="width:1px; height:24px; background:var(--border-light); margin:0 8px;"></div>
+      <button class="btn-outline" onclick="window.open('/api/export','_blank')">↓ Download Report (.CSV)</button>
+      <button class="btn-solid" onclick="resetSim()">Hard Reset</button>
+    </div>
+  </nav>
+
+  <!-- Main Dashboard Layout -->
+  <div class="dashboard-wrapper">
+    
+    <!-- LEFT COLUMN: Metrics -->
+    <div class="col-left">
+      <div class="panel-title">Network Telemetry</div>
+      
+      <div class="metric-card">
+        <div class="mc-label">Throughput Volume</div>
+        <div class="mc-val"><span id="m-veh">0</span> <span style="font-size:14px;color:var(--text-300);font-family:var(--font-body);font-weight:500">vehs</span></div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="mc-label">Avg. Traversal Latency</div>
+        <div class="mc-val"><span id="m-wait">0.0</span> <span style="font-size:14px;color:var(--text-300);font-family:var(--font-body);font-weight:500">s</span></div>
+        <div class="mc-track"><div class="mc-fill" id="m-wait-bar" style="width:0%; background:var(--text-200)"></div></div>
+      </div>
+      
+      <div class="metric-card" id="card-occ">
+        <div class="mc-label">Congestion Index</div>
+        <div class="mc-val"><span id="m-occ">0.0</span> <span style="font-size:14px;color:var(--text-300);font-family:var(--font-body);font-weight:500">%</span></div>
+        <div class="mc-track"><div class="mc-fill" id="m-occ-bar" style="width:0%; background:var(--text-200)"></div></div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="mc-label">Eco Impact (CO₂ Offset)</div>
+        <div class="mc-val" style="color:var(--succ)"><span id="m-co2">0.0</span> <span style="font-size:14px;color:var(--succ);font-family:var(--font-body);font-weight:500">kg</span></div>
+      </div>
+
+      <div class="glass log-panel">
+        <div class="panel-title">MUSE Decision Audit</div>
+        <div class="log-scroll" id="muse-log">
+          <div class="empty-state">Waiting for engine telemetry...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN: Network Logic & Map -->
+    <div class="col-center">
+      
+      <div class="ctrl-bar glass">
+        <div style="display:flex; gap: 16px;">
+          <button class="btn-outline" onclick="togglePause()" id="btn-pause">Pause Emulation</button>
+        </div>
+        <div class="sim-speed">
+          <span style="font-size:12px; font-weight:600; color:var(--text-300); text-transform:uppercase;">Time Dilation</span>
+          <input type="range" min="0.1" max="8" step="0.25" value="1" id="speed-rng" oninput="sendSpeed(this.value)">
+          <span class="mono-text" style="width:40px; font-size:13px; color:var(--text-100)" id="speed-val">1.0x</span>
+        </div>
+      </div>
+
+      <div class="network-grid" id="network-map">
+        <!-- JS Injects Nodes Here -->
+      </div>
+
+      <div class="glass chart-panel">
+        <div class="panel-title">Temporal Efficiency Variance <span style="text-transform:none;color:var(--text-300);font-weight:normal;font-family:var(--font-mono);font-size:10px;margin-left:auto">(Occ % vs Wait s)</span></div>
+        <div class="chart-wrap">
+          <canvas id="live-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Node Inspector -->
+    <div class="col-right">
+      <div class="glass inspector">
+        <div class="panel-title">Node Inspector</div>
+        
+        <div id="inspector-empty" class="empty-state" style="margin-top:40px">
+          Select an intersection node from the network map to view deep telemetry and neural insights.
+        </div>
+
+        <div id="inspector-content" style="display:none; flex-direction:column; flex:1">
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--border-light); padding-bottom:16px; margin-bottom:24px;">
+            <div>
+              <div style="font-size:11px; color:var(--text-300); text-transform:uppercase; font-weight:600; margin-bottom:4px">Target Entity</div>
+              <div class="mono-text" style="font-size:24px; color:var(--text-100); font-weight:700" id="insp-id">INT_00</div>
+            </div>
+            <div class="mono-text" style="font-size:11px; color:var(--succ); border:1px solid var(--succ-dim); padding:4px 8px; border-radius:4px" id="insp-phase-name">PHASE N/S</div>
+          </div>
+
+          <!-- Traffic Lights -->
+          <div style="display:flex; justify-content:space-evenly; margin-bottom:32px;">
+            <div class="signal">
+              <div class="signal-header">Axis N-S</div>
+              <div class="light light-red" id="sig-ns-r"></div>
+              <div class="light light-yel" id="sig-ns-y"></div>
+              <div class="light light-grn" id="sig-ns-g"></div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px">
+              <div style="font-size:11px; color:var(--text-300); font-weight:600">CYCLE TTL</div>
+              <div class="mono-text" style="font-size:28px; color:var(--text-100); font-weight:700" id="insp-ttl">0s</div>
+            </div>
+            <div class="signal">
+              <div class="signal-header">Axis E-W</div>
+              <div class="light light-red" id="sig-ew-r"></div>
+              <div class="light light-yel" id="sig-ew-y"></div>
+              <div class="light light-grn" id="sig-ew-g"></div>
+            </div>
+          </div>
+
+          <!-- Neural Weights -->
+          <div class="inference-block">
+            <div style="font-size:11px; font-weight:600; color:var(--text-300); text-transform:uppercase; margin-bottom:16px;">
+              D3QN Action Values Q(s,a)
+            </div>
+            <div id="q-container">
+              <!-- JS Populates Rows -->
+            </div>
+          </div>
+
+          <!-- Override -->
+          <div style="margin-top:auto; padding-top:24px; border-top:1px solid var(--border-light)">
+            <div style="font-size:12px; font-weight:600; color:var(--text-200);">Manual Override Protocol</div>
+            <div style="font-size:11px; color:var(--text-300); margin-top:4px; line-height:1.4">Force physical controller state. Bypasses local agent inference.</div>
+            
+            <div class="override-grid">
+              <button class="override-btn" id="ob-0" onclick="ovr(0)"><span>P0: N-S Thru</span></button>
+              <button class="override-btn" id="ob-1" onclick="ovr(1)"><span>P1: E-W Thru</span></button>
+              <button class="override-btn" id="ob-2" onclick="ovr(2)"><span>P2: N-S Left</span></button>
+              <button class="override-btn" id="ob-3" onclick="ovr(3)"><span>P3: E-W Left</span></button>
+              <button class="override-btn btn-release" onclick="ovr(-1)">Restore Autonomous Operation</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="conn-lost">
+    <div class="spinner"></div>
+    <div>Telemetry Connection Severed</div>
+    <div style="font-size:14px; color:var(--text-300); font-family:var(--font-body)">Attempting TCP handshake...</div>
+  </div>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// CORE LOGIC & WEB SOCKET LAYER
+// ════════════════════════════════════════════════════════════════
+
+const PHASE_NAMES = ["N-S Through", "E-W Through", "N-S Left Turn", "E-W Left Turn"];
+let ws = null;
+let activeNode = null;
+let memData = null; // Last frame in memory
+
+let chartInstance = null;
+
+function boot() {
+  initChart();
+  connect();
+}
+
+function connect() {
+  ws = new WebSocket(`ws://${location.host}/ws/live`);
+  ws.onopen = () => { document.getElementById('conn-lost').style.display = 'none'; };
+  ws.onmessage = (e) => processFrame(JSON.parse(e.data));
+  ws.onclose = () => {
+    document.getElementById('conn-lost').style.display = 'flex';
+    setTimeout(connect, 2000);
+  };
+}
+
+// ── Frame Processor ─────────────────────────────────────────────
+function processFrame(data) {
+  memData = data;
+  
+  // 1. Header State
+  document.getElementById('clock').textContent = data.sim_time;
+  
+  const stBadge = document.getElementById('stream-status');
+  const stText = document.getElementById('stream-text');
+  const pb = document.getElementById('btn-pause');
+  
+  if(data.paused) {
+    stBadge.className = 'badge-live badge-paused';
+    stText.textContent = 'SYSTEM PAUSED';
+    pb.textContent = 'Resume Emulation';
+    pb.style.color = 'var(--warn)'; pb.style.borderColor = 'rgba(241,196,15,0.3)';
+  } else {
+    stBadge.className = 'badge-live';
+    stText.textContent = 'SYSTEM LIVE';
+    pb.textContent = 'Pause Emulation';
+    pb.style.color = ''; pb.style.borderColor = '';
+  }
+
+  // Speed sync
+  document.getElementById('speed-rng').value = data.speed;
+  document.getElementById('speed-val').textContent = parseFloat(data.speed).toFixed(1) + 'x';
+
+  // 2. Telemetry Sidebar
+  const gl = data.global;
+  document.getElementById('m-veh').textContent = gl.total_vehicles.toLocaleString();
+  document.getElementById('m-wait').textContent = gl.avg_wait.toFixed(1);
+  document.getElementById('m-occ').textContent = gl.avg_occupancy.toFixed(1);
+  document.getElementById('m-co2').textContent = gl.co2_saved_kg.toFixed(1);
+
+  // Warning thresholds
+  const cOcc = document.getElementById('card-occ');
+  const bOcc = document.getElementById('m-occ-bar');
+  bOcc.style.width = Math.min(100, gl.avg_occupancy) + '%';
+  if(gl.avg_occupancy > 50) cOcc.classList.add('status-alert'); else cOcc.classList.remove('status-alert');
+  
+  const bWait = document.getElementById('m-wait-bar');
+  bWait.style.width = Math.min(100, (gl.avg_wait/30)*100) + '%'; // 30s as soft visual max
+
+  // 3. Network Render
+  renderNodes(data.intersections);
+  
+  // 4. Inspector Sync
+  if(activeNode) updateInspector(data.intersections.find(i => i.id === activeNode));
+  
+  // 5. Audit Log Update
+  renderLog(data.decisions);
+  
+  // 6. Chart Sync
+  updateChart(data.metrics_history);
+}
+
+// ── Node Grid Renderer ──────────────────────────────────────────
+function renderNodes(nodes) {
+  const ctn = document.getElementById('network-map');
+  
+  nodes.forEach(n => {
+    let el = document.getElementById(`nd-${n.id}`);
+    if(!el) {
+      el = document.createElement('div');
+      el.id = `nd-${n.id}`;
+      el.onclick = () => selectNode(n.id);
+      
+      const pDom = `
+        <div class="node-header">
+          <div class="node-id">${n.id}</div>
+          <div class="node-tags">
+            <span class="tag tag-engine">D3QN</span>
+            <span id="tg-ano-${n.id}" class="tag tag-anom" style="display:none">Anom</span>
+            <span id="tg-man-${n.id}" class="tag tag-man" style="display:none">Ovr</span>
+          </div>
+        </div>
+        
+        <div class="queue-system">
+          ${['N','S','E','W'].map(d => `
+            <div class="q-col">
+              <div class="q-bar-bg"><div id="qf-${n.id}-${d}" class="q-bar-fill q-low" style="height:0%"></div></div>
+              <div class="q-label">${d}</div>
+            </div>
+          `).join('')}
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+              <div style="font-size:9px; color:var(--text-300); font-weight:600">N-S</div>
+              <div style="display:flex; gap:6px; background:rgba(0,0,0,0.5); padding: 4px; border-radius: 8px; border: 1px solid var(--border-light)">
+                <div class="light light-red" style="width:12px; height:12px;" id="mn-ns-r-${n.id}"></div>
+                <div class="light light-grn" style="width:12px; height:12px;" id="mn-ns-g-${n.id}"></div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+              <div style="font-size:9px; color:var(--text-300); font-weight:600">E-W</div>
+              <div style="display:flex; gap:6px; background:rgba(0,0,0,0.5); padding: 4px; border-radius: 8px; border: 1px solid var(--border-light)">
+                <div class="light light-red" style="width:12px; height:12px;" id="mn-ew-r-${n.id}"></div>
+                <div class="light light-grn" style="width:12px; height:12px;" id="mn-ew-g-${n.id}"></div>
+              </div>
+            </div>
+          </div>
+          <div class="mono-text" style="font-size:12px; color:var(--text-200); background:rgba(255,255,255,0.05); padding:4px 8px; border-radius:4px;" id="dp-p-${n.id}">P0</div>
+        </div>
+
+        <div class="node-footer">
+          <div class="data-point"><span class="dp-lbl">Avg. Wait</span><span class="dp-val" id="dp-w-${n.id}">--s</span></div>
+          <div class="data-point" style="align-items:flex-end"><span class="dp-lbl">Neural Conf</span><span class="dp-val" style="color:var(--secondary)" id="dp-c-${n.id}">--%</span></div>
+        </div>
+      `;
+      el.innerHTML = pDom;
+      ctn.appendChild(el);
+    }
+    
+    // Update dynamic state
+    el.className = 'node' + (n.id === activeNode ? ' selected' : '') + (n.anomaly ? ' anomaly' : '');
+    
+    document.getElementById(`tg-ano-${n.id}`).style.display = n.anomaly ? 'block' : 'none';
+    document.getElementById(`tg-man-${n.id}`).style.display = n.manual_override ? 'block' : 'none';
+    
+    // Queues
+    const dirs = ['N','S','E','W'];
+    n.queue.forEach((qty, i) => {
+      const qf = document.getElementById(`qf-${n.id}-${dirs[i]}`);
+      const prc = Math.max(5, Math.min(100, Math.round(qty * 100)));
+      qf.style.height = prc + '%';
+      qf.className = 'q-bar-fill ' + (prc > 70 ? 'q-high' : prc > 40 ? 'q-mid' : 'q-low');
+    });
+    
+    // Mini Traffic Lights logic
+    const p = n.phase;
+    const nsGrn = (p === 0 || p === 2);
+    const ewGrn = (p === 1 || p === 3);
+    
+    document.getElementById(`mn-ns-r-${n.id}`).className = 'light light-red' + (!nsGrn ? ' active' : '');
+    document.getElementById(`mn-ns-g-${n.id}`).className = 'light light-grn' + (nsGrn ? ' active' : '');
+    
+    document.getElementById(`mn-ew-r-${n.id}`).className = 'light light-red' + (!ewGrn ? ' active' : '');
+    document.getElementById(`mn-ew-g-${n.id}`).className = 'light light-grn' + (ewGrn ? ' active' : '');
+    
+    document.getElementById(`dp-p-${n.id}`).textContent = `P${n.phase} ${PHASE_NAMES[n.phase].split(' ')[0]}`;
+    document.getElementById(`dp-c-${n.id}`).textContent = Math.round(n.ai_confidence*100) + '%';
+    document.getElementById(`dp-w-${n.id}`).textContent = n.wait_time_avg.toFixed(0) + 's';
+  });
+}
+
+// ── Right Inspector ─────────────────────────────────────────────
+function selectNode(id) {
+  activeNode = id;
+  // Visuals refresh on next tick or force now
+  if(memData) {
+    const fresh = memData.intersections.find(i => i.id === id);
+    if(fresh) updateInspector(fresh);
+    renderNodes(memData.intersections); // to apply 'selected' class
+  }
+}
+
+function updateInspector(node) {
+  if(!node) return;
+  document.getElementById('inspector-empty').style.display = 'none';
+  document.getElementById('inspector-content').style.display = 'flex';
+  
+  document.getElementById('insp-id').textContent = node.id;
+  document.getElementById('insp-phase-name').textContent = `PHASE ${node.phase}`;
+  document.getElementById('insp-ttl').textContent = node.phase_duration + 's';
+  
+  // Lights
+  const p = node.phase;
+  const setL = (ax, isG) => {
+    document.getElementById(`sig-${ax}-r`).className = 'light light-red' + (!isG ? ' active' : '');
+    document.getElementById(`sig-${ax}-y`).className = 'light light-yel';
+    document.getElementById(`sig-${ax}-g`).className = 'light light-grn' + (isG ? ' active' : '');
+  };
+  setL('ns', p===0||p===2);
+  setL('ew', p===1||p===3);
+  
+  // Neural inference Q-values
+  const qObj = node.q_values || {};
+  const maxQ = Math.max(...Object.values(qObj).map(v => Math.abs(v))) || 1;
+  const bestP = parseInt(Object.keys(qObj).reduce((a, b) => qObj[a] > qObj[b] ? a : b, 'phase_0').split('_')[1]);
+  
+  let qHtml = '';
+  for(let i=0; i<4; i++) {
+    const val = qObj[`phase_${i}`] || 0;
+    const prc = Math.max(2, (Math.abs(val) / maxQ) * 100);
+    const isLead = (i === bestP);
+    
+    qHtml += `
+      <div class="q-row">
+        <div class="q-dir">P${i}</div>
+        <div class="q-bar"><div class="q-val ${isLead?'lead':''}" style="width:${prc}%"></div></div>
+        <div class="q-score">${val.toFixed(4)}</div>
+      </div>
+    `;
+  }
+  document.getElementById('q-container').innerHTML = qHtml;
+  
+  // Buttons
+  for(let i=0; i<4; i++) {
+    const btn = document.getElementById(`ob-${i}`);
+    if(node.manual_override && node.phase === i) btn.classList.add('active');
+    else btn.classList.remove('active');
+  }
+}
+
+// ── Graph ───────────────────────────────────────────────────────
+function initChart() {
+  const ctx = document.getElementById('live-chart').getContext('2d');
+  
+  Chart.defaults.color = '#8f8f96';
+  Chart.defaults.font.family = "'Space Grotesk', sans-serif";
+  
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [
+      { label: 'Occupancy %', data: [], borderColor: '#00b4d8', backgroundColor: 'rgba(0,180,216,0.1)', tension: 0.4, fill: true, pointRadius: 0, borderWidth: 2 },
+      { label: 'Avg Wait (s)', data: [], borderColor: '#ff4b3e', backgroundColor: 'transparent', tension: 0.4, fill: false, pointRadius: 0, borderWidth: 2 }
+    ]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(25,25,28,0.9)', titleFont: {family: 'Azeret Mono'}, padding: 12, cornerRadius: 8 } },
+      scales: {
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false }, min: 0 },
+        x: { grid: { display: false }, border: { display: false }, ticks: { maxTicksLimit: 10 } }
+      }
+    }
+  });
+}
+
+function updateChart(history) {
+  if(!history || history.length < 2 || !chartInstance) return;
+  
+  chartInstance.data.labels = history.map((_, i) => i);
+  chartInstance.data.datasets[0].data = history.map(h => h.avg_occupancy);
+  chartInstance.data.datasets[1].data = history.map(h => h.avg_wait);
+  
+  // Adjust min/max dynamically for visual flair
+  const maxVal = Math.max(...history.map(h => Math.max(h.avg_occupancy, h.avg_wait)));
+  chartInstance.options.scales.y.max = maxVal > 10 ? undefined : 10;
+  
+  chartInstance.update('none'); // silent update prevents flashing
+}
+
+// ── MUSE Audit ──────────────────────────────────────────────────
+function renderLog(decisions) {
+  const cnt = document.getElementById('muse-log');
+  if(!decisions || !decisions.length) return;
+  
+  // Decide si debemos hacer autoscroll (si el usuario ya está arriba, no scrolleamos forzosamente)
+  const isScrolledToBottom = cnt.scrollHeight - cnt.clientHeight <= cnt.scrollTop + 20;
+
+  cnt.innerHTML = decisions.map(d => {
+    let lblPhase = `<span class="mono-text" style="color:var(--text-100)">${d.phase}</span>`;
+    let bodyClass = '';
+    
+    if(d.anomaly) {
+      lblPhase = `<span class="mono-text log-err">[ANOMALY DETECTED] ${d.phase}</span>`;
+      bodyClass = 'log-err';
+    }
+    
+    // Clean verbose reasoning for UI
+    let rx = d.reasoning.replace(/Selected \[.*?\]\./, '').trim();
+    if(rx.startsWith('Confidence:')) rx = rx.substring(rx.indexOf('.')+1).trim();
+    
+    return `
+      <div class="log-entry">
+        <div class="log-time">${d.time}</div>
+        <div class="log-content">
+          <div style="margin-bottom:4px; font-weight:600"><span style="color:var(--secondary)">${d.intersection}</span> → ${lblPhase}</div>
+          <div class="${bodyClass}">${rx}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Auto-scroll hacia abajo para ver el último mensaje si el usuario estaba mirando los más nuevos (o siempre lo forzamos al estar rellenándolo con un .map invertido)
+  // Nota: Las decisiones de Python ya vienen ordenadas, pero para asegurar, bajamos el scroll siempre si queremos que fluya tipo chat terminal
+  // De hecho, en dashboard_server las decisiones se insertan "decisions.insert(0)", así que las más nuevas salen ARRÍBA de la caja por defecto. 
+  // No necesitamos autoscroll inverso, las nuevas caen como un cascada arriba.
+}
+
+// ── Controls HTTP/WS ────────────────────────────────────────────
+function fire(ep, obj) {
+  if(ws && ws.readyState === 1 && obj) { ws.send(JSON.stringify(obj)); }
+  else { fetch(`/api/${ep}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: obj ? JSON.stringify(obj) : null }); }
+}
+
+function togglePause() { fire('pause', { type:'pause' }); }
+function resetSim() { if(confirm('Wipe complete memory and restart neural engine?')) fire('reset', null); }
+function sendSpeed(v) { fire('speed', { type:'speed', speed: parseFloat(v) }); }
+
+function ovr(phaseIndex) {
+  if(!activeNode) { alert('Select a node from the network map first.'); return; }
+  fire('override', { type:'override', intersection_id: activeNode, phase: phaseIndex });
+}
+
+// Go.
+boot();
+
+</script>
+</body>
+</html>

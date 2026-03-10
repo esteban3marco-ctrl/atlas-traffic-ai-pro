@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <vType id="coche" accel="2.6" decel="4.5" sigma="0.5" length="5" maxSpeed="50" color="yellow"/>
+    <vType id="ambulancia" accel="3.5" decel="5.0" sigma="0.2" length="6" maxSpeed="70" color="1,1,1"/>
+    <vType id="policia" accel="4.0" decel="5.5" sigma="0.2" length="5" maxSpeed="80" color="0,0,1"/>
+    <vType id="bomberos" accel="2.5" decel="4.5" sigma="0.2" length="10" maxSpeed="60" color="1,0,0"/>
+    
+    <route id="r_ns" edges="north_in south_out"/>
+    <route id="r_sn" edges="south_in north_out"/>
+    <route id="r_ew" edges="east_in west_out"/>
+    <route id="r_we" edges="west_in east_out"/>
+    
+    <flow id="c_ns" type="coche" route="r_ns" begin="0" end="3600" vehsPerHour="300" departLane="best"/>
+    <flow id="c_sn" type="coche" route="r_sn" begin="0" end="3600" vehsPerHour="280" departLane="best"/>
+    <flow id="c_ew" type="coche" route="r_ew" begin="0" end="3600" vehsPerHour="250" departLane="best"/>
+    <flow id="c_we" type="coche" route="r_we" begin="0" end="3600" vehsPerHour="250" departLane="best"/>
+    
+    <!-- MUCHAS EMERGENCIAS -->
+    <flow id="amb_ns" type="ambulancia" route="r_ns" begin="60" end="3600" period="180"/>
+    <flow id="amb_ew" type="ambulancia" route="r_ew" begin="120" end="3600" period="240"/>
+    <flow id="pol_ns" type="policia" route="r_ns" begin="30" end="3600" period="200"/>
+    <flow id="pol_sn" type="policia" route="r_sn" begin="90" end="3600" period="220"/>
+    <flow id="bomb_ew" type="bomberos" route="r_ew" begin="300" end="3600" period="400"/>
+</routes>

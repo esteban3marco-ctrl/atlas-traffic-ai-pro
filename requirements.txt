@@ -1,36 +1,4 @@
-# ATLAS Pro v4.0 - Python Dependencies
-# =====================================
-# Core ML (no cloud required)
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
 numpy>=1.24.0
-scipy>=1.11.0
-
-# Optional: PyTorch for full training (export to ONNX for edge deployment)
-# torch>=2.2.0
-# onnx>=1.15.0
-# onnxruntime>=1.17.0        # CPU inference
-# onnxruntime-gpu>=1.17.0    # GPU inference (Jetson CUDA)
-
-# API Server
-fastapi>=0.110.0
-uvicorn[standard]>=0.29.0
 pydantic>=2.6.0
-
-# Database & Storage
-aiosqlite>=0.20.0          # Edge SQLite (async)
-redis>=5.0.0               # Message bus (optional)
-
-# Communication Protocols
-paho-mqtt>=2.0.0           # MQTT for IoT / NTCIP bridge
-
-# Monitoring & Telemetry
-psutil>=5.9.0              # System metrics
-prometheus-client>=0.20.0  # Metrics export
-
-# Utilities
-python-dotenv>=1.0.0
-pyyaml>=6.0.1
-rich>=13.7.0               # Pretty console output
-
-# Testing
-pytest>=8.0.0
-pytest-asyncio>=0.23.0

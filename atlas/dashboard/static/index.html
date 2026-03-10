@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS Pro — Traffic AI Dashboard</title>
+    <meta name="description" content="Real-time monitoring dashboard for ATLAS intelligent traffic control system">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.8);
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --gradient-primary: linear-gradient(135deg, #3b82f6, #06b6d4);
+            --gradient-success: linear-gradient(135deg, #10b981, #06b6d4);
+            --gradient-danger: linear-gradient(135deg, #ef4444, #f59e0b);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-glass);
+            backdrop-filter: blur(20px);
+            background: rgba(10, 14, 26, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 span {
+            font-weight: 400;
+            background: none;
+            -webkit-text-fill-color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+        }
+
+        .status-badge {
+            padding: 0.375rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-badge.online {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-badge.training {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 1.25rem;
+            padding: 1.5rem 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Metric Cards */
+        .metrics-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .metric-card:nth-child(1)::before {
+            background: var(--gradient-primary);
+        }
+
+        .metric-card:nth-child(2)::before {
+            background: var(--gradient-success);
+        }
+
+        .metric-card:nth-child(3)::before {
+            background: var(--gradient-danger);
+        }
+
+        .metric-card:nth-child(4)::before {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 0.375rem;
+        }
+
+        .metric-sub {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .metric-card:nth-child(1) .metric-value {
+            color: var(--accent-blue);
+        }
+
+        .metric-card:nth-child(2) .metric-value {
+            color: var(--accent-green);
+        }
+
+        .metric-card:nth-child(3) .metric-value {
+            color: var(--accent-amber);
+        }
+
+        .metric-card:nth-child(4) .metric-value {
+            color: var(--accent-purple);
+        }
+
+        /* Intersection Visualization */
+        .intersection-card {
+            grid-column: 1 / 3;
+            grid-row: span 2;
+        }
+
+        .intersection-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .intersection-svg {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* Chart */
+        .chart-card {
+            min-height: 300px;
+        }
+
+        .chart-canvas-wrapper {
+            position: relative;
+            height: 250px;
+        }
+
+        .chart-canvas-wrapper canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Queue bars */
+        .queue-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .queue-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .queue-bar-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            width: 40px;
+            text-align: right;
+        }
+
+        .queue-bar-track {
+            flex: 1;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .queue-bar-fill {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .queue-bar-fill.north {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+
+        .queue-bar-fill.south {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+
+        .queue-bar-fill.east {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+
+        .queue-bar-fill.west {
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        }
+
+        .queue-bar-value {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Info panel */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .info-item {
+            padding: 0.75rem;
+            background: var(--bg-glass);
+            border-radius: 10px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .info-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 0.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .intersection-card {
+                grid-column: 1 / -1;
+                grid-row: auto;
+            }
+
+            .metrics-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .metrics-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+        }
+
+        /* SVG traffic light colors */
+        .tl-red {
+            fill: #ef4444;
+            filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6));
+        }
+
+        .tl-yellow {
+            fill: #f59e0b;
+            filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6));
+        }
+
+        .tl-green {
+            fill: #10b981;
+            filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
+        }
+
+        .tl-off {
+            fill: #1e293b;
+        }
+
+        .road {
+            fill: #1e293b;
+        }
+
+        .road-line {
+            stroke: #f59e0b;
+            stroke-width: 1.5;
+            stroke-dasharray: 8 6;
+            opacity: 0.4;
+        }
+
+        .sidewalk {
+            fill: #0f172a;
+        }
+
+        .car {
+            transition: all 1s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">🚦</div>
+                <h1>ATLAS Pro <span>Traffic AI Dashboard</span></h1>
+            </div>
+            <div id="statusBadge" class="status-badge offline">
+                <div class="status-dot"></div>
+                <span id="statusText">Desconectado</span>
+            </div>
+        </header>
+
+        <!-- Dashboard -->
+        <main class="dashboard">
+            <!-- Metric Cards Row -->
+            <div class="metrics-row">
+                <div class="metric-card">
+                    <div class="metric-label">Episodio</div>
+                    <div class="metric-value" id="metricEpisode">0</div>
+                    <div class="metric-sub">de <span id="metricTotalEp">0</span></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Reward Medio</div>
+                    <div class="metric-value" id="metricReward">0.0</div>
+                    <div class="metric-sub">Best: <span id="metricBest">0.0</span></div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Espera Media</div>
+                    <div class="metric-value" id="metricWait">0s</div>
+                    <div class="metric-sub">Objetivo: &lt;30s</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Throughput</div>
+                    <div class="metric-value" id="metricThroughput">0</div>
+                    <div class="metric-sub">Vehículos/episodio</div>
+                </div>
+            </div>
+
+            <!-- Intersection Visualization -->
+            <div class="card intersection-card">
+                <div class="card-title">🚦 Vista de Intersección</div>
+                <div class="intersection-wrapper">
+                    <svg class="intersection-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Sidewalks -->
+                        <rect class="sidewalk" x="0" y="0" width="140" height="140" rx="8" />
+                        <rect class="sidewalk" x="260" y="0" width="140" height="140" rx="8" />
+                        <rect class="sidewalk" x="0" y="260" width="140" height="140" rx="8" />
+                        <rect class="sidewalk" x="260" y="260" width="140" height="140" rx="8" />
+
+                        <!-- Roads -->
+                        <rect class="road" x="140" y="0" width="120" height="400" />
+                        <rect class="road" x="0" y="140" width="400" height="120" />
+
+                        <!-- Center intersection -->
+                        <rect class="road" x="140" y="140" width="120" height="120" />
+
+                        <!-- Road markings -->
+                        <line class="road-line" x1="200" y1="0" x2="200" y2="140" />
+                        <line class="road-line" x1="200" y1="260" x2="200" y2="400" />
+                        <line class="road-line" x1="0" y1="200" x2="140" y2="200" />
+                        <line class="road-line" x1="260" y1="200" x2="400" y2="200" />
+
+                        <!-- Traffic Lights - North -->
+                        <rect x="152" y="115" width="24" height="20" rx="4" fill="#0f172a" stroke="#334155"
+                            stroke-width="1" />
+                        <circle id="tlNorth" cx="164" cy="125" r="6" class="tl-off" />
+
+                        <!-- Traffic Lights - South -->
+                        <rect x="224" y="265" width="24" height="20" rx="4" fill="#0f172a" stroke="#334155"
+                            stroke-width="1" />
+                        <circle id="tlSouth" cx="236" cy="275" r="6" class="tl-off" />
+
+                        <!-- Traffic Lights - East -->
+                        <rect x="265" y="152" width="20" height="24" rx="4" fill="#0f172a" stroke="#334155"
+                            stroke-width="1" />
+                        <circle id="tlEast" cx="275" cy="164" r="6" class="tl-off" />
+
+                        <!-- Traffic Lights - West -->
+                        <rect x="115" y="224" width="20" height="24" rx="4" fill="#0f172a" stroke="#334155"
+                            stroke-width="1" />
+                        <circle id="tlWest" cx="125" cy="236" r="6" class="tl-off" />
+
+                        <!-- Direction Labels -->
+                        <text x="200" y="20" text-anchor="middle" fill="#64748b" font-size="14" font-weight="700"
+                            font-family="Inter">N</text>
+                        <text x="200" y="393" text-anchor="middle" fill="#64748b" font-size="14" font-weight="700"
+                            font-family="Inter">S</text>
+                        <text x="385" y="205" text-anchor="end" fill="#64748b" font-size="14" font-weight="700"
+                            font-family="Inter">E</text>
+                        <text x="15" y="205" text-anchor="start" fill="#64748b" font-size="14" font-weight="700"
+                            font-family="Inter">W</text>
+
+                        <!-- Vehicle indicators -->
+                        <g id="vehiclesNorth">
+                            <rect class="car" x="170" y="30" width="16" height="24" rx="4" fill="#3b82f6" opacity="0" />
+                            <rect class="car" x="170" y="60" width="16" height="24" rx="4" fill="#3b82f6" opacity="0" />
+                            <rect class="car" x="170" y="90" width="16" height="24" rx="4" fill="#3b82f6" opacity="0" />
+                        </g>
+                        <g id="vehiclesSouth">
+                            <rect class="car" x="215" y="346" width="16" height="24" rx="4" fill="#10b981"
+                                opacity="0" />
+                            <rect class="car" x="215" y="316" width="16" height="24" rx="4" fill="#10b981"
+                                opacity="0" />
+                            <rect class="car" x="215" y="286" width="16" height="24" rx="4" fill="#10b981"
+                                opacity="0" />
+                        </g>
+                        <g id="vehiclesEast">
+                            <rect class="car" x="346" y="170" width="24" height="16" rx="4" fill="#f59e0b"
+                                opacity="0" />
+                            <rect class="car" x="316" y="170" width="24" height="16" rx="4" fill="#f59e0b"
+                                opacity="0" />
+                            <rect class="car" x="286" y="170" width="24" height="16" rx="4" fill="#f59e0b"
+                                opacity="0" />
+                        </g>
+                        <g id="vehiclesWest">
+                            <rect class="car" x="30" y="215" width="24" height="16" rx="4" fill="#8b5cf6" opacity="0" />
+                            <rect class="car" x="60" y="215" width="24" height="16" rx="4" fill="#8b5cf6" opacity="0" />
+                            <rect class="car" x="90" y="215" width="24" height="16" rx="4" fill="#8b5cf6" opacity="0" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Queue Lengths -->
+            <div class="card">
+                <div class="card-title">📊 Colas por dirección</div>
+                <div class="queue-bars">
+                    <div class="queue-bar-row">
+                        <div class="queue-bar-label">Norte</div>
+                        <div class="queue-bar-track">
+                            <div class="queue-bar-fill north" id="queueNorth" style="width: 0%">
+                                <span class="queue-bar-value" id="queueNorthVal">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="queue-bar-row">
+                        <div class="queue-bar-label">Sur</div>
+                        <div class="queue-bar-track">
+                            <div class="queue-bar-fill south" id="queueSouth" style="width: 0%">
+                                <span class="queue-bar-value" id="queueSouthVal">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="queue-bar-row">
+                        <div class="queue-bar-label">Este</div>
+                        <div class="queue-bar-track">
+                            <div class="queue-bar-fill east" id="queueEast" style="width: 0%">
+                                <span class="queue-bar-value" id="queueEastVal">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="queue-bar-row">
+                        <div class="queue-bar-label">Oeste</div>
+                        <div class="queue-bar-track">
+                            <div class="queue-bar-fill west" id="queueWest" style="width: 0%">
+                                <span class="queue-bar-value" id="queueWestVal">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="info-grid" style="margin-top: 1.5rem;">
+                    <div class="info-item">
+                        <div class="info-label">Algoritmo</div>
+                        <div class="info-value" id="infoAlgo" style="color: var(--accent-cyan);">Dueling DDQN</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Dispositivo</div>
+                        <div class="info-value" id="infoDevice" style="color: var(--accent-green);">CPU</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Fase Actual</div>
+                        <div class="info-value" id="infoPhase" style="color: var(--accent-amber);">N-S</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Loss</div>
+                        <div class="info-value" id="infoLoss" style="color: var(--accent-purple);">0.000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reward Chart -->
+            <div class="card chart-card" style="grid-column: 1 / -1;">
+                <div class="card-title">📈 Curva de Aprendizaje</div>
+                <div class="chart-canvas-wrapper">
+                    <canvas id="rewardChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <script>
+        // === State ===
+        let ws = null;
+        let rewardHistory = [];
+        let lossHistory = [];
+        const MAX_HISTORY = 200;
+
+        // === Chart Setup ===
+        const ctx = document.getElementById('rewardChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Reward por Episodio',
+                        data: [],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        borderWidth: 2,
+                    },
+                    {
+                        label: 'Media Móvil (20)',
+                        data: [],
+                        borderColor: '#10b981',
+                        borderDash: [5, 3],
+                        tension: 0.4,
+                        pointRadius: 0,
+                        borderWidth: 2,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: { duration: 300 },
+                interaction: { intersect: false, mode: 'index' },
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#64748b', font: { family: 'Inter', size: 10 }, maxRotation: 0 },
+                        grid: { color: 'rgba(255,255,255,0.03)' },
+                    },
+                    y: {
+                        ticks: { color: '#64748b', font: { family: 'Inter', size: 10 } },
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                    }
+                }
+            }
+        });
+
+        // === WebSocket ===
+        function connect() {
+            const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${location.host}/ws`);
+
+            ws.onopen = () => {
+                setStatus('online', 'Conectado');
+                console.log('WebSocket connected');
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                updateDashboard(data);
+            };
+
+            ws.onclose = () => {
+                setStatus('offline', 'Desconectado');
+                setTimeout(connect, 3000);
+            };
+
+            ws.onerror = () => {
+                setStatus('offline', 'Error');
+            };
+
+            // Heartbeat
+            setInterval(() => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'ping' }));
+                }
+            }, 10000);
+        }
+
+        // === Update Dashboard ===
+        function updateDashboard(data) {
+            const isTraining = data.is_training;
+            setStatus(isTraining ? 'training' : 'online', isTraining ? 'Entrenando...' : 'Conectado');
+
+            // Metrics
+            setText('metricEpisode', data.episode || 0);
+            setText('metricTotalEp', data.total_episodes || 0);
+            setText('metricReward', (data.mean_reward || 0).toFixed(1));
+            setText('metricBest', (data.best_reward || 0).toFixed(1));
+            setText('metricWait', Math.round(data.wait_time || 0) + 's');
+            setText('metricThroughput', data.throughput || 0);
+
+            // Info
+            const algoNames = { dueling_ddqn: 'Dueling DDQN', ppo: 'PPO' };
+            setText('infoAlgo', algoNames[data.algorithm] || data.algorithm || 'N/A');
+            setText('infoDevice', (data.device || 'cpu').toUpperCase());
+            setText('infoPhase', data.phase || 'N-S');
+            setText('infoLoss', (data.loss || 0).toFixed(4));
+
+            // Queues
+            const queues = data.queues || { N: 0, S: 0, E: 0, W: 0 };
+            const maxQ = Math.max(1, ...Object.values(queues));
+            updateQueue('North', queues.N || 0, maxQ);
+            updateQueue('South', queues.S || 0, maxQ);
+            updateQueue('East', queues.E || 0, maxQ);
+            updateQueue('West', queues.W || 0, maxQ);
+
+            // Traffic lights
+            const isNS = (data.phase || 'N-S') === 'N-S';
+            setTL('tlNorth', isNS ? 'tl-green' : 'tl-red');
+            setTL('tlSouth', isNS ? 'tl-green' : 'tl-red');
+            setTL('tlEast', isNS ? 'tl-red' : 'tl-green');
+            setTL('tlWest', isNS ? 'tl-red' : 'tl-green');
+
+            // Vehicles (show proportional to queue)
+            updateVehicles('vehiclesNorth', queues.N || 0);
+            updateVehicles('vehiclesSouth', queues.S || 0);
+            updateVehicles('vehiclesEast', queues.E || 0);
+            updateVehicles('vehiclesWest', queues.W || 0);
+
+            // Chart
+            if (data.reward !== undefined && data.episode > 0) {
+                rewardHistory.push(data.reward);
+                if (rewardHistory.length > MAX_HISTORY) rewardHistory.shift();
+
+                chart.data.labels = rewardHistory.map((_, i) => i + 1);
+                chart.data.datasets[0].data = [...rewardHistory];
+
+                // Moving average
+                const window = 20;
+                const ma = rewardHistory.map((_, i) => {
+                    const start = Math.max(0, i - window + 1);
+                    const slice = rewardHistory.slice(start, i + 1);
+                    return slice.reduce((a, b) => a + b, 0) / slice.length;
+                });
+                chart.data.datasets[1].data = ma;
+
+                chart.update('none');
+            }
+        }
+
+        // === Helpers ===
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        }
+
+        function setStatus(cls, text) {
+            const badge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            badge.className = 'status-badge ' + cls;
+            statusText.textContent = text;
+        }
+
+        function updateQueue(dir, value, maxVal) {
+            const fill = document.getElementById('queue' + dir);
+            const val = document.getElementById('queue' + dir + 'Val');
+            if (fill) fill.style.width = Math.min((value / maxVal) * 100, 100) + '%';
+            if (val) val.textContent = Math.round(value);
+        }
+
+        function setTL(id, cls) {
+            const el = document.getElementById(id);
+            if (el) el.setAttribute('class', cls);
+        }
+
+        function updateVehicles(groupId, count) {
+            const group = document.getElementById(groupId);
+            if (!group) return;
+            const cars = group.querySelectorAll('.car');
+            cars.forEach((car, i) => {
+                car.setAttribute('opacity', i < Math.min(count, 3) ? '0.9' : '0');
+            });
+        }
+
+        // === Polling fallback (if no WebSocket) ===
+        async function pollStatus() {
+            try {
+                const resp = await fetch('/api/status');
+                const data = await resp.json();
+                updateDashboard(data);
+            } catch (e) { /* ignore */ }
+        }
+
+        // === Demo mode (no backend) ===
+        function runDemo() {
+            let ep = 0;
+            setInterval(() => {
+                ep++;
+                const reward = -50 + ep * 0.2 + Math.random() * 10 - 5;
+                updateDashboard({
+                    is_training: true,
+                    episode: ep,
+                    total_episodes: 500,
+                    reward: reward,
+                    mean_reward: reward * 0.9,
+                    best_reward: Math.max(reward, 0),
+                    loss: Math.max(0.01, 1.0 / (ep + 1) + Math.random() * 0.1),
+                    wait_time: Math.max(10, 45 - ep * 0.05),
+                    throughput: Math.floor(800 + ep * 2),
+                    max_queue: Math.floor(Math.random() * 15 + 5),
+                    phase: Math.random() > 0.5 ? 'N-S' : 'E-W',
+                    queues: {
+                        N: Math.floor(Math.random() * 12),
+                        S: Math.floor(Math.random() * 10),
+                        E: Math.floor(Math.random() * 15),
+                        W: Math.floor(Math.random() * 8),
+                    },
+                    algorithm: 'dueling_ddqn',
+                    device: 'cuda',
+                });
+            }, 800);
+        }
+
+        // === Init ===
+        try {
+            connect();
+            setInterval(pollStatus, 5000);
+        } catch (e) {
+            console.log('WebSocket unavailable, running demo mode');
+            runDemo();
+        }
+    </script>
+</body>
+
+</html>

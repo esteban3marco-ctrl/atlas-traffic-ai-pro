@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edges>
+    <!-- Avenida principal N-S: 4 carriles, 60 km/h -->
+    <edge id="north_in" from="north" to="center" numLanes="4" speed="16.67"/>
+    <edge id="north_out" from="center" to="north" numLanes="4" speed="16.67"/>
+    <edge id="south_in" from="south" to="center" numLanes="4" speed="16.67"/>
+    <edge id="south_out" from="center" to="south" numLanes="4" speed="16.67"/>
+    <!-- Calles secundarias E-O: 2 carriles, 50 km/h -->
+    <edge id="east_in" from="east" to="center" numLanes="2" speed="13.89"/>
+    <edge id="east_out" from="center" to="east" numLanes="2" speed="13.89"/>
+    <edge id="west_in" from="west" to="center" numLanes="2" speed="13.89"/>
+    <edge id="west_out" from="center" to="west" numLanes="2" speed="13.89"/>
+</edges>

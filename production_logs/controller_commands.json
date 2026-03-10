@@ -1,0 +1,274 @@
+[
+  {
+    "timestamp": 1772360857.9936113,
+    "from_phase": 0,
+    "to_phase": 2,
+    "elapsed_seconds": 12.3051278591156,
+    "from_name": "NS_Green",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772360873.0070999,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 14.961843490600586,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772360888.0702538,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 15.009113073348999,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772360912.1760442,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 24.049665689468384,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772360927.1991293,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 14.97199034690857,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772360948.2952235,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 21.037330150604248,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772360963.5066838,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 15.152976036071777,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772360984.3211005,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 20.764265298843384,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772360999.3727293,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 14.994018793106079,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361020.4616432,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 21.030362129211426,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361035.7856052,
+    "from_phase": 3,
+    "to_phase": 0,
+    "elapsed_seconds": 15.273310661315918,
+    "from_name": "EW_Left",
+    "to_name": "NS_Green"
+  },
+  {
+    "timestamp": 1772361050.9544086,
+    "from_phase": 0,
+    "to_phase": 2,
+    "elapsed_seconds": 15.11090350151062,
+    "from_name": "NS_Green",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361075.6764174,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 24.663691759109497,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361092.7233202,
+    "from_phase": 3,
+    "to_phase": 0,
+    "elapsed_seconds": 16.98405361175537,
+    "from_name": "EW_Left",
+    "to_name": "NS_Green"
+  },
+  {
+    "timestamp": 1772361107.7606537,
+    "from_phase": 0,
+    "to_phase": 2,
+    "elapsed_seconds": 14.977231979370117,
+    "from_name": "NS_Green",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361131.8216128,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 23.997310400009155,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361149.7867045,
+    "from_phase": 3,
+    "to_phase": 0,
+    "elapsed_seconds": 17.91064691543579,
+    "from_name": "EW_Left",
+    "to_name": "NS_Green"
+  },
+  {
+    "timestamp": 1772361164.9563868,
+    "from_phase": 0,
+    "to_phase": 2,
+    "elapsed_seconds": 15.107937335968018,
+    "from_name": "NS_Green",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361188.9576428,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 23.943451404571533,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361204.0073206,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 14.990707397460938,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361224.999986,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 20.93907594680786,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361240.0574815,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 15.000426530838013,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361261.228042,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 21.113850593566895,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361279.1803148,
+    "from_phase": 3,
+    "to_phase": 0,
+    "elapsed_seconds": 17.89000964164734,
+    "from_name": "EW_Left",
+    "to_name": "NS_Green"
+  },
+  {
+    "timestamp": 1772361294.251915,
+    "from_phase": 0,
+    "to_phase": 2,
+    "elapsed_seconds": 15.011490106582642,
+    "from_name": "NS_Green",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361318.2797356,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 23.976125240325928,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361333.3472698,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 15.009056329727173,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361354.4094434,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 21.00884437561035,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361369.4122293,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 14.94788646697998,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361390.4625368,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 20.99982452392578,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361405.6171963,
+    "from_phase": 3,
+    "to_phase": 2,
+    "elapsed_seconds": 15.103150844573975,
+    "from_name": "EW_Left",
+    "to_name": "EW_Green"
+  },
+  {
+    "timestamp": 1772361426.876443,
+    "from_phase": 2,
+    "to_phase": 3,
+    "elapsed_seconds": 21.205448389053345,
+    "from_name": "EW_Green",
+    "to_name": "EW_Left"
+  },
+  {
+    "timestamp": 1772361444.934844,
+    "from_phase": 3,
+    "to_phase": 0,
+    "elapsed_seconds": 18.000612258911133,
+    "from_name": "EW_Left",
+    "to_name": "NS_Green"
+  },
+  {
+    "timestamp": 1772361460.0288975,
+    "from_phase": 0,
+    "to_phase": 2,
+    "elapsed_seconds": 15.037099361419678,
+    "from_name": "NS_Green",
+    "to_name": "EW_Green"
+  }
+]
