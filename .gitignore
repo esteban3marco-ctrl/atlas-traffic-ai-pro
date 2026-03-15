@@ -147,6 +147,9 @@ gps_traces/
 # SYSTEM & IDE FILES
 ##################################
 
+# Claude Code
+.claude/
+
 # IDE Editors
 .vscode/
 .idea/
