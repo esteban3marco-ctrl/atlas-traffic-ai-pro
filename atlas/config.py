@@ -178,11 +178,23 @@ class TrainingConfig:
     reward: RewardConfig = field(default_factory=RewardConfig)
     environment: EnvironmentConfig = field(default_factory=EnvironmentConfig)
     
+    @staticmethod
+    def _tuples_to_lists(obj):
+        """Recursively convert tuples to lists for YAML-safe serialization."""
+        if isinstance(obj, tuple):
+            return [TrainingConfig._tuples_to_lists(i) for i in obj]
+        if isinstance(obj, dict):
+            return {k: TrainingConfig._tuples_to_lists(v) for k, v in obj.items()}
+        if isinstance(obj, list):
+            return [TrainingConfig._tuples_to_lists(i) for i in obj]
+        return obj
+
     def save(self, path: str):
         """Save config to YAML file."""
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        data = self._tuples_to_lists(asdict(self))
         with open(path, 'w') as f:
-            yaml.dump(asdict(self), f, default_flow_style=False, sort_keys=False)
+            yaml.dump(data, f, default_flow_style=False, sort_keys=False)
     
     @classmethod
     def load(cls, path: str) -> 'TrainingConfig':
@@ -192,8 +204,18 @@ class TrainingConfig:
         
         agent = AgentConfig(**data.pop('agent', {}))
         reward = RewardConfig(**data.pop('reward', {}))
-        environment = EnvironmentConfig(**data.pop('environment', {}))
-        
+
+        env_data = data.pop('environment', {})
+        # Restore tuples from lists (YAML only has lists)
+        if 'latency_range' in env_data and isinstance(env_data['latency_range'], list):
+            env_data['latency_range'] = tuple(env_data['latency_range'])
+        if 'map_coordinates' in env_data:
+            env_data['map_coordinates'] = {
+                k: tuple(v) if isinstance(v, list) else v
+                for k, v in env_data['map_coordinates'].items()
+            }
+        environment = EnvironmentConfig(**env_data)
+
         return cls(agent=agent, reward=reward, environment=environment, **data)
     
     def to_dict(self) -> dict:

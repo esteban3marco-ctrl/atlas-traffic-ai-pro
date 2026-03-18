@@ -96,14 +96,20 @@ class TestNetworks:
         from atlas.networks import DuelingNetwork
         net = DuelingNetwork(state_dim=26, action_dim=4, hidden_dims=[64, 64])
         x = torch.randn(8, 26)
-        q = net(x)
+        dist = net(x)
+        # C51 distributional: output is (batch, actions, atoms)
+        assert dist.shape == (8, 4, net.num_atoms)
+        # get_q_values collapses to (batch, actions)
+        q = net.get_q_values(x)
         assert q.shape == (8, 4)
     
     def test_dueling_network_with_noisy(self):
         from atlas.networks import DuelingNetwork
         net = DuelingNetwork(state_dim=26, action_dim=4, use_noisy=True)
         x = torch.randn(4, 26)
-        q = net(x)
+        dist = net(x)
+        assert dist.shape == (4, 4, net.num_atoms)
+        q = net.get_q_values(x)
         assert q.shape == (4, 4)
         net.reset_noise()  # Should not error
     
@@ -334,28 +340,39 @@ class TestRewards:
         from atlas.rewards import MultiObjectiveReward
         from atlas.config import RewardConfig
         
-        config = RewardConfig(fairness_weight=-1.0)
+        # Isolate fairness by zeroing out other weights
+        config = RewardConfig(
+            fairness_weight=-1.0,
+            wait_time_weight=0.0,
+            queue_length_weight=0.0,
+            throughput_weight=0.0,
+            speed_weight=0.0,
+            emissions_weight=0.0,
+            phase_change_penalty=0.0,
+            clip_min=-100.0,
+            clip_max=100.0,
+        )
         reward_fn = MultiObjectiveReward(config)
-        
-        # Equal waits (perfectly fair)
+
+        # Equal waits (perfectly fair) → Jain index = 1.0, penalty = 0
         r_fair = reward_fn.compute(
-            {"N": 5, "S": 5, "E": 5, "W": 5},
+            {"N": 0, "S": 0, "E": 0, "W": 0},
             {"N": 10, "S": 10, "E": 10, "W": 10},
-            {"N": 10, "S": 10, "E": 10, "W": 10},
-            10, False
+            {"N": 0, "S": 0, "E": 0, "W": 0},
+            0, False
         )
-        
+
         reward_fn.reset()
-        
-        # Very unfair waits
+
+        # Very unfair waits → Jain index < 1.0, penalty < 0
         r_unfair = reward_fn.compute(
-            {"N": 5, "S": 5, "E": 5, "W": 5},
+            {"N": 0, "S": 0, "E": 0, "W": 0},
             {"N": 100, "S": 1, "E": 1, "W": 1},
-            {"N": 10, "S": 10, "E": 10, "W": 10},
-            10, False
+            {"N": 0, "S": 0, "E": 0, "W": 0},
+            0, False
         )
-        
-        # Fair scenario should have higher reward
+
+        # Fair scenario should have higher reward (less penalty)
         assert r_fair > r_unfair
 
 
@@ -743,6 +760,53 @@ class TestPerformance:
         for _ in range(50):
             batch = buffer.sample(32)
             assert batch is not None
+
+
+# =============================================================================
+# INPUT VALIDATION TESTS
+# =============================================================================
+
+class TestInputValidation:
+    """Tests for select_action input validation."""
+
+    def test_wrong_shape_raises(self):
+        from atlas.agents import DuelingDDQNAgent
+        agent = DuelingDDQNAgent(state_dim=26, action_dim=4, device="cpu")
+        with pytest.raises(ValueError, match="last dimension"):
+            agent.select_action(np.zeros(10))
+
+    def test_3d_input_raises(self):
+        from atlas.agents import DuelingDDQNAgent
+        agent = DuelingDDQNAgent(state_dim=26, action_dim=4, device="cpu")
+        with pytest.raises(ValueError, match="1D.*2D"):
+            agent.select_action(np.zeros((2, 3, 26)))
+
+    def test_nan_raises(self):
+        from atlas.agents import DuelingDDQNAgent
+        agent = DuelingDDQNAgent(state_dim=26, action_dim=4, device="cpu")
+        state = np.full(26, np.nan)
+        with pytest.raises(ValueError, match="NaN"):
+            agent.select_action(state)
+
+    def test_inf_raises(self):
+        from atlas.agents import DuelingDDQNAgent
+        agent = DuelingDDQNAgent(state_dim=26, action_dim=4, device="cpu")
+        state = np.full(26, np.inf)
+        with pytest.raises(ValueError, match="Inf"):
+            agent.select_action(state)
+
+    def test_list_input_auto_converts(self):
+        from atlas.agents import DuelingDDQNAgent
+        agent = DuelingDDQNAgent(state_dim=26, action_dim=4, device="cpu")
+        action = agent.select_action([0.0] * 26)
+        assert 0 <= action < 4
+
+    def test_multi_agent_input(self):
+        from atlas.agents import DuelingDDQNAgent
+        agent = DuelingDDQNAgent(state_dim=26, action_dim=4, device="cpu")
+        state = np.random.randn(3, 26).astype(np.float32)
+        actions = agent.select_action(state)
+        assert len(actions) == 3
 
 
 if __name__ == "__main__":

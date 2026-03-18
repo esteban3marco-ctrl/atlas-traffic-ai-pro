@@ -1,14 +1,20 @@
+# -*- coding: utf-8 -*-
 """
-ATLAS Pro - API de Producción v4.0 (FastAPI + WebSocket + Auth)
+ATLAS Pro - API de Produccion v4.0 (FastAPI + WebSocket + Auth)
 ================================================================
-Servidor de producción completo con:
-- API REST para control, configuración y métricas
+Servidor de produccion completo con:
+- API REST para control, configuracion y metricas
 - WebSocket para dashboard en tiempo real
-- Autenticación JWT con roles (admin/operador/visor)
-- Histórico de datos con TimescaleDB
-- Generación de reportes PDF
-- Simulación de datos realista para demo
-- Integración con todos los módulos ATLAS Pro
+- Autenticacion JWT con roles (admin/operador/visor)
+- Generacion de reportes PDF
+- Simulacion de datos realista para demo
+
+Module map (for future extraction into api/ package):
+    Lines   88-302  : TrafficSimulator   -> api/simulator.py
+    Lines  309-358  : AtlasSystemState   -> api/state.py
+    Lines  360-500  : FastAPI routes      -> api/routes.py
+    Lines  500-700  : WebSocket handlers  -> api/websocket.py
+    Lines  700-987  : Utility endpoints   -> api/utils.py
 """
 
 import os

@@ -96,7 +96,10 @@ class MultiObjectiveReward:
         # --- 5. Fairness (Jain's Fairness Index) ---
         if len(wait_times) > 1:
             waits = np.array(list(wait_times.values()))
-            waits = waits + 1e-6  # Avoid division by zero
+            # Epsilon prevents division-by-zero when all wait times are 0.
+            # Value 1e-6 is small enough to not affect Jain's index for any
+            # realistic wait time (>= 1 second) while avoiding numerical instability.
+            waits = waits + 1e-6
             jain_index = (waits.sum() ** 2) / (len(waits) * (waits ** 2).sum())
             # Jain index is 1.0 when perfectly fair, lower when unfair
             fairness_penalty = c.fairness_weight * (1.0 - jain_index)

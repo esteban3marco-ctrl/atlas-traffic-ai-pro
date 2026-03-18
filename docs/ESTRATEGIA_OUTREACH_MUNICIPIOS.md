@@ -10,12 +10,12 @@ Posicionar ATLAS Pro como el Sistema Operativo de Tráfico líder para ayuntamie
 
 | Ciudad | Población | Foco Comercial | Contacto / Área |
 | :--- | :--- | :--- | :--- |
-| **Elche** | 245k | Conexión campus-centro y palmeral | Oficina Técnica Movilidad |
+| **Elche** | 245k | Conexión campus-centro y palmeral | movilidadurbana@elche.es |
 | **Granada** | 233k | Gestión de accesos turísticos y eventos | cgim@movilidadgranada.com |
-| **Badalona** | 231k | Integración metropolitana (Barcelona) | Servicio de Movilidad |
-| **Oviedo** | 223k | Movilidad en casco histórico y accesos | Seguridad y Movilidad |
-| **Cartagena** | 220k | Gestión puerto-centro y tráfico pesado | Infraestructuras y Movilidad |
-| **Alcalá de Henares** | 196k | Corredor del Henares (flujo logístico) | Concejalía Movilidad |
+| **Badalona** | 231k | Integración metropolitana (Barcelona) | sac@badalona.cat |
+| **Oviedo** | 223k | Movilidad en casco histórico y accesos | movilidad@oviedo.es |
+| **Cartagena** | 220k | Gestión puerto-centro y tráfico pesado | obrasyproyectos@ayto-cartagena.es |
+| **Alcalá de Henares** | 196k | Corredor del Henares (flujo logístico) | movilidad@ayto-alcaladehenares.es |
 | **Almería** | 200k | Movilidad estival y accesos playa | ayto@aytoalmeria.es |
 | **Burgos** | 173k | Clima adverso e incidencias invernales | oficinademovilidad@aytoburgos.es |
 
@@ -26,10 +26,10 @@ Posicionar ATLAS Pro como el Sistema Operativo de Tráfico líder para ayuntamie
 | :--- | :--- | :--- | :--- |
 | **Pozuelo de Alarcón** | 89k | Movilidad premium y fluidez residencial | c.movilidad@pozuelo.madrid |
 | **Las Rozas** | 96k | Hub tecnológico y Smart City | concejaliamovilidad@lasrozas.es |
-| **Gandía** | 83k | Tráfico turístico e intermodalidad | Concejalía Movilidad |
-| **Sagunto** | 70k | Eje industrial y logístico | Movilidad Urbana |
-| **Villena** | 34k | Primer paso a Smart City (Piloto) | Movilidad Urbana |
-| **Elda** | 52k | Revitalización comercial del centro | Área de Transportes |
+| **Gandía** | 83k | Tráfico turístico e intermodalidad | transitmobilitat@gandia.org |
+| **Sagunto** | 70k | Eje industrial y logístico | info@aytosagunto.es |
+| **Villena** | 34k | Primer paso a Smart City (Piloto) | pacoiniesta@villena.es |
+| **Elda** | 52k | Revitalización comercial del centro | sibanez@elda.es |
 
 ---
 

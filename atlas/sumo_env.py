@@ -275,7 +275,40 @@ class ATLASTrafficEnv(gym.Env):
         """
         if not isinstance(actions, (list, np.ndarray, torch.Tensor)):
             actions = [int(actions)]
-        
+
+        phase_changed_any, per_agent_info = self._apply_actions(actions)
+
+        # Advance simulation by delta_time steps
+        for _ in range(self._decision_steps):
+            if not self._is_active():
+                break
+            traci.simulationStep()
+            self._step_count += 1
+            for tl_id in self._tl_ids:
+                self._tl_states[tl_id]["steps"] += 1
+
+        obs = self._get_observation()
+        traffic_data = self._get_traffic_data()
+        reward = self._compute_step_reward(traffic_data, phase_changed_any)
+
+        terminated = not self._is_active()
+        truncated = self._step_count >= (self.env_config.max_steps / self.env_config.step_length)
+
+        self._update_episode_metrics(reward, traffic_data, phase_changed_any)
+
+        info = self._get_info()
+        info["traffic_data"] = traffic_data
+        info["phase_changed"] = phase_changed_any
+        info["per_agent"] = per_agent_info
+
+        if terminated or truncated:
+            info["episode_metrics"] = self._episode_metrics.copy()
+            self._disconnect()
+
+        return obs, reward, terminated, truncated, info
+
+    def _apply_actions(self, actions) -> Tuple[bool, Dict]:
+        """Apply traffic light actions and return phase change info."""
         phase_changed_any = False
         per_agent_info = {}
 
@@ -285,7 +318,6 @@ class ATLASTrafficEnv(gym.Env):
             curr_phase = curr_state["phase"]
             curr_steps = curr_state["steps"]
 
-            # Execute action
             if action == self.ACTION_SWITCH_NS:
                 if curr_phase != 0 and curr_steps >= self._min_green_steps:
                     self._change_phase(tl_id, 0)
@@ -300,43 +332,28 @@ class ATLASTrafficEnv(gym.Env):
                 new_phase = 2 if self._tl_states[tl_id]["phase"] == 0 else 0
                 self._change_phase(tl_id, new_phase)
                 p_changed = True
-            
+
             phase_changed_any = phase_changed_any or p_changed
             per_agent_info[tl_id] = {"phase_changed": p_changed}
 
-        # Advance simulation by delta_time steps
-        for _ in range(self._decision_steps):
-            if not self._is_active():
-                break
-            traci.simulationStep()
-            self._step_count += 1
-            for tl_id in self._tl_ids:
-                self._tl_states[tl_id]["steps"] += 1
+        return phase_changed_any, per_agent_info
 
-        # Compute state and reward
-        obs = self._get_observation()
-        traffic_data = self._get_traffic_data()
-
-        # Joint Reward (Simplified: calculated from global traffic data)
+    def _compute_step_reward(self, traffic_data: Dict, phase_changed: bool) -> float:
+        """Compute reward from traffic data."""
         reward = self._reward_fn.compute(
             queue_lengths=traffic_data["queues"],
             wait_times=traffic_data["waits"],
             speeds=traffic_data["speeds"],
             throughput=traffic_data["throughput"],
-            phase_changed=phase_changed_any,
+            phase_changed=phase_changed,
             emergency_waiting=traffic_data.get("emergency", False),
             halted_vehicles=traffic_data.get("halted", None),
         )
-
-        # Add potential-based shaping
         shaping = self._reward_shaping.compute_shaping(traffic_data["queues"])
-        reward += shaping
+        return reward + shaping
 
-        # Check termination
-        terminated = not self._is_active()
-        truncated = self._step_count >= (self.env_config.max_steps / self.env_config.step_length)
-
-        # Update metrics (Joint metrics)
+    def _update_episode_metrics(self, reward: float, traffic_data: Dict, phase_changed: bool):
+        """Update running episode metrics."""
         self._episode_metrics["total_reward"] += reward
         self._episode_metrics["total_throughput"] += traffic_data["throughput"]
         self._episode_metrics["total_wait_time"] += sum(traffic_data["waits"].values())
@@ -344,23 +361,11 @@ class ATLASTrafficEnv(gym.Env):
             self._episode_metrics["max_queue"],
             max(traffic_data["queues"].values()) if traffic_data["queues"] else 0
         )
-        if phase_changed_any:
+        if phase_changed:
             self._episode_metrics["phase_changes"] += 1
-
         speed_vals = list(traffic_data["speeds"].values())
         if speed_vals:
             self._episode_metrics["avg_speed"] = np.mean(speed_vals)
-
-        info = self._get_info()
-        info["traffic_data"] = traffic_data
-        info["phase_changed"] = phase_changed_any
-        info["per_agent"] = per_agent_info
-
-        if terminated or truncated:
-            info["episode_metrics"] = self._episode_metrics.copy()
-            self._disconnect()
-
-        return obs, reward, terminated, truncated, info
 
     def _connect(self):
         """Connect to SUMO simulator."""

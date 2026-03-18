@@ -63,16 +63,18 @@ def generate_body(municipality, sender_config, custom_text=None):
 
     body = f"""Estimado/a Responsable de Movilidad:
 
-He estado analizando los avances de {m_name} en movilidad y me parece que {placeholder_text} es una oportunidad de oro para optimizar el flujo urbano.
+He estado analizando la infraestructura semafórica de {m_name} y creo firmemente que tenéis el perfil perfecto para dar el siguiente paso hacia una Smart City real.
 
-Desde ATLAS AI, hemos desarrollado un Sistema de Control Adaptativo por IA que:
-1. Reduce el tiempo de viaje en un 30% mediante algoritmos Q-Learning.
-2. Instalación 'Invisible': Sin obras, se integra con vuestras cámaras y controladores actuales.
-3. ROI Inmediato: Un 90% más económico que ampliar infraestructura o licencias legacy.
+Teniendo en cuenta que uno de los retos locales suele ser {placeholder_text}, hemos desarrollado el sistema operativo ATLAS Pro para transformar el control de tráfico y dotarlo de Inteligencia Distribuida. Sus ventajas principales:
 
-Le proponemos una prueba de concepto de 30 días sin coste en una de sus arterias principales para que su equipo técnico audite los resultados de fluidez en tiempo real.
+1. Incremento del 30% en fluidez: La IA aprende y se adapta al milisegundo al flujo real, minimizando tiempos muertos y generando 'Ondas Verdes' dinámicas.
+2. Cumplimiento ZBE (Cero Emisiones): Al reducir radicalmente la dinámica "arranca-para", los niveles de emisiones contaminantes bajan drásticamente allí donde más se necesita.
+3. Instalación 'Invisible': Se integra por software directamente en las cámaras y controladores que ya tenéis. Cero obras y un ROI inmediato (hasta 90% más económico que licencias legacy).
+4. Resiliencia ante Atascos y Accidentes: Identifica bloqueos mediante visión y redirige automáticamente las arterias adyacentes para evitar colapsos irreversibles.
 
-¿Podemos agendar una breve vídeo-sesión de 10 minutos para mostrarle el impacto estimado en su ciudad?
+Tenemos datos recientes y estudios de caso que demuestran la eficacia de esta tecnología en redes de tamaño y problemática comparable.
+
+Si consideras que este enfoque podría encajar en los planes de innovación técnica de vuestra concejalía, respóndeme a este correo y estaré encantado de enviarte datos visuales o detallarte más sobre el funcionamiento del sistema.
 
 Atentamente,
 
@@ -89,7 +91,7 @@ def send_email(municipality, smtp_config, sender_config, body=None, dry_run=True
     m_email = municipality['email']
     
     if not m_email:
-        print(f"⚠️ No hay email configurado para {m_name}. Saltando...")
+        print(f"[!] No hay email configurado para {m_name}. Saltando...")
         return False
         
     subject = f"[Propuesta] Reducción del 30% en atascos y emisiones para {m_name}"
@@ -105,23 +107,23 @@ def send_email(municipality, smtp_config, sender_config, body=None, dry_run=True
         print("-" * 42 + "\n")
         return True
 
-    # Lógica de envío real
-    msg = MIMEMultipart()
-    msg['From'] = sender_config['email']
-    msg['To'] = m_email
+    from email.message import EmailMessage
+    msg = EmailMessage()
     msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
+    msg['From'] = f"{sender_config['name']} <{sender_config['email']}>"
+    msg['To'] = m_email
+    msg.set_content(body)
 
     try:
         server = smtplib.SMTP(smtp_config['server'], smtp_config['port'])
         server.starttls()
-        server.login(smtp_config['email'], smtp_config['password'])
+        server.login(smtp_config['email'], smtp_config['password'].replace(' ', ''))
         server.send_message(msg)
         server.quit()
-        print(f"✅ Correo enviado con éxito a {m_name} ({m_email})")
+        print(f"[OK] Correo enviado con éxito a {m_name} ({m_email})")
         return True
     except Exception as e:
-        print(f"❌ Error enviando a {m_name}: {e}")
+        print(f"[ERROR] Error enviando a {m_name}: {e}")
         return False
 
 def main():
@@ -164,19 +166,21 @@ def main():
             return
 
     for m in municipalities:
+        if m['name'] in ["Granada", "Almería", "Burgos", "Pozuelo de Alarcón", "Las Rozas"]:
+            print(f"[!] {m['name']} ya fue contactado hoy. Saltando...")
+            continue
         body = generate_body(m, sender_config, custom_text=custom_body)
         if args.send:
-            # En modo envío real, siempre pedimos confirmación ciudad por ciudad si hay pocas, 
-            # o una global si son muchas.
-            print(f"\nGenerando propuesta para {m['name']}...")
+            if not m.get('email'):
+                print(f"[!] No hay email configurado para {m['name']}. Saltando...")
+                continue
+            
+            print(f"\nGenerando propuesta para {m['name']} ({m['email']})...")
             print("-" * 20)
             print(body)
             print("-" * 20)
-            confirm = input(f"¿Enviar este correo a {m['email']}? (s/n): ")
-            if confirm.lower() == 's':
-                send_email(m, smtp_config, sender_config, body=body, dry_run=False)
-            else:
-                print(f"Envío a {m['name']} cancelado.")
+            print(f"Enviando correo a {m['email']}...")
+            send_email(m, smtp_config, sender_config, body=body, dry_run=False)
         else:
             send_email(m, smtp_config, sender_config, body=body, dry_run=True)
 

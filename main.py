@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 ATLAS - Sistema Completo de Control de Semáforos con Visión por Computador
 ===========================================================================

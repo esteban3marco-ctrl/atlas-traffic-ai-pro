@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 ATLAS Pro — Professional Training Pipeline
 =============================================
@@ -27,8 +28,10 @@ logger = logging.getLogger("ATLAS.Trainer")
 try:
     from atlas.dashboard.app import update_training_state
     _DASHBOARD_AVAILABLE = True
-except Exception:
+except Exception as _e:
     _DASHBOARD_AVAILABLE = False
+    logger.warning(f"Dashboard integration not available: {_e}")
+
 # Optional TensorBoard
 try:
     from torch.utils.tensorboard import SummaryWriter

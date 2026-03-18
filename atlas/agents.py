@@ -69,6 +69,9 @@ class DuelingDDQNAgent:
             hidden_dims=self.config.hidden_dims,
             use_noisy=self.config.use_noisy_nets,
             sigma_init=self.config.noisy_sigma,
+            num_atoms=self.config.num_atoms,
+            v_min=self.config.v_min,
+            v_max=self.config.v_max,
             use_transformer=self.config.use_transformer,
         ).to(self.device)
         
@@ -163,6 +166,22 @@ class DuelingDDQNAgent:
         """
         Select action(s) for one or more agents.
         """
+        # Input validation
+        if not isinstance(state, np.ndarray):
+            state = np.asarray(state, dtype=np.float32)
+        if state.ndim not in (1, 2):
+            raise ValueError(
+                f"state must be 1D (single agent) or 2D (multi-agent), got shape {state.shape}"
+            )
+        expected_dim = self.state_dim
+        actual_dim = state.shape[-1]
+        if actual_dim != expected_dim:
+            raise ValueError(
+                f"state last dimension must be {expected_dim}, got {actual_dim}"
+            )
+        if np.any(np.isnan(state)) or np.any(np.isinf(state)):
+            raise ValueError("state contains NaN or Inf values")
+
         with torch.no_grad():
             is_ma = (state.ndim == 2)
             state_t = torch.FloatTensor(state).to(self.device)
@@ -575,13 +594,13 @@ class PPOAgent:
     def train_step(self) -> Optional[float]:
         """
         Perform PPO update using collected rollout data.
-        
+
         Returns:
             Mean policy loss, or None if not enough data.
         """
         if not self.is_ready_to_train():
             return None
-        
+
         # Convert rollout to tensors
         states = torch.FloatTensor(np.array(self.states)).to(self.device)
         actions = torch.LongTensor(self.actions).to(self.device)
@@ -589,66 +608,81 @@ class PPOAgent:
         rewards = torch.FloatTensor(self.rewards).to(self.device)
         dones = torch.FloatTensor(self.dones).to(self.device)
         old_values = torch.FloatTensor(self.values).to(self.device)
-        
-        # === Compute GAE advantages ===
+
+        advantages, returns = self._compute_gae(rewards, dones, old_values)
+        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+
+        total_loss, n_updates, last_value_loss, last_entropy_loss = self._update_minibatches(
+            states, actions, old_log_probs, advantages, returns, old_values
+        )
+
+        self.train_steps += 1
+        self._log_metrics(total_loss, n_updates, last_value_loss, last_entropy_loss,
+                          advantages, returns)
+
+        # Clear rollout data
+        self.states.clear()
+        self.actions.clear()
+        self.log_probs.clear()
+        self.rewards.clear()
+        self.dones.clear()
+        self.values.clear()
+
+        return total_loss / max(n_updates, 1)
+
+    def _compute_gae(self, rewards, dones, old_values):
+        """Compute Generalized Advantage Estimation."""
         with torch.no_grad():
-            # Get bootstrap value for last state
             last_state = torch.FloatTensor(self.states[-1]).unsqueeze(0).to(self.device)
             _, _, _, next_value = self.network.get_action_and_value(last_state)
-            
+
             advantages = torch.zeros_like(rewards)
             last_gae = 0
-            
+
             for t in reversed(range(len(rewards))):
-                if t == len(rewards) - 1:
-                    next_non_terminal = 1.0 - dones[t]
-                    next_val = next_value
-                else:
-                    next_non_terminal = 1.0 - dones[t]
-                    next_val = old_values[t + 1]
-                
+                next_non_terminal = 1.0 - dones[t]
+                next_val = next_value if t == len(rewards) - 1 else old_values[t + 1]
+
                 delta = rewards[t] + self.config.gamma * next_val * next_non_terminal - old_values[t]
                 advantages[t] = last_gae = (
-                    delta + self.config.gamma * self.config.ppo_gae_lambda * 
+                    delta + self.config.gamma * self.config.ppo_gae_lambda *
                     next_non_terminal * last_gae
                 )
-            
+
             returns = advantages + old_values
-        
-        # Normalize advantages
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
-        
-        # === PPO Update Epochs ===
+        return advantages, returns
+
+    def _update_minibatches(self, states, actions, old_log_probs, advantages, returns, old_values):
+        """Run PPO clipped surrogate updates over mini-batches."""
         total_loss = 0
         n_updates = 0
         batch_size = min(256, len(states))
-        
+        last_value_loss = torch.tensor(0.0)
+        last_entropy_loss = torch.tensor(0.0)
+
         for epoch in range(self.config.ppo_epochs):
-            # Mini-batch indices
             indices = torch.randperm(len(states))
-            
+
             for start in range(0, len(states), batch_size):
-                end = start + batch_size
-                mb_idx = indices[start:end]
-                
+                mb_idx = indices[start:start + batch_size]
+
                 mb_states = states[mb_idx]
                 mb_actions = actions[mb_idx]
                 mb_old_log_probs = old_log_probs[mb_idx]
                 mb_advantages = advantages[mb_idx]
                 mb_returns = returns[mb_idx]
                 mb_old_values = old_values[mb_idx]
-                
-                # Get current policy output
+
                 _, new_log_probs, entropy, new_values = \
                     self.network.get_action_and_value(mb_states, mb_actions)
-                
+
                 # Policy loss (clipped surrogate)
                 ratio = torch.exp(new_log_probs - mb_old_log_probs)
                 surr1 = ratio * mb_advantages
-                surr2 = torch.clamp(ratio, 1.0 - self.config.ppo_clip, 
+                surr2 = torch.clamp(ratio, 1.0 - self.config.ppo_clip,
                                     1.0 + self.config.ppo_clip) * mb_advantages
                 policy_loss = -torch.min(surr1, surr2).mean()
-                
+
                 # Value loss (clipped)
                 value_pred_clipped = mb_old_values + torch.clamp(
                     new_values - mb_old_values,
@@ -656,30 +690,29 @@ class PPOAgent:
                 )
                 value_loss_unclipped = (new_values - mb_returns) ** 2
                 value_loss_clipped = (value_pred_clipped - mb_returns) ** 2
-                value_loss = 0.5 * torch.max(value_loss_unclipped, value_loss_clipped).mean()
-                
-                # Entropy bonus
-                entropy_loss = -entropy.mean()
-                
-                # Total loss
-                loss = (policy_loss 
-                        + self.config.ppo_value_coef * value_loss 
-                        + self.config.ppo_entropy_coef * entropy_loss)
-                
-                # Optimize
+                last_value_loss = 0.5 * torch.max(value_loss_unclipped, value_loss_clipped).mean()
+
+                last_entropy_loss = -entropy.mean()
+
+                loss = (policy_loss
+                        + self.config.ppo_value_coef * last_value_loss
+                        + self.config.ppo_entropy_coef * last_entropy_loss)
+
                 self.optimizer.zero_grad()
                 loss.backward()
                 nn.utils.clip_grad_norm_(
                     self.network.parameters(), self.config.ppo_max_grad_norm
                 )
                 self.optimizer.step()
-                
+
                 total_loss += policy_loss.item()
                 n_updates += 1
-        
-        self.train_steps += 1
-        
-        # Metrics
+
+        return total_loss, n_updates, last_value_loss, last_entropy_loss
+
+    def _log_metrics(self, total_loss, n_updates, value_loss, entropy_loss,
+                     advantages, returns):
+        """Update training metrics after an epoch."""
         self.metrics = {
             "policy_loss": total_loss / max(n_updates, 1),
             "value_loss": value_loss.item(),
@@ -688,16 +721,6 @@ class PPOAgent:
             "advantages_mean": advantages.mean().item(),
             "returns_mean": returns.mean().item(),
         }
-        
-        # Clear rollout data
-        self.states.clear()
-        self.actions.clear()
-        self.log_probs.clear()
-        self.rewards.clear()
-        self.dones.clear()
-        self.values.clear()
-        
-        return total_loss / max(n_updates, 1)
     
     def save(self, path: str):
         """Save agent checkpoint."""
