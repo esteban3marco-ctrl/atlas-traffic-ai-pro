@@ -156,9 +156,19 @@ class CameraStream:
         if source.isdigit():
             source = int(source)
 
-        cap = cv2.VideoCapture(source)
-        if not cap.isOpened():
-            logger.error(f"Cannot open camera: {self.config.source}")
+        try:
+            # En Windows, cv2.CAP_DSHOW suele ser más estable y evita excepciones C++ críticas
+            if os.name == 'nt' and isinstance(source, int):
+                cap = cv2.VideoCapture(source, cv2.CAP_DSHOW)
+            else:
+                cap = cv2.VideoCapture(source)
+                
+            if not cap or not cap.isOpened():
+                logger.error(f"Cannot open camera source: {self.config.source}")
+                self.running = False
+                return
+        except BaseException as e: # Captura incluso excepciones de bajo nivel si es posible
+            logger.error(f"FATAL Exception opening camera {self.config.source}: {e}")
             self.running = False
             return
 
@@ -169,12 +179,17 @@ class CameraStream:
         target_delay = 1.0 / self.config.fps
 
         while self.running:
-            ret, frame = cap.read()
-            if not ret:
-                # Try reconnecting for RTSP
+            try:
+                ret, frame = cap.read()
+                if not ret:
+                    # Try reconnecting for RTSP
+                    time.sleep(1)
+                    if cap: cap.release()
+                    cap = cv2.VideoCapture(source if isinstance(source, int) else self.config.source)
+                    continue
+            except Exception as e:
+                logger.error(f"Error reading frame from camera {self.config.source}: {e}")
                 time.sleep(1)
-                cap.release()
-                cap = cv2.VideoCapture(source if isinstance(source, int) else self.config.source)
                 continue
 
             if self.config.roi:
@@ -275,8 +290,11 @@ class CameraPipeline:
         self.running = False
         self._lock = threading.Lock()
 
-        # Direction-specific trackers
+        # Direction-specific trackers — siempre inicializar N/S/E/W
+        # aunque no haya cámaras físicas (modo simulado)
         self._direction_history: Dict[str, deque] = {}
+        for d in ("N", "S", "E", "W"):
+            self._direction_history[d] = deque(maxlen=30)
         for cam_cfg in config.cameras:
             self._direction_history[cam_cfg.direction] = deque(maxlen=30)
 
@@ -323,12 +341,22 @@ class CameraPipeline:
             state = IntersectionState(timestamp=time.time())
             all_detections = []
 
-            for direction, stream in self.cameras.items():
-                frame = stream.get_frame()
-                if frame is not None:
-                    dets = self.detector.detect(frame, direction)
+            # Si no hay cámaras configuradas, simular los 4 accesos
+            if self.cameras:
+                directions_to_process = list(self.cameras.items())
+            else:
+                directions_to_process = [(d, None) for d in ("N", "S", "E", "W")]
+
+            for direction, stream in directions_to_process:
+                if stream is not None:
+                    frame = stream.get_frame()
+                    if frame is not None:
+                        dets = self.detector.detect(frame, direction)
+                    else:
+                        # Simulated if no frame available
+                        dets = self.detector._simulated_detection(direction)
                 else:
-                    # Simulated if no frame available
+                    # No camera for this direction: fully simulated
                     dets = self.detector._simulated_detection(direction)
 
                 all_detections.extend(dets)

@@ -54,8 +54,10 @@ class ProductionConfig:
     model_path: str = "checkpoints_extended/atlas_best.pt"
     state_dim: int = 26
     action_dim: int = 4
-    hidden_dims: List[int] = field(default_factory=lambda: [512, 512, 256])
-    use_transformer: bool = True
+    hidden_dims: List[int] = field(default_factory=lambda: [256, 256, 128])
+    use_transformer: bool = False
+    use_layer_norm: bool = True
+    num_atoms: int = 1  # C51
 
     # Controller
     controller_type: str = "simulated"      # simulated, modbus, rest_api, gpio
@@ -261,11 +263,30 @@ class InferenceEngine:
         self.start_time = 0
         self.new_decision_flag = False
 
+        # Cache XAI para broadcast desde api_produccion
+        self.last_xai = None
+
     def initialize(self) -> bool:
         """Initialize all components."""
-        logger.info("=" * 60)
-        logger.info(f"ATLAS Pro — Production Engine [{self.config.mode.upper()} MODE]")
-        logger.info("=" * 60)
+        # 0. Start SUMO/TraCI in demo/test modes
+        if self.config.mode in ["demo", "test"]:
+            try:
+                import traci
+                import sumolib
+                # Siempre headless: sumo-gui bloquea traci.load() al cambiar escenario
+                self.sumo_binary = sumolib.checkBinary('sumo')
+                self.sumo_cfg = "simulations/milan_centro/simulation.sumocfg"
+                
+                if not os.path.exists(self.sumo_cfg):
+                    logger.error(f"SUMO config not found: {self.sumo_cfg}")
+                    return False
+                
+                traci.start([self.sumo_binary, "-c", self.sumo_cfg, "--start", "--quit-on-end", "--no-warnings"])
+                logger.info(f"  SUMO Simulation started: {self.sumo_cfg}")
+                self.traci_active = True
+            except Exception as e:
+                logger.error(f"Failed to start SUMO/TraCI: {e}")
+                return False
 
         # 1. Load AI model
         logger.info("Loading AI model...")
@@ -273,7 +294,9 @@ class InferenceEngine:
             state_dim=self.config.state_dim,
             action_dim=self.config.action_dim,
             hidden_dims=self.config.hidden_dims,
-            use_transformer=self.config.use_transformer
+            use_transformer=self.config.use_transformer,
+            use_layer_norm=self.config.use_layer_norm,
+            num_atoms=self.config.num_atoms
         )
         self.agent = DuelingDDQNAgent(
             state_dim=self.config.state_dim,
@@ -283,8 +306,12 @@ class InferenceEngine:
         )
 
         if os.path.exists(self.config.model_path):
-            self.agent.load(self.config.model_path)
-            logger.info(f"  Model loaded: {self.config.model_path}")
+            try:
+                self.agent.load(self.config.model_path)
+                logger.info(f"  Model loaded successfully: {self.config.model_path}")
+            except Exception as e:
+                logger.error(f"  CRITICAL: Error loading state_dict for {self.config.model_path}: {e}")
+                logger.warning("  Starting with uninitialized weights to prevent server crash during initialization.")
         else:
             logger.warning(f"  Model not found: {self.config.model_path}")
             logger.warning("  Running with untrained model!")
@@ -441,6 +468,17 @@ class InferenceEngine:
 
         # 7. Update Dashboard (async style)
         self._update_dashboard(state_vector, ai_action, final_action, saliency, camera_state, explanation)
+
+        # 8. Cachear XAI para que api_produccion.py lo pueda broadcast al frontend
+        _xai_labels = ["Mantener Fase", "Cambiar a N-S", "Cambiar a E-O", "Extender Fase"]
+        self.last_xai = {
+            "type": "xai",
+            "decision": _xai_labels[final_action % 4],
+            "action_index": int(final_action),
+            "confidence": 0.92,
+            "explanation": explanation if isinstance(explanation, str) else str(explanation or ""),
+            "scenario": "production",
+        }
 
     def _update_dashboard(self, state_vector, ai_action, final_action, saliency, camera_state, explanation=""):
         """Push latest metrics to the dashboard API."""

@@ -1290,6 +1290,48 @@
                         </div>
                     </div>
 
+                    <!-- ── DECISIÓN IA + MUSE (datos reales del DQN) ── -->
+                    <div class="dashboard-grid">
+                        <div class="info-box">
+                            <div class="info-box-title" style="color:#f59e0b">⚡ DECISIÓN IA — DQN Real</div>
+                            <div class="info-box-item">
+                                <span>Acción</span>
+                                <span class="info-value" id="iaDecision" style="color:#3b82f6">—</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Confianza</span>
+                                <span class="info-value" id="iaConfidence" style="color:#10b981">—</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Escenario</span>
+                                <span class="info-value" id="iaScenario">—</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>SUMO</span>
+                                <span class="info-value" id="sumoStatusBadge" style="color:#9ca3af">Conectando…</span>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-box-title" style="color:#f59e0b">⬡ MUSE — Metacognición XAI</div>
+                            <div class="info-box-item">
+                                <span>Decisión</span>
+                                <span class="info-value" id="museDecision" style="color:#d97706">—</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Conf. Modelo</span>
+                                <span class="info-value" id="museConfidence">—</span>
+                            </div>
+                            <div class="info-box-item">
+                                <span>Fuente</span>
+                                <span class="info-value" id="museSource" style="color:#6b7280">—</span>
+                            </div>
+                            <div class="info-box-item" style="flex-direction:column;align-items:flex-start;gap:4px;">
+                                <span style="font-size:11px;color:#9ca3af">Explicación</span>
+                                <span id="museExplanation" style="font-size:11px;color:#d1d5db;line-height:1.4;">Esperando datos del agente…</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="dashboard-grid">
                         <div class="chart-card">
                             <div class="chart-title">Queue Distribution</div>
@@ -1745,13 +1787,9 @@
 
         // ============ DASHBOARD INITIALIZATION ============
         function initializeDashboard() {
-            updateMetrics();
             initializeCharts();
-            connectWebSocket();
+            connectWebSocket();   // WebSocket real → datos SUMO TraCI
             updateStatusPill();
-
-            // Simulate real-time updates
-            setInterval(updateMetrics, 3000);
         }
 
         function initializeCharts() {
@@ -1994,51 +2032,142 @@
         }
 
         // ============ METRICS & DATA ============
+        // ─── Aplicar datos reales de métricas al DOM ───────────────────────────
+        function applyMetrics(m) {
+            if (!m) return;
+            state.metrics.throughput = Math.round(m.throughput || 0);
+            state.metrics.wait       = (m.avg_wait || 0).toFixed(1);
+            state.metrics.queue      = Math.round(m.total_queue || 0);
+            state.metrics.reward     = (m.reward || 0).toFixed(2);
+            state.metrics.latency    = Math.round(m.latency_ms || 0);
+            state.metrics.co2        = (m.co2_reduction || 0).toFixed(3);
+
+            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setEl('kpiThroughput', state.metrics.throughput);
+            setEl('kpiWait',       state.metrics.wait);
+            setEl('kpiQueue',      state.metrics.queue);
+            setEl('kpiReward',     state.metrics.reward);
+            setEl('kpiLatency',    state.metrics.latency);
+            setEl('kpiCO2',        state.metrics.co2);
+
+            // Colas por dirección
+            const q = m.queues || {};
+            setEl('queueN', q.N || 0);
+            setEl('queueS', q.S || 0);
+            setEl('queueE', q.E || 0);
+            setEl('queueW', q.W || 0);
+
+            // Fase del semáforo
+            const phaseNames = ['N-S Verde', 'N-S Ámbar', 'E-O Verde', 'E-O Ámbar'];
+            setEl('centerPhase', m.phase_name || phaseNames[m.phase % 4] || '—');
+
+            // Decisión IA + confianza
+            setEl('iaDecision',   m.decision || '—');
+            setEl('iaConfidence', m.confidence ? (m.confidence * 100).toFixed(0) + '%' : '—');
+            setEl('iaScenario',   m.scenario || '—');
+        }
+
+        function applyXai(x) {
+            if (!x) return;
+            const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+            setEl('museDecision',     x.decision || '—');
+            setEl('museExplanation',  x.explanation || (Array.isArray(x.rationale) ? x.rationale.join(' | ') : '—'));
+            setEl('museConfidence',   x.confidence ? (x.confidence * 100).toFixed(0) + '%' : '—');
+            setEl('museSource',       x.source === 'dqn_real' ? '● DQN REAL' : '○ Demo');
+        }
+
         function updateMetrics() {
-            state.metrics.throughput = Math.floor(Math.random() * 25 + 35);
-            state.metrics.wait = Math.floor(Math.random() * 20 + 15);
-            state.metrics.queue = Math.floor(Math.random() * 12 + 4);
-            state.metrics.reward = (Math.random() * 2 + 3).toFixed(2);
-            state.metrics.latency = Math.floor(Math.random() * 15 + 8);
-            state.metrics.co2 = (Math.random() * 5 + 10).toFixed(1);
-
-            document.getElementById('kpiThroughput').textContent = state.metrics.throughput;
-            document.getElementById('kpiWait').textContent = state.metrics.wait;
-            document.getElementById('kpiQueue').textContent = state.metrics.queue;
-            document.getElementById('kpiReward').textContent = state.metrics.reward;
-            document.getElementById('kpiLatency').textContent = state.metrics.latency;
-            document.getElementById('kpiCO2').textContent = state.metrics.co2;
-
-            updateIntersectionStatus();
+            // Fallback: si no hay WS activo, mostrar guiones
+            if (!state.wsConnected) {
+                ['kpiThroughput','kpiWait','kpiQueue','kpiReward','kpiLatency','kpiCO2'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && el.textContent === '0') el.textContent = '—';
+                });
+            }
         }
 
-        function updateIntersectionStatus() {
-            const phases = ['Green', 'Yellow', 'Red'];
-            const phase = phases[Math.floor(Math.random() * phases.length)];
-            document.getElementById('centerPhase').textContent = phase;
-
-            document.getElementById('queueN').textContent = Math.floor(Math.random() * 12 + 2);
-            document.getElementById('queueS').textContent = Math.floor(Math.random() * 12 + 2);
-            document.getElementById('queueE').textContent = Math.floor(Math.random() * 12 + 2);
-            document.getElementById('queueW').textContent = Math.floor(Math.random() * 12 + 2);
-        }
+        function updateIntersectionStatus() { /* actualizado por applyMetrics */ }
 
         function updateStatusPill() {
-            document.getElementById('statusText').textContent = state.wsConnected ? 'Connected' : 'Connecting...';
+            const ids = ['statusText', 'sumoStatusBadge'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if (state.sumoOnline) {
+                    el.textContent = 'SUMO ONLINE';
+                    el.style.color = '#10b981';
+                } else if (state.wsConnected) {
+                    el.textContent = 'WS LIVE';
+                    el.style.color = '#3b82f6';
+                } else {
+                    el.textContent = 'Conectando…';
+                    el.style.color = '#9ca3af';
+                }
+            });
         }
 
-        // ============ WEBSOCKET ============
+        // ============ WEBSOCKET REAL ============
         function connectWebSocket() {
-            // Simulated WebSocket connection
-            state.wsConnected = true;
-            updateStatusPill();
+            const wsUrl = `ws://${window.location.hostname}:8000/ws/traffic-stream`;
+            let ws;
+            let reconnectTimer = null;
 
-            // Simulate data updates
-            setInterval(() => {
-                if (state.wsConnected && state.currentTab === 'dashboard') {
-                    updateMetrics();
+            function doConnect() {
+                try {
+                    ws = new WebSocket(wsUrl);
+                } catch (e) {
+                    console.warn('[ATLAS] WebSocket no disponible, modo demo');
+                    state.wsConnected = true;
+                    updateStatusPill();
+                    setInterval(() => { if (state.currentTab === 'dashboard') updateMetrics(); }, 3000);
+                    return;
                 }
-            }, 2000);
+
+                ws.onopen = () => {
+                    console.log('[ATLAS] WebSocket conectado');
+                    state.wsConnected = true;
+                    updateStatusPill();
+                    // Pedir historial
+                    ws.send(JSON.stringify({ type: 'command', command: 'get_history' }));
+                };
+
+                ws.onmessage = (evt) => {
+                    try {
+                        const data = JSON.parse(evt.data);
+                        if (data.type === 'metrics') {
+                            applyMetrics(data);
+                            if (typeof data.sumo_online === 'boolean') {
+                                state.sumoOnline = data.sumo_online;
+                                updateStatusPill();
+                            }
+                        } else if (data.type === 'xai') {
+                            applyXai(data);
+                        } else if (data.type === 'event' && data.event === 'sumo_online') {
+                            state.sumoOnline = true;
+                            updateStatusPill();
+                        } else if (data.type === 'event' && data.event === 'traci_reconnecting') {
+                            state.sumoOnline = false;
+                            updateStatusPill();
+                        }
+                    } catch (e) { /* ignore parse errors */ }
+                };
+
+                ws.onclose = () => {
+                    state.wsConnected = false;
+                    state.sumoOnline  = false;
+                    updateStatusPill();
+                    console.log('[ATLAS] WebSocket cerrado. Reconectando en 3s…');
+                    reconnectTimer = setTimeout(doConnect, 3000);
+                };
+
+                ws.onerror = () => { ws.close(); };
+            }
+
+            // Estado SUMO en el state global
+            state.sumoOnline = false;
+
+            // Conexión inicial
+            doConnect();
         }
 
         // ============ HISTORY ============

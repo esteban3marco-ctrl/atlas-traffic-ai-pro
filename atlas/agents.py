@@ -70,9 +70,9 @@ class DuelingDDQNAgent:
             use_noisy=self.config.use_noisy_nets,
             sigma_init=self.config.noisy_sigma,
             num_atoms=self.config.num_atoms,
-            v_min=self.config.v_min,
             v_max=self.config.v_max,
             use_transformer=self.config.use_transformer,
+            use_layer_norm=self.config.use_layer_norm,
         ).to(self.device)
         
         self.target_net = DuelingNetwork(
@@ -85,6 +85,7 @@ class DuelingDDQNAgent:
             v_min=self.config.v_min,
             v_max=self.config.v_max,
             use_transformer=self.config.use_transformer,
+            use_layer_norm=self.config.use_layer_norm,
         ).to(self.device)
         
         # === V2: World Model (Dreamer-lite) ===
@@ -465,8 +466,10 @@ class DuelingDDQNAgent:
     def load(self, path: str):
         """Load agent from checkpoint."""
         checkpoint = torch.load(path, map_location=self.device, weights_only=False)
-        self.online_net.load_state_dict(checkpoint["online_net"])
-        self.target_net.load_state_dict(checkpoint["target_net"])
+        # Usamos strict=False para permitir la carga de modelos que no tienen 
+        # buffers opcionales como 'support' (casos no distribucionales)
+        self.online_net.load_state_dict(checkpoint["online_net"], strict=False)
+        self.target_net.load_state_dict(checkpoint["target_net"], strict=False)
         self.optimizer.load_state_dict(checkpoint["optimizer"])
         if "lr_scheduler" in checkpoint:
             self.lr_scheduler.load_state_dict(checkpoint["lr_scheduler"])

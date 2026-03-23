@@ -1,0 +1,32 @@
+{
+  "admin": {
+    "password_hash": "740d9a5486943fcae362212d32f2819249ea233ae0068e1ad12c8f14bce8ae2e",
+    "salt": "e9055892567da31eb58e3ed3439f7ac2",
+    "role": "admin",
+    "nombre": "Administrador ATLAS",
+    "email": "admin@atlas.local",
+    "activo": true,
+    "created_at": "2026-03-18T12:31:46.090977",
+    "last_login": "2026-03-22T10:45:38.025459"
+  },
+  "operador": {
+    "password_hash": "38fc048ce98370062989c06cc5250060124136d016384cff7e51235902dd23b4",
+    "salt": "9244da4acb49e901ebd6d64e1b6f1d3d",
+    "role": "operador",
+    "nombre": "Operador de Tr\u00e1fico",
+    "email": "operador@atlas.local",
+    "activo": true,
+    "created_at": "2026-03-18T12:31:46.185038",
+    "last_login": null
+  },
+  "visor": {
+    "password_hash": "2607ad64aa734216e7fb57813bf7736bbca429a97fb96772e456db0827901b83",
+    "salt": "3f4d785a8ff6941ea14481a140b15f12",
+    "role": "visor",
+    "nombre": "Visor Dashboard",
+    "email": "visor@atlas.local",
+    "activo": true,
+    "created_at": "2026-03-18T12:31:46.272054",
+    "last_login": null
+  }
+}

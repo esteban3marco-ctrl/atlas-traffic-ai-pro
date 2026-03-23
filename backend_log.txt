@@ -1,0 +1,74 @@
+09:15:30 [INFO] ATLAS.Safety: \U0001f6e1\ufe0f Safety Watchdog Module Initialized [SIL-4 Certified]
+09:15:31 [INFO] ATLAS.API: Iniciando Motores de Producción ATLAS...
+09:15:34 [INFO] ATLAS.Engine:   SUMO Simulation started: simulations/milan_centro/simulation.sumocfg
+09:15:34 [INFO] ATLAS.Engine: Loading AI model...
+09:15:34 [INFO] ATLAS.Agent: \U0001f9e0 DuelingDDQN Agent | device=cpu | state_dim=26 | action_dim=4
+09:15:34 [INFO] ATLAS.Agent:    Network params: 279,818
+09:15:34 [INFO] ATLAS.Agent: \U0001f4c2 Agent loaded from checkpoints_extended/atlas_best.pt (step 33355)
+09:15:34 [INFO] ATLAS.Engine:   Model loaded successfully: checkpoints_extended/atlas_best.pt
+09:15:34 [INFO] ATLAS.Engine: Starting camera pipeline...
+09:15:34 [INFO] ATLAS.Camera: YOLO model loaded: yolov8n.pt
+09:15:34 [INFO] ATLAS.Camera: Camera pipeline started with 0 cameras
+09:15:34 [INFO] ATLAS.Engine:   0 cameras active
+09:15:34 [INFO] ATLAS.Engine: Connecting to controller (simulated)...
+09:15:34 [INFO] ATLAS.Controller: Simulated controller connected
+09:15:34 [INFO] ATLAS.Engine: ============================================================
+09:15:34 [INFO] ATLAS.Engine: System initialized. Starting inference loop...
+09:15:34 [INFO] ATLAS.Engine:   Mode:     DEMO
+09:15:34 [INFO] ATLAS.Engine:   Interval: 5.0s
+09:15:34 [INFO] ATLAS.Engine:   Safety:   watchdog=10.0s
+09:15:34 [INFO] ATLAS.Engine: ============================================================
+09:15:34 [INFO] ATLAS.DQN: [DQN] Modelo cargado OK: D:\ATLAS\atlas-traffic-ai-pro\data_real\cityflow_env\CityFlow\dqn_traffic_model.pth  56\u2192256\u2192256\u21924
+09:15:34 [INFO] ATLAS.API: [ATLAS] DQN real cargado OK (56\u2192256\u2192256\u21924)
+09:15:34 [INFO] ATLAS.API: AtlasSystemState Production refactorizado
+09:15:34 [INFO] ATLAS.Auth: UserStore: 3 usuarios cargados desde JSON
+09:15:34 [INFO] ATLAS.Auth: AuthManager inicializado
+D:\ATLAS\atlas-traffic-ai-pro\api_produccion.py:1938: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+
+==============================================================
+  ATLAS Pro v3.0 â€” Sistema de Control de Trafico Inteligente
+==============================================================
+
+  Dashboard:  http://localhost:8000
+  API Docs:   http://localhost:8000/docs
+  WebSocket:  ws://localhost:8000/ws
+  Metricas:   http://localhost:8000/api/metrics
+
+  Modulos activos:
+    Seguridad:     SI
+    Anomalias:     SI
+    XAI:           SI
+    Checkpoints:   SI
+    MUSE:          SI
+    Auth JWT:      SI
+
+INFO:     Started server process [18844]
+INFO:     Waiting for application startup.
+09:15:35 [INFO] ATLAS.API: ATLAS Pro API v3.0 iniciada — Dashboard disponible en /
+09:15:35 [INFO] ATLAS.API: Pipeline de Producción ATLAS Activo.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+09:15:35 [INFO] ATLAS.API: [ATLAS] SUMO Net boundary: ((0.0, 0.0), (4957.08, 3233.93)) \u2192 center=(2478.5, 1617.0)
+09:15:35 [INFO] ATLAS.DQN: [DQN] TLS seleccionado: 1003229693 | 4 carriles | 6 fases
+09:15:35 [INFO] ATLAS.API: [ATLAS] DQN inicializado — TLS: 1003229693
+INFO:     127.0.0.1:49740 - "WebSocket /ws/traffic-stream" [accepted]
+09:15:35 [INFO] ATLAS.API: \U0001f7e2 [WS] Cliente conectado desde 127.0.0.1. Total: 1
+INFO:     connection open
+09:15:35 [INFO] ATLAS.API: [ATLAS] Geometría inicial: 4194 calles, 690 semáforos
+INFO:     127.0.0.1:64345 - "WebSocket /ws/traffic-stream" [accepted]
+09:15:37 [INFO] ATLAS.API: \U0001f7e2 [WS] Cliente conectado desde 127.0.0.1. Total: 2
+INFO:     connection open
+INFO:     127.0.0.1:65424 - "OPTIONS /api/v1/network/geometry HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/network/geometry HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/network/geometry HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59598 - "GET /api/v1/intersections/29137418/explain HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52540 - "OPTIONS /api/v1/intersections/29137418/explain HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52540 - "GET /api/v1/intersections/29137418/explain HTTP/1.1" 200 OK
+Error: tcpip::Socket::recvAndCheck @ recv: Socket reset by peer
+Quitting (on error).

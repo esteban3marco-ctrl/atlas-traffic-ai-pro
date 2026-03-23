@@ -1,0 +1,476 @@
+=== VehiclesYolo.jsx ===
+// src/components/canvas3d/VehiclesYolo.jsx
+// Vehículos 3D con LOD según zoom + movimiento fluido por lerp
+//
+// LOD (Level of Detail):
+//   camY > 150 → lodH ≈ 0: rectángulos planos (top-view, rendimiento máximo)
+//   camY < 30  → lodH ≈ 1: cajas 3D con altura real (coche, camión, bus, moto)
+//
+// InstancedMesh por tipo: car / fast / slow / truck / bus / moto
+// (sin crear un Object3D por vehículo → soporta 600+ vehículos a 60fps)
+import { useRef, useEffect } from 'react';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+import useTrafficStore from '../../store/useTrafficStore';
+
+// ── Tipos de vehículo: dimensiones calibradas para encajar en los carriles ──
+// El carril visual tiene un ancho de ~0.32 unidades Three.js (road half-width r2=0.32)
+// w = ancho (X, perpendicular al movimiento), h = alto (Y), l = largo (Z, dirección de marcha)
+const TYPES = [
+  { key: 'car',   color: '#f97316', w: 0.18, h: 0.10, l: 0.42 }, // naranja — coche normal
+  { key: 'fast',  color: '#ef4444', w: 0.18, h: 0.10, l: 0.42 }, // rojo    — >60 km/h
+  { key: 'slow',  color: '#facc15', w: 0.18, h: 0.10, l: 0.42 }, // amarillo — <5 km/h / cola
+  { key: 'truck', color: '#84cc16', w: 0.22, h: 0.20, l: 0.68 }, // lima    — camión
+  { key: 'bus',   color: '#38bdf8', w: 0.22, h: 0.26, l: 1.10 }, // cian    — autobús
+  { key: 'moto',  color: '#c084fc', w: 0.09, h: 0.09, l: 0.20 }, // violeta  — moto/bici
+];
+
+const MAX_V = 600; // slots por tipo (instanced)
+
+// ── Geometrías: BoxGeometry con pivote en la base (se apoya sobre la calzada) ──
+const GEOS = {};
+TYPES.forEach(({ key, w, h, l }) => {
+  const geo = new THREE.BoxGeometry(w, h, l);
+  geo.translate(0, h / 2, 0); // pivote en la base → Y=0 = suelo
+  GEOS[key] = geo;
+});
+
+// ── Clasificación por tipo de vehículo ──────────────────────────────────────
+function classify(v) {
+  const t = (v.type || '').toLowerCase();
+  if (t.includes('bus') || t.includes('coach'))                              return 'bus';
+  if (t.includes('truck') || t.includes('trailer') || t.includes('heavy'))   return 'truck';
+  if (t.includes('moto') || t.includes('bicycle') || t.includes('bike') ||
+      t.includes('cycle'))                                                    return 'moto';
+  const spd = v.speed || 0;
+  if (spd > 60) return 'fast';
+  if (spd <  5) return 'slow';
+  return 'car';
+}
+
+// ── Componente ───────────────────────────────────────────────────────────────
+export default function VehiclesYolo() {
+  const vehicles  = useTrafficStore(s => s.vehicleDetections);
+  const netCenter = useTrafficStore(s => s.netCenter);
+  const netScale  = useTrafficStore(s => s.netScale);
+
+  // Refs de los InstancedMesh por tipo
+  const refs = useRef(Object.fromEntries(TYPES.map(t => [t.key, null])));
+
+  // Mapa de interpolación: id → { x, z, angle }
+  const vstateRef = useRef(new Map());
+
+  // Factor LOD de altura (suavizado, 0=plano / 1=3D completo)
+  const lodHRef = useRef(0);
+
+  // ── Inicializar geometrías + ocultar todos los slots ──────────────────────
+  useEffect(() => {
+    const dummy = new THREE.Object3D();
+    dummy.scale.setScalar(0);
+    dummy.updateMatrix();
+    TYPES.forEach(({ key }) => {
+      const mesh = refs.current[key];
+      if (!mesh) return;
+      mesh.geometry = GEOS[key];
+      for (let i = 0; i < MAX_V; i++) mesh.setMatrixAt(i, dummy.matrix);
+      mesh.instanceMatrix.needsUpdate = true;
+    });
+  }, []);
+
+  // ── Loop de animación: lerp + LOD ─────────────────────────────────────────
+  useFrame((state, delta) => {
+    const { camera } = state;
+    const cx  = netCenter[0];
+    const cy  = netCenter[1];
+    const esc = netScale || 1.0;
+
+    // ── LOD: factor de altura según altura de cámara ──
+    // camY >= 150 → lodH = 0 (rectángulos planos, vista aérea)
+    // camY <= 30  → lodH = 1 (cajas 3D con altura completa)
+    const camY        = Math.max(1, camera.position.y);
+    const targetLodH  = THREE.MathUtils.clamp((150 - camY) / 120, 0, 1);
+    lodHRef.current  += (targetLodH - lodHRef.current) * Math.min(1, delta * 4);
+    const lodH        = lodHRef.current;
+
+    // ── Tamaño base XZ ──
+    // Cerca (camY<60): escala 1.0 — dimensiones reales que encajan en el carril
+    // Lejos (camY>60): escala sube hasta 1.5× para mantener visibilidad mínima
+    const baseSize = camY < 60
+      ? 1.0
+      : Math.min(1.5, 1.0 + (camY - 60) * 0.005);
+
+    // ── Coeficientes de lerp ──
+    const alphaP = 1 - Math.pow(0.002, delta); // posición
+    const alphaR = 1 - Math.pow(0.010, delta); // rotación
+
+    // ── Clasificar vehículos ──
+    const buckets = Object.fromEntries(TYPES.map(t => [t.key, []]));
+    for (const v of vehicles) {
+      if (!v?.pos) continue;
+      buckets[classify(v)].push(v);
+    }
+
+    const dummy = new THREE.Object3D();
+
+    TYPES.forEach(({ key }) => {
+      const mesh = refs.current[key];
+      if (!mesh) return;
+
+      const vlist = buckets[key];
+
+      for (let i = 0; i < MAX_V; i++) {
+        if (i >= vlist.length) {
+          dummy.scale.setScalar(0);
+          dummy.updateMatrix();
+          mesh.setMatrixAt(i, dummy.matrix);
+          continue;
+        }
+
+        const v = vlist[i];
+
+        // Posición objetivo en coordenadas Three.js (SUMO → Three.js)
+        const targetX = (v.pos[0] - cx) * esc;
+        const targetZ = -(v.pos[1] - cy) * esc;
+        const targetA = THREE.MathUtils.degToRad(-(v.angle || 0)) + Math.PI;
+
+        // Interpolar posición y ángulo
+        let vs = vstateRef.current.get(v.id);
+        if (!vs) {
+          vs = { x: targetX, z: targetZ, angle: targetA };
+          vstateRef.current.set(v.id, vs);
+        } else {
+          vs.x += (targetX - vs.x) * alphaP;
+          vs.z += (targetZ - vs.z) * alphaP;
+          // Interpolar ángulo por el camino más corto (evita giro de 360°)
+          let da = targetA - vs.angle;
+          if (da >  Math.PI) da -= Math.PI * 2;
+          if (da < -Math.PI) da += Math.PI * 2;
+          vs.angle += da * alphaR;
+        }
+
+        // ── Escala no uniforme para LOD ──
+        // scale.x / scale.z = baseSize (tamaño horizontal)
+        // scale.y = lodH: 0→plano (top-view)  1→caja 3D con altura real
+        const sz    = baseSize;
+        const scaleY = Math.max(0.02, lodH);
+
+        dummy.position.set(vs.x, 0.05, vs.z); // Y=0.05 — encima de las capas de calles (max 0.026)
+        dummy.rotation.set(0, vs.angle, 0);
+        dummy.scale.set(sz, scaleY, sz);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(i, dummy.matrix);
+      }
+
+      mesh.instanceMatrix.needsUpdate = true;
+    });
+
+    // ── Limpieza periódica de vehículos inactivos ──
+    if (Math.random() < 0.004 && vstateRef.current.size > vehicles.length + 20) {
+      const active = new Set(vehicles.map(v => v.id));
+      for (const id of vstateRef.current.keys()) {
+        if (!active.has(id)) vstateRef.current.delete(id);
+      }
+    }
+  });
+
+  return (
+    <>
+      {TYPES.map(({ key, color }) => (
+        <instancedMesh
+          key={key}
+          ref={el => { refs.current[key] = el; }}
+          args={[undefined, undefined, MAX_V]}
+          castShadow
+        >
+          {/* Lambert para sombreado suave con las luces de la escena */}
+          <meshLambertMaterial color={color} />
+        </instancedMesh>
+      ))}
+    </>
+  );
+}
+=== NetworkRenderer.jsx ===
+// src/components/canvas3d/NetworkRenderer.jsx
+// Mapa estilo Google Maps Dark — una sola capa de fills, sin casing
+// (el casing causaba manchas negras al solaparse en intersecciones densas)
+import { useMemo, useRef, useEffect } from 'react';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+import useTrafficStore from '../../store/useTrafficStore';
+
+// ── Paleta Google Maps Dark (validada con buen contraste) ─────────────────────
+// Fondo canvas/mapa : #1e2534   (SceneBackground)
+// Suelo (manzanas) : #242f3e   (MapGround)
+// Calles, de menor a mayor jerarquía:
+const ROAD_COLORS = {
+  r1: '#3c4a5c',   // 1 carril  — residencial  (contraste suficiente sobre #242f3e)
+  r2: '#4e6280',   // 2 carriles — secundaria
+  r3: '#607898',   // 3 carriles — principal
+  r4: '#7898ba',   // 4+ carriles — arterial/autopista (bien visible)
+};
+
+const ROAD_HW = {    // half-width visual (Three.js units) — NO a escala real
+  r1: 0.18,
+  r2: 0.32,
+  r3: 0.52,
+  r4: 0.74,
+};
+
+const TLS_G = new THREE.Color('#00e676');
+const TLS_Y = new THREE.Color('#ffab00');
+const TLS_R = new THREE.Color('#ff3d57');
+
+// ── Geometría de calles (un solo quad por segmento, sin casing) ───────────────
+function buildRoadGeo(edges, cx, cy, scale) {
+  if (!edges?.length) return null;
+
+  // Dibuja menores primero (painter's algorithm: arteriales encima)
+  const sorted = [...edges].sort((a, b) => (a.lanes || 1) - (b.lanes || 1));
+  const verts = [];
+  const cols  = [];
+
+  for (const edge of sorted) {
+    const s = edge.shape;
+    if (!s || s.length < 2) continue;
+
+    const lanes = edge.lanes || 1;
+    const key   = lanes >= 4 ? 'r4' : lanes === 3 ? 'r3' : lanes === 2 ? 'r2' : 'r1';
+    const hw    = ROAD_HW[key];
+    const col   = new THREE.Color(ROAD_COLORS[key]);
+    // Y ligeramente mayor para arteriales → se dibujan sobre las residenciales
+    const y = 0.01 + lanes * 0.004;
+    const r = col.r, g = col.g, b = col.b;
+
+    for (let i = 0; i < s.length - 1; i++) {
+      const ax = (s[i][0]   - cx) * scale;
+      const az = -(s[i][1]  - cy) * scale;
+      const bx = (s[i + 1][0] - cx) * scale;
+      const bz = -(s[i + 1][1] - cy) * scale;
+
+      let dx = bx - ax, dz = bz - az;
+      const len = Math.sqrt(dx * dx + dz * dz);
+      if (len < 0.0001) continue;
+      dx /= len; dz /= len;
+
+      const nx = -dz * hw, nz = dx * hw;
+
+      verts.push(
+        ax - nx, y, az - nz,  ax + nx, y, az + nz,  bx + nx, y, bz + nz,
+        ax - nx, y, az - nz,  bx + nx, y, bz + nz,  bx - nx, y, bz - nz,
+      );
+      for (let k = 0; k < 6; k++) cols.push(r, g, b);
+    }
+  }
+
+  if (!verts.length) return null;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+  geo.setAttribute('color',    new THREE.Float32BufferAttribute(cols,  3));
+  return geo;
+}
+
+// ── Semáforos ─────────────────────────────────────────────────────────────────
+// Vista lejana  (camY > 60): punto de color activo (SphereGeometry plana desde arriba)
+// Vista cercana (camY < 60): poste negro + 3 luces apiladas (rojo arriba, verde abajo)
+//
+// Implementación con InstancedMesh para los 690 semáforos de Milán:
+//   - 1 InstancedMesh de poste (cilindro negro)
+//   - 3 InstancedMesh de luz activa (esfera del color activo, desplazada en Y)
+
+// Esfera para las luces — visible tanto desde arriba como desde el lateral
+const TLS_SPHERE_GEO = new THREE.SphereGeometry(1, 8, 6);
+
+// Poste del semáforo: cilindro delgado, pivote en la base
+const TLS_POLE_GEO = (() => {
+  const g = new THREE.CylinderGeometry(0.12, 0.12, 4.0, 6);
+  g.translate(0, 2.0, 0); // pivote en la base
+  return g;
+})();
+const TLS_POLE_MAT = new THREE.MeshLambertMaterial({ color: '#1c1c1c' });
+
+// Tamaño base en píxeles de pantalla para las luces (constante independiente del zoom)
+const TLS_BASE_PX = 5;
+
+// Alturas Y de las 3 luces cuando se muestra el poste 3D
+const TLS_Y_RED    = 4.2; // rojo  → arriba
+const TLS_Y_YELLOW = 2.8; // ámbar → centro
+const TLS_Y_GREEN  = 1.4; // verde → abajo
+
+function TlsMarkers({ junctions, cx, cy, scale, allTlsStates }) {
+  const refG    = useRef(); // luz verde activa
+  const refY    = useRef(); // luz ámbar activa
+  const refR    = useRef(); // luz roja   activa
+  const refPole = useRef(); // postes (todos los semáforos)
+
+  const tlsList = useMemo(() => junctions.filter(j => j.tls), [junctions]);
+
+  // Posiciones precalculadas por color activo y lista completa de TLS
+  const positionsRef = useRef({ g: [], y: [], r: [], all: [] });
+
+  // Actualizar clasificación al cambiar estados (3 Hz aprox.)
+  useEffect(() => {
+    const buckets = { g: [], y: [], r: [], all: [] };
+    tlsList.forEach(tls => {
+      const px = (tls.x - cx) * scale;
+      const pz = -(tls.y - cy) * scale;
+      const st  = allTlsStates[tls.id] || 'r';
+      const key = st === 'g' ? 'g' : st === 'y' ? 'y' : 'r';
+      buckets[key].push({ x: px, z: pz });
+      buckets.all.push({ x: px, z: pz, state: key });
+    });
+    positionsRef.current = buckets;
+  });
+
+  // Inicializar geometrías una vez tras mount
+  useEffect(() => {
+    [refG, refY, refR].forEach(ref => {
+      if (!ref.current) return;
+      ref.current.geometry = TLS_SPHERE_GEO;
+    });
+    if (refPole.current) refPole.current.geometry = TLS_POLE_GEO;
+  }, []);
+
+  useFrame(({ camera, gl }) => {
+    const camY    = Math.max(0.5, camera.position.y);
+    const fovRad  = (camera.fov || 45) * (Math.PI / 180);
+    const canvasH = gl.domElement.height;
+    const pxPerUnit = canvasH / (2 * camY * Math.tan(fovRad / 2));
+    // Tamaño de cada luz: constante en píxeles (visible a cualquier zoom)
+    const sz      = Math.max(0.04, TLS_BASE_PX / pxPerUnit);
+    // En vista cercana las luces son algo mayores para que se aprecien
+    const szClose = camY < 30 ? sz * 1.8 : sz;
+
+    // ¿Modo 3D? (cámara baja → mostrar postes y luces apiladas)
+    const is3D    = camY < 60;
+
+    const dummy = new THREE.Object3D();
+
+    // ── Actualizar cada color (luces activas) ─────────────────────────────
+    const updateColorMesh = (ref, positions, yClose) => {
+      const mesh = ref.current;
+      if (!mesh) return;
+      for (let i = 0; i < mesh.count; i++) {
+        if (i >= positions.length) {
+          dummy.scale.setScalar(0);
+          dummy.updateMatrix();
+          mesh.setMatrixAt(i, dummy.matrix);
+          continue;
+        }
+        const p = positions[i];
+        // En modo 3D las luces se apilan en Y; en modo lejano flotan a Y=0.3
+        const y = is3D ? yClose : 0.3;
+        dummy.position.set(p.x, y, p.z);
+        dummy.scale.setScalar(szClose);
+        dummy.updateMatrix();
+        mesh.setMatrixAt(i, dummy.matrix);
+      }
+      mesh.instanceMatrix.needsUpdate = true;
+    };
+
+    // Posiciones Y de las luces proporcionales a la altura real del poste escalado.
+    // El poste tiene altura 4.0 unidades × escala sz*0.9 → punta del poste en poleTopH.
+    // Rojo en la cima, verde en la base (semáforo estándar).
+    const poleTopH = 4.0 * sz * 0.9;
+    const gap      = szClose * 0.55;  // separación entre luces
+    const { g, y: yArr, r } = positionsRef.current;
+    updateColorMesh(refG, g,    poleTopH - gap);   // verde: ligeramente por debajo de la punta
+    updateColorMesh(refY, yArr, poleTopH);          // ámbar: en la punta del poste
+    updateColorMesh(refR, r,    poleTopH + gap);    // rojo: por encima de la punta
+
+    // ── Postes (solo en modo 3D) ──────────────────────────────────────────
+    if (refPole.current) {
+      const { all } = positionsRef.current;
+      for (let i = 0; i < refPole.current.count; i++) {
+        if (!is3D || i >= all.length) {
+          dummy.scale.setScalar(0);
+          dummy.updateMatrix();
+          refPole.current.setMatrixAt(i, dummy.matrix);
+          continue;
+        }
+        const p = all[i];
+        dummy.position.set(p.x, 0, p.z);
+        dummy.scale.setScalar(sz * 0.9);
+        dummy.updateMatrix();
+        refPole.current.setMatrixAt(i, dummy.matrix);
+      }
+      refPole.current.instanceMatrix.needsUpdate = true;
+    }
+  });
+
+  if (!tlsList.length) return null;
+  const n = tlsList.length;
+  return (
+    <>
+      {/* Poste negro */}
+      <instancedMesh ref={refPole} args={[undefined, undefined, n]}>
+        <primitive object={TLS_POLE_MAT} attach="material" />
+      </instancedMesh>
+      {/* Luz verde */}
+      <instancedMesh ref={refG} args={[undefined, undefined, n]}>
+        <meshBasicMaterial color="#00e676" />
+      </instancedMesh>
+      {/* Luz ámbar */}
+      <instancedMesh ref={refY} args={[undefined, undefined, n]}>
+        <meshBasicMaterial color="#ffab00" />
+      </instancedMesh>
+      {/* Luz roja */}
+      <instancedMesh ref={refR} args={[undefined, undefined, n]}>
+        <meshBasicMaterial color="#ff3d57" />
+      </instancedMesh>
+    </>
+  );
+}
+
+// ── Suelo del mapa ────────────────────────────────────────────────────────────
+function MapGround({ bounds, cx, cy, scale }) {
+  const pad = 0.15;
+  const w   = (bounds[2] - bounds[0]) * scale * (1 + pad);
+  const h   = (bounds[3] - bounds[1]) * scale * (1 + pad);
+  const px  = ((bounds[0] + bounds[2]) / 2 - cx) * scale;
+  const pz  = -((bounds[1] + bounds[3]) / 2 - cy) * scale;
+  return (
+    <mesh position={[px, 0, pz]} rotation={[-Math.PI / 2, 0, 0]}>
+      <planeGeometry args={[w, h]} />
+      <meshBasicMaterial color="#242f3e" />
+    </mesh>
+  );
+}
+
+// ── Componente raíz ───────────────────────────────────────────────────────────
+export default function NetworkRenderer() {
+  const networkGeometry = useTrafficStore(s => s.networkGeometry);
+  const allTlsStates    = useTrafficStore(s => s.allTlsStates);
+  const netCenter       = useTrafficStore(s => s.netCenter);
+  const netScale        = useTrafficStore(s => s.netScale);
+
+  const cx    = netCenter[0];
+  const cy    = netCenter[1];
+  const scale = (networkGeometry?.auto_scale) || netScale || 1.0;
+
+  // useMemo debe ir ANTES del early return para no violar Rules of Hooks
+  const roadGeo = useMemo(
+    () => buildRoadGeo(networkGeometry?.edges, cx, cy, scale),
+    [networkGeometry?.edges, cx, cy, scale]
+  );
+
+  if (!networkGeometry?.edges?.length) return null;
+
+  return (
+    <group name="sumo-network">
+      <MapGround bounds={networkGeometry.bounds} cx={cx} cy={cy} scale={scale} />
+
+      {roadGeo && (
+        <mesh>
+          <primitive object={roadGeo} attach="geometry" />
+          <meshBasicMaterial vertexColors side={THREE.DoubleSide} />
+        </mesh>
+      )}
+
+      <TlsMarkers
+        junctions={networkGeometry.junctions || []}
+        cx={cx} cy={cy} scale={scale}
+        allTlsStates={allTlsStates}
+      />
+    </group>
+  );
+}

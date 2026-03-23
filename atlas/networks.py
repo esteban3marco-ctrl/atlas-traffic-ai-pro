@@ -158,6 +158,7 @@ class DuelingNetwork(nn.Module):
         v_min: float = -10.0,
         v_max: float = 10.0,
         use_transformer: bool = True,
+        use_layer_norm: bool = True,
     ):
         super().__init__()
         
@@ -172,6 +173,7 @@ class DuelingNetwork(nn.Module):
         self.v_min = v_min
         self.v_max = v_max
         self.use_transformer = use_transformer
+        self.use_layer_norm = use_layer_norm
         
         self.register_buffer("support", torch.linspace(v_min, v_max, num_atoms))
         
@@ -191,8 +193,12 @@ class DuelingNetwork(nn.Module):
         in_dim = feature_dim
         for i, h_dim in enumerate(hidden_dims[:-1]):
             shared_layers.append(Linear(in_dim, h_dim, **linear_kwargs))
-            shared_layers.append(nn.LayerNorm(h_dim))
+            if use_layer_norm:
+                shared_layers.append(nn.LayerNorm(h_dim))
             shared_layers.append(nn.GELU())
+            # Este Dropout(0.0) es crucial para mantener la compatibilidad de índices
+            # con el modelo atlas_best.pt original.
+            shared_layers.append(nn.Dropout(0.0))
             in_dim = h_dim
         
         self.shared = nn.Sequential(*shared_layers)
@@ -201,26 +207,33 @@ class DuelingNetwork(nn.Module):
         
         if use_dueling:
             # === Value Stream V(s) ===
-            self.value_stream = nn.Sequential(
-                Linear(backbone_dim, stream_hidden, **linear_kwargs),
-                nn.LayerNorm(stream_hidden),
+            v_layers = [Linear(backbone_dim, stream_hidden, **linear_kwargs)]
+            if use_layer_norm:
+                v_layers.append(nn.LayerNorm(stream_hidden))
+            v_layers.extend([
                 nn.GELU(),
                 Linear(stream_hidden, num_atoms, **linear_kwargs),
-            )
+            ])
+            self.value_stream = nn.Sequential(*v_layers)
+
             # === Advantage Stream A(s, a) ===
-            self.advantage_stream = nn.Sequential(
-                Linear(backbone_dim, stream_hidden, **linear_kwargs),
-                nn.LayerNorm(stream_hidden),
+            a_layers = [Linear(backbone_dim, stream_hidden, **linear_kwargs)]
+            if use_layer_norm:
+                a_layers.append(nn.LayerNorm(stream_hidden))
+            a_layers.extend([
                 nn.GELU(),
                 Linear(stream_hidden, action_dim * num_atoms, **linear_kwargs),
-            )
+            ])
+            self.advantage_stream = nn.Sequential(*a_layers)
         else:
-            self.q_head = nn.Sequential(
-                Linear(backbone_dim, stream_hidden, **linear_kwargs),
-                nn.LayerNorm(stream_hidden),
+            q_layers = [Linear(backbone_dim, stream_hidden, **linear_kwargs)]
+            if use_layer_norm:
+                q_layers.append(nn.LayerNorm(stream_hidden))
+            q_layers.extend([
                 nn.GELU(),
                 Linear(stream_hidden, action_dim * num_atoms, **linear_kwargs),
-            )
+            ])
+            self.q_head = nn.Sequential(*q_layers)
         
         self.apply(self._init_weights)
     

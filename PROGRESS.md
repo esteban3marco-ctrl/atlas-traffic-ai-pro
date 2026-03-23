@@ -108,3 +108,74 @@
   - Dashboard: state, HTML generation (6 tests)
   - Other: phase definitions, factory patterns (19 tests)
 - Fixed `_make_trainer` duplicate keyword bug in test_trainer.py
+
+---
+
+## FASE 6 — INTEGRACIÓN DQN + SUMO TraCI (COMPLETED)
+
+### TAREA 1: Conexión SUMO TraCI con Backend ✅
+- Inference engine apunta a `simulations/milan_centro/simulation.sumocfg` (red real Milán 4,194 edges, 690 TLS)
+- Escenarios disponibles: `normal`, `heavy`, `noche`, `evento`, `milan`, `milan_punta`, `milan_noche`
+- Extracción real TraCI por step: colas N/S/E/W, avg_speed, TLS phase, CO2, throughput
+- Broadcast via WebSocket existente (`/ws/traffic-stream`) con paquetes `metrics` y `xai`
+- Manejo de desconexiones: `traci_reconnecting` event + reconexión automática
+
+### TAREA 2: Carga e Integración del Modelo DQN ✅
+- Creado `atlas/dqn_wrapper.py` (320 líneas)
+- Arquitectura real del modelo: `CityFlowDQN` MLP 56→256→256→4
+- Cargado desde `data_real/cityflow_env/CityFlow/dqn_traffic_model.pth`
+- State vector 56D: 8 lanes × 7 features (num_vehicles, halting, speed_kmh, occupancy, is_green, phase_duration, mean_wait) — todos normalizados [0,1]
+- 4 acciones: 0=Mantener Fase, 1=Cambiar N-S, 2=Cambiar E-O, 3=Extender Fase
+- Confianza via softmax con temperatura T=2
+- XAI: `build_xai_explanation()` con rationale, feature_importance, muse_strategy/competence
+
+### TAREA 3: Adaptación Dashboard ✅
+- `production/dashboard.html`: WebSocket real → `ws://hostname:8000/ws/traffic-stream`
+  - `applyMetrics(m)`: actualiza KPIs, colas N/S/E/W, DECISIÓN IA desde datos reales TraCI
+  - `applyXai(x)`: panel MUSE XAI con explicación DQN real
+  - Reconexión automática cada 3s
+  - Badge SUMO ONLINE/OFFLINE en status pill
+- `dashboard/src/` (React):
+  - `useTrafficStore.js`: campo `sumoOnline` + setter `setSumoOnline`
+  - `stitchClient.js`: maneja eventos `sumo_online` y `traci_reconnecting`
+  - `CommandBar.jsx`: indicador dual WS LIVE / SUMO ON|OFF
+
+### TAREA 4: Async Loop DQN 500ms ✅
+- Loop principal en `api_produccion.py`: step cada 500ms
+- DQN activo cuando `mode == "ia_activa"` y `_tls_initialized`
+- `run_in_executor` para todas las llamadas TraCI (no bloqueantes en asyncio)
+- `dqn.init_from_traci()` llamado al primer step SUMO y tras cada `traci.load()`
+- Métricas reales: throughput de `traci.simulation.getArrivedNumber()`, CO2 de `traci.vehicle.getCO2Emission()`, velocidad de `traci.vehicle.getMeanSpeed()`
+- MUSE explain endpoint usa Q-values reales del último inference
+
+### Verificación Sintáctica ✅
+- `atlas/dqn_wrapper.py`: SYNTAX OK
+- `api_produccion.py`: SYNTAX OK
+- `atlas/production/inference_engine.py`: SYNTAX OK
+
+---
+
+## FASE 7 — FIXES DASHBOARD 3D (COMPLETED)
+
+### V1: Vehículos mal escalados — FIXED
+- **Root cause**: `TYPES` dimensions (`w:1.8, l:1.0`) producían coches de 92m equivalente; carriles visuales miden 0.64 unidades Three.js
+- **Fix** (`dashboard/src/components/canvas3d/VehiclesYolo.jsx`):
+  - Dimensiones reducidas 10×: car `w:0.18 l:0.42`, truck `w:0.22 l:0.68`, bus `w:0.22 l:1.10`, moto `w:0.09 l:0.20`
+  - `baseSize = camY < 60 ? 1.0 : Math.min(1.5, 1.0 + (camY-60)*0.005)` (era 0.72 max)
+  - `scaleY = Math.max(0.02, lodH)` — sin multiplicar por sz
+  - `Y = 0.05` — por encima de capas de calles (max Y calle = 0.026)
+  - Tipos añadidos: `fast` (>60 km/h, rojo) y `slow` (<5 km/h, amarillo) para visualizar congestión
+
+### V2: Semáforos sin luces visibles — FIXED
+- **Root cause**: Posiciones Y de luces hardcodeadas (1.4/2.8/4.2 unidades world) pero postes escalan con zoom (`sz≈0.21`), dejando punta del poste en Y≈0.75. Luces flotaban 2× por encima
+- **Fix** (`dashboard/src/components/canvas3d/NetworkRenderer.jsx`):
+  - `poleTopH = 4.0 * sz * 0.9` calculado dinámicamente cada frame (punta real del poste escalado)
+  - `gap = szClose * 0.55` — separación proporcional entre luces
+  - Verde: `poleTopH - gap`, Ámbar: `poleTopH`, Rojo: `poleTopH + gap`
+
+### V3: DQN Acción 3 acortaba fases — FIXED
+- **Root cause**: `setPhaseDuration(tls, 10.0)` establece duración restante A 10s, no AÑADE 10s
+- **Fix** (`atlas/dqn_wrapper.py`):
+  - `remaining = getNextSwitch(tls) - getTime()`
+  - `setPhaseDuration(tls, max(1.0, remaining) + 10.0)` — siempre suma 10s al tiempo restante
+  - Fallback a 15.0s si TraCI falla

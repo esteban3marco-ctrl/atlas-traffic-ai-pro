@@ -44,6 +44,7 @@ class AgentConfig:
     
     # Advanced Architecture V2
     use_transformer: bool = True
+    use_layer_norm: bool = True
     use_world_model: bool = True
     latent_dim: int = 128
     
